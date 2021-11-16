@@ -2125,6 +2125,12 @@ zoom(const Arg *arg)
 	pop(c);
 }
 
+void autostart(){
+	char * scriptArg[] = {"/home/hain/.scripts/system/autostart.sh", NULL};
+	Arg script = {.v = scriptArg};
+	spawn(&script);
+	}
+
 int
 main(int argc, char *argv[])
 {
@@ -2139,9 +2145,11 @@ main(int argc, char *argv[])
 	checkotherwm();
 	setup();
 #ifdef __OpenBSD__
+	autostart();
 	if (pledge("stdio rpath proc exec", NULL) == -1)
 		die("pledge");
 #endif /* __OpenBSD__ */
+	autostart();
 	scan();
 	run();
 	cleanup();
