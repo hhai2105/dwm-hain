@@ -19,16 +19,38 @@ static const char *colors[][3]      = {
 };
 
 /* tagging */
-static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
+static const char *tags[] = { "dev", "sys", "note", "www", "doc", "mail", "chat", "media", "misc", ""};
 
 static const Rule rules[] = {
 	/* xprop(1):
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	 */
-	/* class      instance    title       tags mask     isfloating   monitor */
-	{ "Gimp",     NULL,       NULL,       0,            1,           -1 },
-	{ "Firefox",  NULL,       NULL,       1 << 8,       0,           -1 },
+	/* class							instance		    title								tags mask		isfloating		monitor */
+	{"confirm",							NULL,				NULL,								0,				1,				-1},
+	{"file_progress",					NULL,				NULL,								0,				1,				-1},
+	{"dialog",							NULL,				NULL,								0,				1,				-1},
+	{"download",						NULL,				NULL,								0,				1,				-1},
+	{"error",							NULL,				NULL,								0,				1,				-1},
+	{"notification",					NULL,				NULL,								0,				1,				-1},
+	{"pinentry-gtk-2",					NULL,				NULL,								0,				1,				-1},
+	{"splash",							NULL,				NULL,								0,				1,				-1},
+	{"toolbar",							NULL,				NULL,								0,				1,				-1},
+	{NULL,								NULL,				"Oracle VM VirtualBox Manager",		0,				1,				-1},
+	{NULL,								NULL,				"Messenger Call - Brave",			1 << 4,			0,				-1},
+	{"Firefox",							NULL,				NULL,								1 << 3,			0,				-1},
+	{"qutebrowser",						NULL,				NULL,								1 << 3,			0,				-1},
+	{"Brave-browser"					NULL,				NULL,								--> doShift ( myWorkspaces !! 3 )},
+	{"Gimp",							NULL,				NULL,								0,				1,				-1},
+	{"zoom",							NULL,				NULL,								1 << 3,			0,				-1},
+	{"Mail",							NULL,				NULL,								--> doShift ( myWorkspaces !! 5 )},
+	{"Thunderbird",						NULL,				NULL,								--> doShift ( myWorkspaces !! 5 )},
+	{"Mailspring",						NULL,				NULL,								--> doShift ( myWorkspaces !! 5 )},
+	{"Gcr-,prompter"					NULL,				NULL,								--> doShift ( myWorkspaces !! 5 )},
+	{"mpv",								NULL,				NULL,								--> doShift ( myWorkspaces !! 7 )},
+	{"Gimp",							NULL,				NULL,								--> doShift ( myWorkspaces !! 2 )},
+	{"Write",							NULL,				NULL,								--> doShift ( myWorkspaces !! 2 )},
+	{"Xournalpp",						NULL,				NULL,								    --> doShift ( myWorkspaces !! 2 )},
 };
 
 /* layout(s) */
@@ -61,6 +83,8 @@ static const char *termcmd[]  = { "alacritty", NULL };
 
 static const char *emacs[] = { "emacsclient", "-c", "-a", "\"emacs\"",  NULL};
 static const char *rofi[] = { "rofi", "-show", "run", NULL};
+static const char *browser[] = { "brave", NULL};
+
 
 static Key keys[] = {
 	/* modifier							key        function        argument */
@@ -68,6 +92,19 @@ static Key keys[] = {
 	{ WindowMask|ShiftMask,				XK_Return,	spawn,			{.v = rofi } },
 	{ WindowMask,						XK_Return,	spawn,          {.v = termcmd } },
 	{ ControlMask|AltMask,				XK_e,		spawn,          {.v = emacs } },
+	{ ControlMask|AltMask,				XK_w,		spawn,          {.v = browser } },
+
+
+
+	/*Multimedia*/
+
+	{ ControlMask|AltMask,				XK_w,		spawn,          {.v = browser } },
+
+
+
+
+
+	/*Layout*/
 	{ WindowMask,						XK_b,		togglebar,      {0} },
 	{ WindowMask,						XK_j,		focusstack,     {.i = +1 } },
 	{ WindowMask,						XK_k,		focusstack,     {.i = -1 } },
@@ -90,15 +127,15 @@ static Key keys[] = {
 	{ WindowMask|ShiftMask,				XK_comma,	tagmon,         {.i = -1 } },
 	{ WindowMask|ShiftMask,				XK_period,	tagmon,         {.i = +1 } },
 	/*window*/
-	TAGKEYS(							XK_1,                      0)
-	TAGKEYS(							XK_2,                      1)
-	TAGKEYS(							XK_3,                      2)
-	TAGKEYS(							XK_4,                      3)
-	TAGKEYS(							XK_5,                      4)
-	TAGKEYS(							XK_6,                      5)
-	TAGKEYS(							XK_7,                      6)
-	TAGKEYS(							XK_8,                      7)
-	TAGKEYS(							XK_9,                      8)
+	TAGKEYS(							XK_1,						0)
+	TAGKEYS(							XK_2,						1)
+	TAGKEYS(							XK_3,						2)
+	TAGKEYS(							XK_4,						3)
+	TAGKEYS(							XK_5,						4)
+	TAGKEYS(							XK_6,						5)
+	TAGKEYS(							XK_7,						6)
+	TAGKEYS(							XK_8,						7)
+	TAGKEYS(							XK_9,						8)
 };
 
 /* button definitions */
