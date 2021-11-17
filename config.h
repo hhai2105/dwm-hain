@@ -87,12 +87,12 @@ static const char *browser[] = { "brave", NULL};
 
 
 static Key keys[] = {
-	/* modifier							chain key			key        function        argument */
+	/* modifier							chain key			key        function				argument */
 	/*Application*/
-	{ WindowMask|ShiftMask,				-1,					XK_Return,	spawn,			{.v = rofi } },
-	{ WindowMask,						-1,					XK_Return,	spawn,          {.v = termcmd } },
-	{ ControlMask|AltMask,				-1,					XK_e,		spawn,          {.v = emacs } },
-	{ ControlMask|AltMask,				-1,					XK_w,		spawn,          {.v = browser } },
+	{ WindowMask|ShiftMask,				-1,					XK_Return,	spawn,				{.v = rofi } },
+	{ WindowMask,						-1,					XK_Return,	spawn,				{.v = termcmd } },
+	{ ControlMask|AltMask,				-1,					XK_e,		spawn,				{.v = emacs } },
+	{ ControlMask|AltMask,				-1,					XK_w,		spawn,				{.v = browser } },
 
 
 
@@ -101,38 +101,39 @@ static Key keys[] = {
 
 
 	/*Layout*/
-	{ WindowMask,						-1,					XK_b,		togglebar,      {0} },
-	{ WindowMask,						-1,					XK_j,		focusstack,     {.i = +1 } },
-	{ WindowMask,						-1,					XK_k,		focusstack,     {.i = -1 } },
-	{ WindowMask,						-1,					XK_i,		incnmaster,     {.i = +1 } },
-	{ WindowMask,						-1,					XK_d,		incnmaster,     {.i = -1 } },
-	{ WindowMask,						-1,					XK_h,		setmfact,       {.f = -0.05} },
-	{ WindowMask,						-1,					XK_l,		setmfact,       {.f = +0.05} },
-	{ WindowMask,						-1,					XK_Return,	zoom,           {0} },
-	{ WindowMask,						-1,					XK_Tab,		view,           {0} },
-	{ WindowMask|ShiftMask,				-1,					XK_q,		killclient,     {0} },
-	{ WindowMask,						-1,					XK_t,		setlayout,      {.v = &layouts[0]} },
-	{ WindowMask,						-1,					XK_f,		setlayout,      {.v = &layouts[1]} },
-	{ WindowMask,						-1,					XK_m,		setlayout,      {.v = &layouts[2]} },
-	{ WindowMask,						-1,					XK_space,	setlayout,      {0} },
-	{ WindowMask|ShiftMask,				-1,					XK_space,	togglefloating, {0} },
-	{ WindowMask,						-1,					XK_0,		view,           {.ui = ~0 } },
-	{ WindowMask|ShiftMask,				-1,					XK_0,		tag,            {.ui = ~0 } },
-	{ WindowMask,						-1,					XK_comma,	focusmon,       {.i = -1 } },
-	{ WindowMask,						-1,					XK_period,	focusmon,       {.i = +1 } },
-	{ WindowMask|ShiftMask,				-1,					XK_comma,	tagmon,         {.i = -1 } },
-	{ WindowMask|ShiftMask,				-1,					XK_period,	tagmon,         {.i = +1 } },
+	{ WindowMask,						-1,					XK_b,		togglebar,			{0} },
+	{ WindowMask,						-1,					XK_j,		focusstack,			{.i = +1 } },
+	{ WindowMask,						-1,					XK_k,		focusstack,			{.i = -1 } },
+	{ WindowMask,						-1,					XK_i,		incnmaster,			{.i = +1 } },
+	{ WindowMask,						-1,					XK_d,		incnmaster,			{.i = -1 } },
+	{ WindowMask,						-1,					XK_h,		setmfact,			{.f = -0.05} },
+	{ WindowMask,						-1,					XK_l,		setmfact,			{.f = +0.05} },
+	{ WindowMask,						-1,					XK_Return,	zoom,				{0} },
+	{ WindowMask,						-1,					XK_Tab,		view,				{0} },
+	{ WindowMask|ShiftMask,				-1,					XK_q,		killclient,			{0} },
+	{ WindowMask,						-1,					XK_t,		setlayout,			{.v = &layouts[0]} },
+	{ WindowMask,						-1,					XK_f,		setlayout,			{.v = &layouts[1]} },
+	{ WindowMask,						-1,					XK_m,		setlayout,			{.v = &layouts[2]} },
+	{ WindowMask,						-1,					XK_space,	setlayout,			{0} },
+	{ WindowMask|ShiftMask,				-1,					XK_space,	togglefloating,		{0} },
+	{ WindowMask,						-1,					XK_f,		togglefullscreen,	{0} },
+	{ WindowMask,						-1,					XK_0,		view,				{.ui = ~0 } },
+	{ WindowMask|ShiftMask,				-1,					XK_0,		tag,				{.ui = ~0 } },
+	{ WindowMask,						-1,					XK_comma,	focusmon,			{.i = -1 } },
+	{ WindowMask,						-1,					XK_period,	focusmon,			{.i = +1 } },
+	{ WindowMask|ShiftMask,				-1,					XK_comma,	tagmon,				{.i = -1 } },
+	{ WindowMask|ShiftMask,				-1,					XK_period,	tagmon,				{.i = +1 } },
 	/*window*/
-	TAGKEYS(							-1,					XK_1,						0)
-	TAGKEYS(							-1,					XK_2,						1)
-	TAGKEYS(							-1,					XK_3,						2)
-	TAGKEYS(							-1,					XK_4,						3)
-	TAGKEYS(							-1,					XK_5,						4)
-	TAGKEYS(							-1,					XK_6,						5)
-	TAGKEYS(							-1,					XK_7,						6)
-	TAGKEYS(							-1,					XK_8,						7)
-	TAGKEYS(							-1,					XK_9,						8)
-};
+	TAGKEYS(							-1,					XK_1,							0)
+	TAGKEYS(							-1,					XK_2,							1)
+	TAGKEYS(							-1,					XK_3,							2)
+	TAGKEYS(							-1,					XK_4,							3)
+	TAGKEYS(							-1,					XK_5,							4)
+	TAGKEYS(							-1,					XK_6,							5)
+	TAGKEYS(							-1,					XK_7,							6)
+	TAGKEYS(							-1,					XK_8,							7)
+	TAGKEYS(							-1,					XK_9,							8)
+}	;
 
 /* button definitions */
 /* click can be ClkTagBar, ClkLtSymbol, ClkStatusText, ClkWinTitle, ClkClientWin, or ClkRootWin */
