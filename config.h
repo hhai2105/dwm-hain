@@ -5,6 +5,7 @@ static const unsigned int borderpx  = 1;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
+static const int focusonwheel       = 0;
 static const char *fonts[]          = { "monospace:size=10" };
 static const char dmenufont[]       = "monospace:size=10";
 static const char col_gray1[]       = "#222222";
@@ -109,12 +110,8 @@ static Key keys[] = {
 	{ WindowMask,						-1,					XK_h,		setmfact,			{.f = -0.05} },
 	{ WindowMask,						-1,					XK_l,		setmfact,			{.f = +0.05} },
 	{ WindowMask,						-1,					XK_Return,	zoom,				{0} },
-	{ WindowMask,						-1,					XK_Tab,		view,				{0} },
 	{ WindowMask|ShiftMask,				-1,					XK_q,		killclient,			{0} },
-	{ WindowMask,						-1,					XK_t,		setlayout,			{.v = &layouts[0]} },
-	{ WindowMask,						-1,					XK_f,		setlayout,			{.v = &layouts[1]} },
-	{ WindowMask,						-1,					XK_m,		setlayout,			{.v = &layouts[2]} },
-	{ WindowMask,						-1,					XK_space,	setlayout,			{0} },
+	{ WindowMask,						-1,					XK_Tab,		cyclelayout,		{0} },
 	{ WindowMask|ShiftMask,				-1,					XK_space,	togglefloating,		{0} },
 	{ WindowMask,						-1,					XK_f,		togglefullscreen,	{0} },
 	{ WindowMask,						-1,					XK_0,		view,				{.ui = ~0 } },
