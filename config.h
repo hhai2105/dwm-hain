@@ -40,17 +40,17 @@ static const Rule rules[] = {
 	{NULL,								NULL,				"Messenger Call - Brave",			1 << 4,			0,				-1},
 	{"Firefox",							NULL,				NULL,								1 << 3,			0,				-1},
 	{"qutebrowser",						NULL,				NULL,								1 << 3,			0,				-1},
-	{"Brave-browser"					NULL,				NULL,								--> doShift ( myWorkspaces !! 3 )},
+	{"Brave-browser",					NULL,				NULL,								1 << 3,			0,				-1},
 	{"Gimp",							NULL,				NULL,								0,				1,				-1},
 	{"zoom",							NULL,				NULL,								1 << 3,			0,				-1},
-	{"Mail",							NULL,				NULL,								--> doShift ( myWorkspaces !! 5 )},
-	{"Thunderbird",						NULL,				NULL,								--> doShift ( myWorkspaces !! 5 )},
-	{"Mailspring",						NULL,				NULL,								--> doShift ( myWorkspaces !! 5 )},
-	{"Gcr-,prompter"					NULL,				NULL,								--> doShift ( myWorkspaces !! 5 )},
-	{"mpv",								NULL,				NULL,								--> doShift ( myWorkspaces !! 7 )},
-	{"Gimp",							NULL,				NULL,								--> doShift ( myWorkspaces !! 2 )},
-	{"Write",							NULL,				NULL,								--> doShift ( myWorkspaces !! 2 )},
-	{"Xournalpp",						NULL,				NULL,								    --> doShift ( myWorkspaces !! 2 )},
+	{"Mail",							NULL,				NULL,								1 << 5,			0,				-1},
+	{"Thunderbird",						NULL,				NULL,								1 << 5,			0,				-1},
+	{"Mailspring",						NULL,				NULL,								1 << 5,			0,				-1},
+	{"Gcr-prompter",					NULL,				NULL,								1 << 5,			0,				-1},
+	{"mpv",								NULL,				NULL,								1 << 7,			0,				-1},
+	{"Gimp",							NULL,				NULL,								1 << 2,			0,				-1},
+	{"Write",							NULL,				NULL,								1 << 2,			0,				-1},
+	{"Xournalpp",						NULL,				NULL,								1 << 2,			0,				-1},
 };
 
 /* layout(s) */
@@ -69,17 +69,17 @@ static const Layout layouts[] = {
 /* key definitions */
 #define WindowMask Mod4Mask
 #define AltMask Mod1Mask
-#define TAGKEYS(KEY,TAG)												\
-	{ WindowMask,                       KEY,      view,           {.ui = 1 << TAG} }, \
-	{ WindowMask|ControlMask,           KEY,      toggleview,     {.ui = 1 << TAG} }, \
-	{ WindowMask|ShiftMask,             KEY,      tag,            {.ui = 1 << TAG} }, \
-	{ WindowMask|ControlMask|ShiftMask, KEY,      toggletag,      {.ui = 1 << TAG} },
 
-/* helper for spawning shell commands in the pre dwm-5.0 fashion */
+#define TAGKEYS(CHAIN,KEY,TAG)										\
+	{ WindowMask,                       CHAIN,    KEY,      view,           {.ui = 1 << TAG} }, \
+	{ WindowMask|ControlMask,           CHAIN,    KEY,      toggleview,     {.ui = 1 << TAG} }, \
+	{ WindowMask|ShiftMask,             CHAIN,    KEY,      tag,            {.ui = 1 << TAG} }, \
+	{ WindowMask|ControlMask|ShiftMask, CHAIN,    KEY,      toggletag,      {.ui = 1 << TAG} },
+	/* helper for spawning shell commands in the pre dwm-5.0 fashion */
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 
-/* commands */
-static const char *termcmd[]  = { "alacritty", NULL };
+	/* commands */
+		static const char *termcmd[]  = { "alacritty", NULL };
 
 static const char *emacs[] = { "emacsclient", "-c", "-a", "\"emacs\"",  NULL};
 static const char *rofi[] = { "rofi", "-show", "run", NULL};
@@ -87,71 +87,66 @@ static const char *browser[] = { "brave", NULL};
 
 
 static Key keys[] = {
-	/* modifier							key        function        argument */
+	/* modifier							chain key			key        function        argument */
 	/*Application*/
-	{ WindowMask|ShiftMask,				XK_Return,	spawn,			{.v = rofi } },
-	{ WindowMask,						XK_Return,	spawn,          {.v = termcmd } },
-	{ ControlMask|AltMask,				XK_e,		spawn,          {.v = emacs } },
-	{ ControlMask|AltMask,				XK_w,		spawn,          {.v = browser } },
+	{ WindowMask|ShiftMask,				-1,					XK_Return,	spawn,			{.v = rofi } },
+	{ WindowMask,						-1,					XK_Return,	spawn,          {.v = termcmd } },
+	{ ControlMask|AltMask,				-1,					XK_e,		spawn,          {.v = emacs } },
+	{ ControlMask|AltMask,				-1,					XK_w,		spawn,          {.v = browser } },
 
 
 
 	/*Multimedia*/
 
-	{ ControlMask|AltMask,				XK_w,		spawn,          {.v = browser } },
-
-
-
 
 
 	/*Layout*/
-	{ WindowMask,						XK_b,		togglebar,      {0} },
-	{ WindowMask,						XK_j,		focusstack,     {.i = +1 } },
-	{ WindowMask,						XK_k,		focusstack,     {.i = -1 } },
-	{ WindowMask,						XK_i,		incnmaster,     {.i = +1 } },
-	{ WindowMask,						XK_d,		incnmaster,     {.i = -1 } },
-	{ WindowMask,						XK_h,		setmfact,       {.f = -0.05} },
-	{ WindowMask,						XK_l,		setmfact,       {.f = +0.05} },
-	{ WindowMask,						XK_Return,	zoom,           {0} },
-	{ WindowMask,						XK_Tab,		view,           {0} },
-	{ WindowMask|ShiftMask,				XK_q,		killclient,     {0} },
-	{ WindowMask,						XK_t,		setlayout,      {.v = &layouts[0]} },
-	{ WindowMask,						XK_f,		setlayout,      {.v = &layouts[1]} },
-	{ WindowMask,						XK_m,		setlayout,      {.v = &layouts[2]} },
-	{ WindowMask,						XK_space,	setlayout,      {0} },
-	{ WindowMask|ShiftMask,				XK_space,	togglefloating, {0} },
-	{ WindowMask,						XK_0,		view,           {.ui = ~0 } },
-	{ WindowMask|ShiftMask,				XK_0,		tag,            {.ui = ~0 } },
-	{ WindowMask,						XK_comma,	focusmon,       {.i = -1 } },
-	{ WindowMask,						XK_period,	focusmon,       {.i = +1 } },
-	{ WindowMask|ShiftMask,				XK_comma,	tagmon,         {.i = -1 } },
-	{ WindowMask|ShiftMask,				XK_period,	tagmon,         {.i = +1 } },
+	{ WindowMask,						-1,					XK_b,		togglebar,      {0} },
+	{ WindowMask,						-1,					XK_j,		focusstack,     {.i = +1 } },
+	{ WindowMask,						-1,					XK_k,		focusstack,     {.i = -1 } },
+	{ WindowMask,						-1,					XK_i,		incnmaster,     {.i = +1 } },
+	{ WindowMask,						-1,					XK_d,		incnmaster,     {.i = -1 } },
+	{ WindowMask,						-1,					XK_h,		setmfact,       {.f = -0.05} },
+	{ WindowMask,						-1,					XK_l,		setmfact,       {.f = +0.05} },
+	{ WindowMask,						-1,					XK_Return,	zoom,           {0} },
+	{ WindowMask,						-1,					XK_Tab,		view,           {0} },
+	{ WindowMask|ShiftMask,				-1,					XK_q,		killclient,     {0} },
+	{ WindowMask,						-1,					XK_t,		setlayout,      {.v = &layouts[0]} },
+	{ WindowMask,						-1,					XK_f,		setlayout,      {.v = &layouts[1]} },
+	{ WindowMask,						-1,					XK_m,		setlayout,      {.v = &layouts[2]} },
+	{ WindowMask,						-1,					XK_space,	setlayout,      {0} },
+	{ WindowMask|ShiftMask,				-1,					XK_space,	togglefloating, {0} },
+	{ WindowMask,						-1,					XK_0,		view,           {.ui = ~0 } },
+	{ WindowMask|ShiftMask,				-1,					XK_0,		tag,            {.ui = ~0 } },
+	{ WindowMask,						-1,					XK_comma,	focusmon,       {.i = -1 } },
+	{ WindowMask,						-1,					XK_period,	focusmon,       {.i = +1 } },
+	{ WindowMask|ShiftMask,				-1,					XK_comma,	tagmon,         {.i = -1 } },
+	{ WindowMask|ShiftMask,				-1,					XK_period,	tagmon,         {.i = +1 } },
 	/*window*/
-	TAGKEYS(							XK_1,						0)
-	TAGKEYS(							XK_2,						1)
-	TAGKEYS(							XK_3,						2)
-	TAGKEYS(							XK_4,						3)
-	TAGKEYS(							XK_5,						4)
-	TAGKEYS(							XK_6,						5)
-	TAGKEYS(							XK_7,						6)
-	TAGKEYS(							XK_8,						7)
-	TAGKEYS(							XK_9,						8)
+	TAGKEYS(							-1,					XK_1,						0)
+	TAGKEYS(							-1,					XK_2,						1)
+	TAGKEYS(							-1,					XK_3,						2)
+	TAGKEYS(							-1,					XK_4,						3)
+	TAGKEYS(							-1,					XK_5,						4)
+	TAGKEYS(							-1,					XK_6,						5)
+	TAGKEYS(							-1,					XK_7,						6)
+	TAGKEYS(							-1,					XK_8,						7)
+	TAGKEYS(							-1,					XK_9,						8)
 };
 
 /* button definitions */
 /* click can be ClkTagBar, ClkLtSymbol, ClkStatusText, ClkWinTitle, ClkClientWin, or ClkRootWin */
 static Button buttons[] = {
-	/* click                event mask      button          function        argument */
-	{ ClkLtSymbol,          0,              Button1,        setlayout,      {0} },
-	{ ClkLtSymbol,          0,              Button3,        setlayout,      {.v = &layouts[2]} },
-	{ ClkWinTitle,          0,              Button2,        zoom,           {0} },
-	{ ClkStatusText,        0,              Button2,        spawn,          {.v = termcmd } },
+	/* click                event mask			button          function        argument */
+	{ ClkLtSymbol,          0,					Button1,        setlayout,      {0} },
+	{ ClkLtSymbol,          0,					Button3,        setlayout,      {.v = &layouts[2]} },
+	{ ClkWinTitle,          0,					Button2,        zoom,           {0} },
+	{ ClkStatusText,        0,					Button2,        spawn,          {.v = termcmd } },
 	{ ClkClientWin,         WindowMask,         Button1,        movemouse,      {0} },
 	{ ClkClientWin,         WindowMask,         Button2,        togglefloating, {0} },
 	{ ClkClientWin,         WindowMask,         Button3,        resizemouse,    {0} },
-	{ ClkTagBar,            0,              Button1,        view,           {0} },
-	{ ClkTagBar,            0,              Button3,        toggleview,     {0} },
+	{ ClkTagBar,            0,					Button1,        view,           {0} },
+	{ ClkTagBar,            0,					Button3,        toggleview,     {0} },
 	{ ClkTagBar,            WindowMask,         Button1,        tag,            {0} },
-		{ ClkTagBar,            WindowMask,         Button3,        toggletag,      {0} },
+	{ ClkTagBar,            WindowMask,         Button3,        toggletag,      {0} },
 };
-
