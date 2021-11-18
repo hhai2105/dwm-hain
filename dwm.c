@@ -242,7 +242,6 @@ static char stext[256];
 static int screen;
 static int sw, sh;           /* X display screen geometry width, height */
 static int bh, blw = 0;      /* bar geometry */
-static int currentlayout = 0;
 static int lrpad;            /* sum of left and right padding for text */
 static int (*xerrorxlib)(Display *, XErrorEvent *);
 static unsigned int numlockmask = 0;
@@ -1112,14 +1111,7 @@ maprequest(XEvent *e)
 void
 monocle(Monitor *m)
 {
-	unsigned int n = 0;
 	Client *c;
-
-	for (c = m->clients; c; c = c->next)
-		if (ISVISIBLE(c))
-			n++;
-	if (n > 0) /* override layout symbol */
-		snprintf(m->ltsymbol, sizeof m->ltsymbol, "[%d]", n);
 	for (c = nexttiled(m->clients); c; c = nexttiled(c->next))
 		resize(c, m->wx, m->wy, m->ww - 2 * c->bw, m->wh - 2 * c->bw, 0);
 }
@@ -1505,9 +1497,15 @@ setlayout(const Arg *arg)
 
 void
 cyclelayout(){
-	currentlayout = (currentlayout + 1) % (sizeof(layouts) / sizeof(Layout));
-	Arg a = {.v = &layouts[currentlayout]};
-	setlayout(&a);
+	int numlayout = sizeof(layouts) / sizeof(Layout);
+	for(int i = 0; i < numlayout; i++){
+		if (strcmp(layouts[i].symbol, selmon->lt[selmon->sellt]->symbol) == 0){
+			int nextlayout = (i + 1) % numlayout;
+			Arg a = {.v = &layouts[nextlayout]};
+			setlayout(&a);
+			break;
+		}
+	}
 }
 
 /* arg > 1.0 will set mfact absolutely */
