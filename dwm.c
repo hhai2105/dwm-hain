@@ -212,7 +212,7 @@ static void tagmon(const Arg *arg);
 static void tile(Monitor *);
 static void togglebar(const Arg *arg);
 static void togglefloating(const Arg *arg);
-static void togglefullscreen(const Arg *arg);
+static void togglefullscreen();
 static void toggletag(const Arg *arg);
 static void toggleview(const Arg *arg);
 static void unfocus(Client *c, int setfocus);
@@ -833,7 +833,13 @@ focusstack(const Arg *arg)
 					c = i;
 	}
 	if (c) {
-		focus(c);
+		if(selmon->sel->isfullscreen){
+			togglefullscreen();
+			focus(c);
+			togglefullscreen();
+		}else{
+			focus(c);
+		}
 		restack(selmon);
 	}
 }
@@ -1503,7 +1509,7 @@ setlayout(const Arg *arg)
 }
 
 void
-cyclelayout(){
+cyclelayout(const Arg *arg){
 	Layout* nextlayout = (Layout *)((char*)layouts + (((char*)selmon->lt[selmon->sellt] - (char *)layouts + sizeof(Layout)) % sizeof(layouts)));
 	setlayout(&((Arg){ .v = nextlayout }));
 }
@@ -1717,7 +1723,7 @@ togglefloating(const Arg *arg)
 }
 
 void
-togglefullscreen(const Arg *arg)
+togglefullscreen()
 {
 	if(selmon->sel){
 		setfullscreen(selmon->sel, !selmon->sel->isfullscreen);
