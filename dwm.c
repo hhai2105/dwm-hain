@@ -1111,7 +1111,14 @@ maprequest(XEvent *e)
 void
 monocle(Monitor *m)
 {
+	unsigned int n = 0;
 	Client *c;
+
+	for (c = m->clients; c; c = c->next)
+		if (ISVISIBLE(c))
+			n++;
+	if (n > 0) /* override layout symbol */
+		snprintf(m->ltsymbol, sizeof m->ltsymbol, "[%d]", n);
 	for (c = nexttiled(m->clients); c; c = nexttiled(c->next))
 		resize(c, m->wx, m->wy, m->ww - 2 * c->bw, m->wh - 2 * c->bw, 0);
 }
@@ -1497,15 +1504,8 @@ setlayout(const Arg *arg)
 
 void
 cyclelayout(){
-	int numlayout = sizeof(layouts) / sizeof(Layout);
-	for(int i = 0; i < numlayout; i++){
-		if (strcmp(layouts[i].symbol, selmon->lt[selmon->sellt]->symbol) == 0){
-			int nextlayout = (i + 1) % numlayout;
-			Arg a = {.v = &layouts[nextlayout]};
-			setlayout(&a);
-			break;
-		}
-	}
+	Layout* nextlayout = (Layout *)((char*)layouts + (((char*)selmon->lt[selmon->sellt] - (char *)layouts + sizeof(Layout)) % sizeof(layouts)));
+	setlayout(&((Arg){ .v = nextlayout }));
 }
 
 /* arg > 1.0 will set mfact absolutely */
