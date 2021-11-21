@@ -1,7 +1,7 @@
 /* See LICENSE file for copyright and license details. */
 
 /* appearance */
-static const unsigned int borderpx  = 1;        /* border pixel of windows */
+static const unsigned int borderpx  = 2;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
@@ -58,13 +58,13 @@ static const Rule rules[] = {
 static const float mfact     = 0.55; /* factor of master area size [0.05..0.95] */
 static const int nmaster     = 1;    /* number of clients in master area */
 static const int resizehints = 1;    /* 1 means respect size hints in tiled resizals */
-static const int lockfullscreen = 1; /* 1 will force focus on the fullscreen window */
+static const int lockfullscreen = 0; /* 1 will force focus on the fullscreen window */
 
 static const Layout layouts[] = {
-	/* symbol     arrange function */
-	{ "[]=",      tile },    /* first entry is default */
-	{ "><>",      NULL },    /* no layout function means floating behavior */
-	{ "[M]",      monocle },
+	/*symbol	arrange function */
+	{"[]=",		tile },    /* first entry is default */
+	{"><>",		NULL },
+	{"[M]",		monocle },
 };
 
 /* key definitions */
@@ -79,23 +79,44 @@ static const Layout layouts[] = {
 	/* helper for spawning shell commands in the pre dwm-5.0 fashion */
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 
-	/* commands */
-		static const char *termcmd[]  = { "alacritty", NULL };
-
-static const char *emacs[] = { "emacsclient", "-c", "-a", "\"emacs\"",  NULL};
+/* Application */
+static const char *termcmd[]  = {"alacritty", NULL};
+static const char *emacs[] = {"emacsclient", "-c", "-a", "\"emacs\"", NULL};
 static const char *rofi[] = { "rofi", "-show", "run", NULL};
 static const char *browser[] = { "brave", NULL};
+static const char *note[] = { "xournalpp", NULL};
+
+/* rofi */
+
+static const char *autorandr[] = {"/home/hain/.scripts/rofi/display", NULL};
+static const char *soundcard[] = {"/home/hain/.scripts/rofi/soundcard-choose", NULL};
+static const char *search[] = {"/home/hain/.scripts/rofi/rofi-search/search", "search", NULL};
+static const char *quickmark[] = {"/home/hain/.scripts/rofi/rofi-search/search", "quickmark", NULL};
+static const char *youtube[] = {"/home/hain/.scripts/rofi/rofi-youtube/rofi-youtube", NULL};
+static const char *network[] = {"/home/hain/.scripts/rofi/wifi", NULL};
+static const char *music[] = {"/home/hain/.scripts/rofi/rofi-music/music.sh", NULL};
+static const char *wacom[] = {"/home/hain/.scripts/rofi/wacom", NULL};
 
 
 static Key keys[] = {
 	/* modifier							chain key			key        function				argument */
 	/*Application*/
-	{ WindowMask|ShiftMask,				-1,					XK_Return,	spawn,				{.v = rofi } },
-	{ WindowMask,						-1,					XK_Return,	spawn,				{.v = termcmd } },
+	{ WindowMask|ShiftMask,				-1,					XK_Return,	spawn,				{.v = rofi}},
+	{ WindowMask,						-1,					XK_Return,	spawn,				{.v = termcmd}},
 	{ ControlMask|AltMask,				-1,					XK_e,		spawn,				{.v = emacs } },
 	{ ControlMask|AltMask,				-1,					XK_w,		spawn,				{.v = browser } },
+	{ ControlMask|AltMask,				-1,					XK_n,		spawn,				{.v = note } },
 
+	/*Scripts*/
 
+	{ WindowMask,						XK_p,				XK_p,		spawn,				{.v = autorandr}},
+	{ WindowMask,						XK_p,				XK_a,		spawn,				{.v = soundcard}},
+	{ WindowMask,						XK_o,				XK_o,		spawn,				{.v = search}},
+	{ WindowMask,						XK_o,				XK_m,		spawn,				{.v = quickmark}},
+	{ WindowMask,						XK_o,				XK_y,		spawn,				{.v = youtube}},
+	{ WindowMask,						XK_p,				XK_w,		spawn,				{.v = network}},
+	{ WindowMask,						XK_p,				XK_m,		spawn,				{.v = music}},
+	{ WindowMask,						XK_p,				XK_t,		spawn,				{.v = wacom}},
 
 	/*Multimedia*/
 
@@ -109,11 +130,11 @@ static Key keys[] = {
 	{ WindowMask,						-1,					XK_d,		incnmaster,			{.i = -1 } },
 	{ WindowMask,						-1,					XK_h,		setmfact,			{.f = -0.05} },
 	{ WindowMask,						-1,					XK_l,		setmfact,			{.f = +0.05} },
-	{ WindowMask,						-1,					XK_Return,	zoom,				{0} },
 	{ WindowMask|ShiftMask,				-1,					XK_q,		killclient,			{0} },
-	{ WindowMask,						-1,					XK_Tab,		cyclelayout,		{0} },
+	{ WindowMask,						-1,					XK_Tab,		cyclelayout,		{.i = +1} },
+	{ WindowMask|ShiftMask,				-1,					XK_Tab,		cyclelayout,		{.i = -1} },
 	{ WindowMask|ShiftMask,				-1,					XK_space,	togglefloating,		{0} },
-	{ WindowMask,						-1,					XK_f,		togglefullscreen,	{0} },
+	{ WindowMask,						-1,					XK_f,		togglefullscreen,	},
 	{ WindowMask,						-1,					XK_0,		view,				{.ui = ~0 } },
 	{ WindowMask|ShiftMask,				-1,					XK_0,		tag,				{.ui = ~0 } },
 	{ WindowMask,						-1,					XK_comma,	focusmon,			{.i = -1 } },
