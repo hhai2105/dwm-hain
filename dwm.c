@@ -1079,11 +1079,11 @@ manage(Window w, XWindowAttributes *wa)
 	attach(c);
 	attachstack(c);
 	XChangeProperty(dpy, root, netatom[NetClientList], XA_WINDOW, 32, PropModeAppend,
-		(unsigned char *) &(c->win), 1);
+					(unsigned char *) &(c->win), 1);
 	XMoveResizeWindow(dpy, c->win, c->x + 2 * sw, c->y, c->w, c->h); /* some windows require this */
 	setclientstate(c, NormalState);
 	if (c->mon == selmon)
-		unfocus(selmon->sel, 0);
+			 unfocus(selmon->sel, 0);
 	c->mon->sel = c;
 	arrange(c->mon);
 	XMapWindow(dpy, c->win);
@@ -1510,7 +1510,16 @@ setlayout(const Arg *arg)
 
 void
 cyclelayout(const Arg *arg){
-	Layout* nextlayout = (Layout *)((char*)layouts + (((char*)selmon->lt[selmon->sellt] - (char *)layouts + sizeof(Layout)) % sizeof(layouts)));
+	Layout* nextlayout;
+	if(arg-> i > 0){
+		nextlayout = (Layout *)((char*)layouts + (((char*)selmon->lt[selmon->sellt] - (char *)layouts + sizeof(Layout)) % sizeof(layouts)));
+	}else{
+		if((char*)layouts == (char*)selmon->lt[selmon->sellt]){
+			nextlayout = (Layout *)((char *)layouts + sizeof(layouts) - sizeof(Layout));
+		}else{
+			nextlayout = (Layout *)((char *)selmon->lt[selmon->sellt] - sizeof(Layout));
+		}
+	}
 	setlayout(&((Arg){ .v = nextlayout }));
 }
 
@@ -1790,9 +1799,10 @@ unmanage(Client *c, int destroyed)
 		XUngrabServer(dpy);
 	}
 	free(c);
+
+	arrange(m);
 	focus(NULL);
 	updateclientlist();
-	arrange(m);
 }
 
 void
@@ -2136,10 +2146,8 @@ zoom(const Arg *arg)
 }
 
 void autostart(){
-	char * scriptArg[] = {"/home/hain/.scripts/system/autostart.sh", NULL};
-	Arg script = {.v = scriptArg};
-	spawn(&script);
-	}
+	spawn(&((Arg){.v = startingscript}));
+}
 
 int
 main(int argc, char *argv[])
