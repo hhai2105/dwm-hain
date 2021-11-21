@@ -235,6 +235,7 @@ static int xerror(Display *dpy, XErrorEvent *ee);
 static int xerrordummy(Display *dpy, XErrorEvent *ee);
 static int xerrorstart(Display *dpy, XErrorEvent *ee);
 static void zoom(const Arg *arg);
+static void restart();
 
 /* variables */
 static const char broken[] = "broken";
@@ -784,7 +785,13 @@ focus(Client *c)
 		XSetInputFocus(dpy, root, RevertToPointerRoot, CurrentTime);
 		XDeleteProperty(dpy, root, netatom[NetActiveWindow]);
 	}
-	selmon->sel = c;
+	if(selmon->sel && selmon->sel->isfullscreen){
+		togglefullscreen();
+		selmon->sel = c;
+		togglefullscreen();
+	}else{
+		selmon->sel = c;
+	}
 	drawbars();
 }
 
@@ -833,13 +840,7 @@ focusstack(const Arg *arg)
 					c = i;
 	}
 	if (c) {
-		if(selmon->sel->isfullscreen){
-			togglefullscreen();
-			focus(c);
-			togglefullscreen();
-		}else{
-			focus(c);
-		}
+		focus(c);
 		restack(selmon);
 	}
 }
@@ -1784,7 +1785,7 @@ unmanage(Client *c, int destroyed)
 {
 	Monitor *m = c->mon;
 	XWindowChanges wc;
-
+	int fullscreen = (selmon->sel == c && selmon->sel->isfullscreen)?1:0;
 	detach(c);
 	detachstack(c);
 	if (!destroyed) {
@@ -1799,9 +1800,10 @@ unmanage(Client *c, int destroyed)
 		XUngrabServer(dpy);
 	}
 	free(c);
-
 	arrange(m);
 	focus(NULL);
+	if(fullscreen)
+		togglefullscreen();
 	updateclientlist();
 }
 
@@ -2147,6 +2149,11 @@ zoom(const Arg *arg)
 
 void autostart(){
 	spawn(&((Arg){.v = startingscript}));
+}
+
+void restart(){
+	static const char* dwm[] = {"dwm", NULL};
+	execvp(dwm[0], (char **)dwm);
 }
 
 int

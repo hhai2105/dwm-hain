@@ -79,6 +79,8 @@ static const Layout layouts[] = {
 	/* helper for spawning shell commands in the pre dwm-5.0 fashion */
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 
+static const char *startingscript[]          = { "/home/hain/.scripts/system/autostart.sh", NULL };
+
 /* Application */
 static const char *termcmd[]  = {"alacritty", NULL};
 static const char *emacs[] = {"emacsclient", "-c", "-a", "\"emacs\"", NULL};
@@ -141,6 +143,11 @@ static Key keys[] = {
 	{ WindowMask,						-1,					XK_period,	focusmon,			{.i = +1 } },
 	{ WindowMask|ShiftMask,				-1,					XK_comma,	tagmon,				{.i = -1 } },
 	{ WindowMask|ShiftMask,				-1,					XK_period,	tagmon,				{.i = +1 } },
+
+	/*Window Manager*/
+
+	{ WindowMask|ShiftMask,				-1,					XK_r,		restart,		{0}},
+
 	/*window*/
 	TAGKEYS(							-1,					XK_1,							0)
 	TAGKEYS(							-1,					XK_2,							1)
