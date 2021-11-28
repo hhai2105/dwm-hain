@@ -776,8 +776,6 @@ focus(Client *c)
 			selmon = c->mon;
 		if (c->isurgent)
 			seturgent(c, 0);
-		detachstack(c);
-		attachstack(c);
 		grabbuttons(c, 1);
 		XSetWindowBorder(dpy, c->win, scheme[SchemeSel][ColBorder].pixel);
 		setfocus(c);
@@ -1786,6 +1784,8 @@ unmanage(Client *c, int destroyed)
 	Monitor *m = c->mon;
 	XWindowChanges wc;
 	int fullscreen = (selmon->sel == c && selmon->sel->isfullscreen)?1:0;
+	Client *nc;
+	for (nc = selmon->sel->next; nc && !ISVISIBLE(nc); nc = nc->next);
 	detach(c);
 	detachstack(c);
 	if (!destroyed) {
@@ -1801,9 +1801,9 @@ unmanage(Client *c, int destroyed)
 	}
 	free(c);
 	arrange(m);
-	focus(NULL);
+	focus(nc);
 	if(fullscreen)
-		togglefullscreen();
+			togglefullscreen();
 	updateclientlist();
 }
 
@@ -1835,8 +1835,8 @@ updatebars(void)
 		if (m->barwin)
 			continue;
 		m->barwin = XCreateWindow(dpy, root, m->wx, m->by, m->ww, bh, 0, DefaultDepth(dpy, screen),
-				CopyFromParent, DefaultVisual(dpy, screen),
-				CWOverrideRedirect|CWBackPixmap|CWEventMask, &wa);
+								  CopyFromParent, DefaultVisual(dpy, screen),
+								  CWOverrideRedirect|CWBackPixmap|CWEventMask, &wa);
 		XDefineCursor(dpy, m->barwin, cursor[CurNormal]->cursor);
 		XMapRaised(dpy, m->barwin);
 		XSetClassHint(dpy, m->barwin, &ch);
@@ -1866,8 +1866,8 @@ updateclientlist()
 	for (m = mons; m; m = m->next)
 		for (c = m->clients; c; c = c->next)
 			XChangeProperty(dpy, root, netatom[NetClientList],
-				XA_WINDOW, 32, PropModeAppend,
-				(unsigned char *) &(c->win), 1);
+							XA_WINDOW, 32, PropModeAppend,
+							(unsigned char *) &(c->win), 1);
 }
 
 int
@@ -1901,17 +1901,17 @@ updategeom(void)
 			}
 			for (i = 0, m = mons; i < nn && m; m = m->next, i++)
 				if (i >= n
-				|| unique[i].x_org != m->mx || unique[i].y_org != m->my
-				|| unique[i].width != m->mw || unique[i].height != m->mh)
-				{
-					dirty = 1;
-					m->num = i;
-					m->mx = m->wx = unique[i].x_org;
-					m->my = m->wy = unique[i].y_org;
-					m->mw = m->ww = unique[i].width;
-					m->mh = m->wh = unique[i].height;
-					updatebarpos(m);
-				}
+					|| unique[i].x_org != m->mx || unique[i].y_org != m->my
+					|| unique[i].width != m->mw || unique[i].height != m->mh)
+					{
+						dirty = 1;
+						m->num = i;
+						m->mx = m->wx = unique[i].x_org;
+						m->my = m->wy = unique[i].y_org;
+						m->mw = m->ww = unique[i].width;
+						m->mh = m->wh = unique[i].height;
+						updatebarpos(m);
+					}
 		} else { /* less monitors available nn < n */
 			for (i = nn; i < n; i++) {
 				for (m = mons; m && m->next; m = m->next);
@@ -1931,16 +1931,16 @@ updategeom(void)
 		free(unique);
 	} else
 #endif /* XINERAMA */
-	{ /* default monitor setup */
-		if (!mons)
-			mons = createmon();
-		if (mons->mw != sw || mons->mh != sh) {
-			dirty = 1;
-			mons->mw = mons->ww = sw;
-			mons->mh = mons->wh = sh;
-			updatebarpos(mons);
+		{ /* default monitor setup */
+			if (!mons)
+				mons = createmon();
+			if (mons->mw != sw || mons->mh != sh) {
+				dirty = 1;
+				mons->mw = mons->ww = sw;
+				mons->mh = mons->wh = sh;
+				updatebarpos(mons);
+			}
 		}
-	}
 	if (dirty) {
 		selmon = mons;
 		selmon = wintomon(root);
@@ -2104,17 +2104,17 @@ int
 xerror(Display *dpy, XErrorEvent *ee)
 {
 	if (ee->error_code == BadWindow
-	|| (ee->request_code == X_SetInputFocus && ee->error_code == BadMatch)
-	|| (ee->request_code == X_PolyText8 && ee->error_code == BadDrawable)
-	|| (ee->request_code == X_PolyFillRectangle && ee->error_code == BadDrawable)
-	|| (ee->request_code == X_PolySegment && ee->error_code == BadDrawable)
-	|| (ee->request_code == X_ConfigureWindow && ee->error_code == BadMatch)
-	|| (ee->request_code == X_GrabButton && ee->error_code == BadAccess)
-	|| (ee->request_code == X_GrabKey && ee->error_code == BadAccess)
-	|| (ee->request_code == X_CopyArea && ee->error_code == BadDrawable))
+		|| (ee->request_code == X_SetInputFocus && ee->error_code == BadMatch)
+		|| (ee->request_code == X_PolyText8 && ee->error_code == BadDrawable)
+		|| (ee->request_code == X_PolyFillRectangle && ee->error_code == BadDrawable)
+		|| (ee->request_code == X_PolySegment && ee->error_code == BadDrawable)
+		|| (ee->request_code == X_ConfigureWindow && ee->error_code == BadMatch)
+		|| (ee->request_code == X_GrabButton && ee->error_code == BadAccess)
+		|| (ee->request_code == X_GrabKey && ee->error_code == BadAccess)
+		|| (ee->request_code == X_CopyArea && ee->error_code == BadDrawable))
 		return 0;
 	fprintf(stderr, "dwm: fatal error: request code=%d, error code=%d\n",
-		ee->request_code, ee->error_code);
+			ee->request_code, ee->error_code);
 	return xerrorxlib(dpy, ee); /* may call exit */
 }
 
@@ -2139,7 +2139,7 @@ zoom(const Arg *arg)
 	Client *c = selmon->sel;
 
 	if (!selmon->lt[selmon->sellt]->arrange
-	|| (selmon->sel && selmon->sel->isfloating))
+		|| (selmon->sel && selmon->sel->isfloating))
 		return;
 	if (c == nexttiled(selmon->clients))
 		if (!c || !(c = nexttiled(c->next)))
