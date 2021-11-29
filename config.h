@@ -99,6 +99,19 @@ static const char *network[] = {"/home/hain/.scripts/rofi/wifi", NULL};
 static const char *music[] = {"/home/hain/.scripts/rofi/rofi-music/music.sh", NULL};
 static const char *wacom[] = {"/home/hain/.scripts/rofi/wacom", NULL};
 
+/* multimedia keys */
+static const char *mediaplaypause[] = {"playerctl", "play-pause", NULL};
+static const char *mediaprev[] = {"playerctl", "previous", NULL};
+static const char *medianext[] = {"playerctl", "next", NULL};
+static const char *volumetoggle[] = {"/home/hain/.scripts/system/pavolume.sh", "--togmute", NULL};
+static const char *volumedown[] = {"/home/hain/.scripts/system/pavolume.sh", "--down", NULL};
+static const char *volumeup[] = {"/home/hain/.scripts/system/pavolume.sh", "--up", NULL};
+static const char *brightnessup[] = {"lux", "-a", "1%", NULL};
+static const char *brightnessdown[] = {"lux", "-s", "1%", NULL};
+static const char *touchpadtoggle[] = {"$HOME/.scripts/system/touchpad-toggle", NULL};
+static const char *printscreencrop[] = {"/home/hain/.scripts/system/print-screen", "-c", NULL};
+static const char *printscreenwindow[] = {"/home/hain/.scripts/system/print-screen", "-w", NULL};
+static const char *printscreenall[] = {"/home/hain/.scripts/system/print-screen" "-a", NULL};
 
 static Key keys[] = {
 	/* modifier							chain key			key        function				argument */
@@ -122,7 +135,22 @@ static Key keys[] = {
 
 	/*Multimedia*/
 
+	{ 0,								-1,					XF86XK_AudioPlay,				spawn,				{.v = mediaplaypause}},
+	{ 0,								-1,					XF86XK_AudioPrev,				spawn,				{.v = mediaprev}},
+	{ 0,								-1,					XF86XK_AudioNext,				spawn,				{.v = medianext}},
 
+	{ 0,								-1,					XF86XK_AudioMute,				spawn,				{.v = volumetoggle}},
+	{ 0,								-1,					XF86XK_AudioRaiseVolume,		spawn,				{.v = volumeup}},
+	{ 0,								-1,					XF86XK_AudioLowerVolume,		spawn,				{.v = volumedown}},
+
+	{ 0,								-1,					XF86XK_MonBrightnessUp,			spawn,				{.v = brightnessup}},
+	{ 0,								-1,					XF86XK_MonBrightnessDown,		spawn,				{.v = brightnessdown}},
+
+	{ 0,								-1,					XF86XK_TouchpadToggle,			spawn,				{.v = touchpadtoggle}},
+
+	{ 0,								-1,					XK_Print,						spawn,				{.v = printscreencrop}},
+	{ ControlMask,						-1,					XK_Print,						spawn,				{.v = printscreenwindow}},
+	{ ControlMask|ShiftMask,			-1,					XK_Print,						spawn,				{.v = printscreenall}},
 
 	/*Layout*/
 	{ WindowMask,						-1,					XK_b,		togglebar,			{0} },
@@ -135,7 +163,7 @@ static Key keys[] = {
 	{ WindowMask|ShiftMask,				-1,					XK_q,		killclient,			{0} },
 	{ WindowMask,						-1,					XK_Tab,		cyclelayout,		{.i = +1} },
 	{ WindowMask|ShiftMask,				-1,					XK_Tab,		cyclelayout,		{.i = -1} },
-	{ WindowMask|ShiftMask,				-1,					XK_space,	togglefloating,		{0} },
+	{ WindowMask,						-1,					XK_t,		togglefloating,		{0} },
 	{ WindowMask,						-1,					XK_f,		togglefullscreen,	},
 	{ WindowMask,						-1,					XK_0,		view,				{.ui = ~0 } },
 	{ WindowMask|ShiftMask,				-1,					XK_0,		tag,				{.ui = ~0 } },
