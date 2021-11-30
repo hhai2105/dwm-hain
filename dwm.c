@@ -83,6 +83,12 @@ typedef struct {
 	const Arg arg;
 } Button;
 
+typedef struct {
+	const char* class;
+	const char* title;
+	const void* v;
+} scratchpad;
+
 typedef struct Monitor Monitor;
 typedef struct Client Client;
 struct Client {
@@ -216,6 +222,7 @@ static void togglefloating(const Arg *arg);
 static void togglefullscreen();
 static void toggletag(const Arg *arg);
 static void toggleview(const Arg *arg);
+static void togglescratch(const Arg *arg);
 static void unfocus(Client *c, int setfocus);
 static void unmanage(Client *c, int destroyed);
 static void unmapnotify(XEvent *e);
@@ -1656,6 +1663,34 @@ spawn(const Arg *arg)
 		fprintf(stderr, "dwm: execvp %s", ((char **)arg->v)[0]);
 		perror(" failed");
 		exit(EXIT_SUCCESS);
+	}
+}
+
+void
+togglescratch(const Arg *arg)
+{
+	Client *c;
+	unsigned int found = 0;
+	for (c = selmon->clients; c ; c = c->next){
+		const char *class;
+		XClassHint ch = { NULL, NULL };
+		XGetClassHint(dpy, c->win, &ch);
+		class = ch.res_class ? ch.res_class : broken;
+		found = (((char *)((scratchpad *)arg->v)->class != NULL) && strcmp(class,(char *)((scratchpad *)arg->v)->class) == 0) || (((char *)((scratchpad *)arg->v)->title != NULL) && strcmp(c->name, (char *)((scratchpad *)arg->v)->title) == 0);
+		if(found){
+			break;
+		}
+	}
+	if (found) {
+		c->tags = ISVISIBLE(c) ? 1 << 31 : selmon->tagset[selmon->seltags];
+		focus(NULL);
+		arrange(selmon);
+		if (ISVISIBLE(c)) {
+			focus(c);
+			restack(selmon);
+		}
+	} else{
+		spawn(&((Arg){.v = ((scratchpad *)arg->v)->v}));
 	}
 }
 

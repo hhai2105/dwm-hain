@@ -1,7 +1,7 @@
 /* See LICENSE file for copyright and license details. */
 
 /* appearance */
-static const unsigned int borderpx  = 2;        /* border pixel of windows */
+static const unsigned int borderpx  = 1;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
@@ -12,15 +12,31 @@ static const char col_gray1[]       = "#222222";
 static const char col_gray2[]       = "#444444";
 static const char col_gray3[]       = "#bbbbbb";
 static const char col_gray4[]       = "#eeeeee";
-static const char col_cyan[]        = "#005577";
+
+static const char col_bg[]				= "#090819";
+static const char col_fg_alt[]			= "#7984D1";
+static const char col_fg[]				= "#f2f3f7";
+static const char col_grey[]			= "#546A90";
+static const char col_red[]				= "#e61f44";
+static const char col_orange[]			= "#cf433e";
+static const char col_green[]			= "#a7da1e";
+static const char col_teal[]			= "#A875FF";
+static const char col_yellow[]			= "#ffd400";
+static const char col_blue[]			= "#1ea8fc";
+static const char col_dark_blue[]		= "#3F88AD";
+static const char col_magenta[]			= "#ff2afc";
+static const char col_violet[]			= "#df85ff";
+static const char col_cyan[]			= "#42c6ff";
+static const char col_dark_cyan[]		= "#204052";
+
 static const char *colors[][3]      = {
-	/*               fg         bg         border   */
-	[SchemeNorm] = { col_gray3, col_gray1, col_gray2 },
-	[SchemeSel]  = { col_gray4, col_cyan,  col_cyan  },
+	/*               fg				bg			border   */
+	[SchemeNorm] = { col_cyan,		col_bg,		col_bg	},
+	[SchemeSel]  = { col_magenta,	col_bg,		col_bg  },
 };
 
 /* tagging */
-static const char *tags[] = { "dev", "sys", "note", "www", "doc", "mail", "chat", "media", "misc", ""};
+static const char *tags[] = { "dev", "sys", "note", "www", "doc", "mail", "chat", "media", "misc"};
 
 static const Rule rules[] = {
 	/* xprop(1):
@@ -99,7 +115,7 @@ static const char *network[] = {"/home/hain/.scripts/rofi/wifi", NULL};
 static const char *music[] = {"/home/hain/.scripts/rofi/rofi-music/music.sh", NULL};
 static const char *wacom[] = {"/home/hain/.scripts/rofi/wacom", NULL};
 
-/* multimedia keys */
+/* multimedia  */
 static const char *mediaplaypause[] = {"playerctl", "play-pause", NULL};
 static const char *mediaprev[] = {"playerctl", "previous", NULL};
 static const char *medianext[] = {"playerctl", "next", NULL};
@@ -112,6 +128,13 @@ static const char *touchpadtoggle[] = {"$HOME/.scripts/system/touchpad-toggle", 
 static const char *printscreencrop[] = {"/home/hain/.scripts/system/print-screen", "-c", NULL};
 static const char *printscreenwindow[] = {"/home/hain/.scripts/system/print-screen", "-w", NULL};
 static const char *printscreenall[] = {"/home/hain/.scripts/system/print-screen" "-a", NULL};
+
+/* scratchpad */
+static const scratchpad scratchterm = {.title = "scratchpad", .v = (char *[]){"alacritty", "-t", "scratchpad",NULL}};
+static const scratchpad qalculate = {.class = "Qalculate-gtk", .v = (char *[]){"qalculate-gtk", NULL}};
+static const scratchpad discord = {.class = "discord", .v = (char *[]){"discord", NULL}};
+static const scratchpad bitwarden = {.class = "Bitwarden", .v = (char *[]){"bitwarden-desktop", NULL}};
+static const scratchpad firefox = {.class = "firefox", .v = (char *[]){"firefox", NULL}};
 
 static Key keys[] = {
 	/* modifier							chain key			key        function				argument */
@@ -151,6 +174,13 @@ static Key keys[] = {
 	{ 0,								-1,					XK_Print,						spawn,				{.v = printscreencrop}},
 	{ ControlMask,						-1,					XK_Print,						spawn,				{.v = printscreenwindow}},
 	{ ControlMask|ShiftMask,			-1,					XK_Print,						spawn,				{.v = printscreenall}},
+
+	/*Scratchpad*/
+	{ ControlMask,						XK_s,				XK_c,		togglescratch,		{.v = &qalculate } },
+	{ ControlMask,						XK_s,				XK_p,		togglescratch,		{.v = &bitwarden } },
+	{ ControlMask,						XK_s,				XK_d,		togglescratch,		{.v = &discord } },
+	{ ControlMask,						XK_s,				XK_t,		togglescratch,		{.v = &scratchterm } },
+	{ ControlMask,						XK_s,				XK_b,		togglescratch,		{.v = &firefox } },
 
 	/*Layout*/
 	{ WindowMask,						-1,					XK_b,		togglebar,			{0} },
