@@ -6,8 +6,15 @@ static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 static const int focusonwheel       = 0;
-static const char *fonts[]          = { "monospace:size=10" };
-static const char dmenufont[]       = "monospace:size=10";
+static const char *fonts[]          = {
+	"Noto Sans Mono:size=12",
+	"Material Design Icons:size=12",
+	"FontAwesome5Brnds:size=12",
+	"FontAwesome:size=12",
+	"NotoEmoji:size=12",
+	"Noto Sans JP:size=12",
+};
+static const char dmenufont[]       = "monospace:size=12";
 static const char col_gray1[]       = "#222222";
 static const char col_gray2[]       = "#444444";
 static const char col_gray3[]       = "#bbbbbb";
@@ -30,13 +37,22 @@ static const char col_cyan[]			= "#42c6ff";
 static const char col_dark_cyan[]		= "#204052";
 
 static const char *colors[][3]      = {
-	/*               fg				bg			border   */
-	[SchemeNorm] = { col_cyan,		col_bg,		col_bg	},
-	[SchemeSel]  = { col_magenta,	col_bg,		col_bg  },
+	/*						fg				bg				border   */
+	[SchemeNorm]		= { col_cyan,		col_bg,			col_bg			},
+	[SchemeSel]			= { col_bg,			col_bg,			col_magenta		},
+	[SchemeSelTag]		= { col_magenta,	col_bg,			col_bg			},
+	[SchemeOccTag]		= { col_yellow,		col_bg,			col_bg			},
+	[SchemeNormTag]		= { col_cyan,		col_bg,			col_bg			},
+	[SchemeSelBar]		= { col_magenta,	col_bg,			col_bg			},
+	[SchemeStatus]		= { col_magenta,	col_bg,			col_bg			},
+	[SchemeLt]			= { col_dark_cyan,	col_bg,			col_bg			}
+
 };
 
 /* tagging */
-static const char *tags[] = { "dev", "sys", "note", "www", "doc", "mail", "chat", "media", "misc"};
+/* static const char *tags[] = { "dev", "sys",	"note",	"www", "doc", "mail", "chat", "media", "misc"}; */
+static const char *tags[] = { "",	"", "",	"", "", "", "", "", ""};
+
 
 static const Rule rules[] = {
 	/* xprop(1):
@@ -64,6 +80,7 @@ static const Rule rules[] = {
 	{"Thunderbird",						NULL,				NULL,								1 << 5,			0,				-1},
 	{"Mailspring",						NULL,				NULL,								1 << 5,			0,				-1},
 	{"Gcr-prompter",					NULL,				NULL,								1 << 5,			0,				-1},
+	{"Zathura",							NULL,				NULL,								1 << 4,			0,				-1},
 	{"mpv",								NULL,				NULL,								1 << 7,			0,				-1},
 	{"Gimp",							NULL,				NULL,								1 << 2,			0,				-1},
 	{"Write",							NULL,				NULL,								1 << 2,			0,				-1},
@@ -103,6 +120,7 @@ static const char *emacs[] = {"emacsclient", "-c", "-a", "\"emacs\"", NULL};
 static const char *rofi[] = { "rofi", "-show", "run", NULL};
 static const char *browser[] = { "brave", NULL};
 static const char *note[] = { "xournalpp", NULL};
+static const char *mail[] = { "mailspring", NULL};
 
 /* rofi */
 
@@ -119,9 +137,9 @@ static const char *wacom[] = {"/home/hain/.scripts/rofi/wacom", NULL};
 static const char *mediaplaypause[] = {"playerctl", "play-pause", NULL};
 static const char *mediaprev[] = {"playerctl", "previous", NULL};
 static const char *medianext[] = {"playerctl", "next", NULL};
-static const char *volumetoggle[] = {"/home/hain/.scripts/system/pavolume.sh", "--togmute", NULL};
-static const char *volumedown[] = {"/home/hain/.scripts/system/pavolume.sh", "--down", NULL};
-static const char *volumeup[] = {"/home/hain/.scripts/system/pavolume.sh", "--up", NULL};
+static const char *volumetoggle[] = {"/home/hain/.scripts/dwmblocks/pavolume.sh", "--togmute", NULL};
+static const char *volumedown[] = {"/home/hain/.scripts/dwmblocks/pavolume.sh", "--down", NULL};
+static const char *volumeup[] = {"/home/hain/.scripts/dwmblocks/pavolume.sh", "--up", NULL};
 static const char *brightnessup[] = {"lux", "-a", "1%", NULL};
 static const char *brightnessdown[] = {"lux", "-s", "1%", NULL};
 static const char *touchpadtoggle[] = {"$HOME/.scripts/system/touchpad-toggle", NULL};
@@ -144,6 +162,7 @@ static Key keys[] = {
 	{ ControlMask|AltMask,				-1,					XK_e,		spawn,				{.v = emacs } },
 	{ ControlMask|AltMask,				-1,					XK_w,		spawn,				{.v = browser } },
 	{ ControlMask|AltMask,				-1,					XK_n,		spawn,				{.v = note } },
+	{ ControlMask|AltMask,				-1,					XK_m,		spawn,				{.v = mail } },
 
 	/*Scripts*/
 
