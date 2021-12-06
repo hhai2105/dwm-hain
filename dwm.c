@@ -799,6 +799,9 @@ focus(Client *c)
 	}else{
 		selmon->sel = c;
 	}
+	if(c){
+		XRaiseWindow(dpy, c->win);
+	}
 	drawbars();
 }
 
@@ -847,8 +850,8 @@ focusstack(const Arg *arg)
 					c = i;
 	}
 	if (c) {
-		focus(c);
 		restack(selmon);
+		focus(c);
 	}
 }
 
