@@ -59,32 +59,39 @@ static const Rule rules[] = {
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	 */
-	/* class							instance		    title								tags mask		isfloating		monitor */
-	{"confirm",							NULL,				NULL,								0,				1,				-1},
-	{"file_progress",					NULL,				NULL,								0,				1,				-1},
-	{"dialog",							NULL,				NULL,								0,				1,				-1},
-	{"download",						NULL,				NULL,								0,				1,				-1},
-	{"error",							NULL,				NULL,								0,				1,				-1},
-	{"notification",					NULL,				NULL,								0,				1,				-1},
-	{"pinentry-gtk-2",					NULL,				NULL,								0,				1,				-1},
-	{"splash",							NULL,				NULL,								0,				1,				-1},
-	{"toolbar",							NULL,				NULL,								0,				1,				-1},
-	{NULL,								NULL,				"Oracle VM VirtualBox Manager",		0,				1,				-1},
-	{NULL,								NULL,				"Messenger Call - Brave",			1 << 4,			0,				-1},
-	{"Firefox",							NULL,				NULL,								1 << 3,			0,				-1},
-	{"qutebrowser",						NULL,				NULL,								1 << 3,			0,				-1},
-	{"Brave-browser",					NULL,				NULL,								1 << 3,			0,				-1},
-	{"Gimp",							NULL,				NULL,								0,				1,				-1},
-	{"zoom",							NULL,				NULL,								1 << 3,			0,				-1},
-	{"Mail",							NULL,				NULL,								1 << 5,			0,				-1},
-	{"Thunderbird",						NULL,				NULL,								1 << 5,			0,				-1},
-	{"Mailspring",						NULL,				NULL,								1 << 5,			0,				-1},
-	{"Gcr-prompter",					NULL,				NULL,								1 << 5,			0,				-1},
-	{"Zathura",							NULL,				NULL,								1 << 4,			0,				-1},
-	{"mpv",								NULL,				NULL,								1 << 7,			0,				-1},
-	{"Gimp",							NULL,				NULL,								1 << 2,			0,				-1},
-	{"Write",							NULL,				NULL,								1 << 2,			0,				-1},
-	{"Xournalpp",						NULL,				NULL,								1 << 2,			0,				-1},
+	/* class							instance		    title								tags mask		isfloating			x, y, w, h		monitor */
+	{"confirm",							NULL,				NULL,								0,				1,					-1,-1,-1,-1,		-1},
+	{"file_progress",					NULL,				NULL,								0,				1,					-1,-1,-1,-1,		-1},
+	{"dialog",							NULL,				NULL,								0,				1,					-1,-1,-1,-1,		-1},
+	{"download",						NULL,				NULL,								0,				1,					-1,-1,-1,-1,		-1},
+	{"error",							NULL,				NULL,								0,				1,					-1,-1,-1,-1,		-1},
+	{"notification",					NULL,				NULL,								0,				1,					-1,-1,-1,-1,		-1},
+	{"pinentry-gtk-2",					NULL,				NULL,								0,				1,					-1,-1,-1,-1,		-1},
+	{"splash",							NULL,				NULL,								0,				1,					-1,-1,-1,-1,		-1},
+	{"toolbar",							NULL,				NULL,								0,				1,					-1,-1,-1,-1,		-1},
+	{NULL,								NULL,				"Oracle VM VirtualBox Manager",		0,				1,					-1,-1,-1,-1,		-1},
+	{NULL,								NULL,				"Messenger Call - Brave",			1 << 4,			0,					-1,-1,-1,-1,		-1},
+	{"Firefox",							NULL,				NULL,								1 << 3,			0,					-1,-1,-1,-1,		-1},
+	{"qutebrowser",						NULL,				NULL,								1 << 3,			0,					-1,-1,-1,-1,		-1},
+	{"Brave-browser",					NULL,				NULL,								1 << 3,			0,					-1,-1,-1,-1,		-1},
+	{"Gimp",							NULL,				NULL,								0,				1,					-1,-1,-1,-1,		-1},
+	{"zoom",							NULL,				NULL,								1 << 3,			0,					-1,-1,-1,-1,		-1},
+	{"Mail",							NULL,				NULL,								1 << 5,			0,					-1,-1,-1,-1,		-1},
+	{"Thunderbird",						NULL,				NULL,								1 << 5,			0,					-1,-1,-1,-1,		-1},
+	{"Mailspring",						NULL,				NULL,								1 << 5,			0,					-1,-1,-1,-1,		-1},
+	{"Gcr-prompter",					NULL,				NULL,								1 << 5,			0,					-1,-1,-1,-1,		-1},
+	{"Zathura",							NULL,				NULL,								1 << 4,			0,					-1,-1,-1,-1,		-1},
+	{"mpv",								NULL,				NULL,								1 << 7,			0,					-1,-1,-1,-1,		-1},
+	{"Gimp",							NULL,				NULL,								1 << 2,			0,					-1,-1,-1,-1,		-1},
+	{"Write",							NULL,				NULL,								1 << 2,			0,					-1,-1,-1,-1,		-1},
+	{"Xournalpp",						NULL,				NULL,								1 << 2,			0,					-1,-1,-1,-1,		-1},
+
+	{NULL,								NULL,				"scratchpad",						0,				1,					.05,.05,.9,.9,		-1},
+	{"Qalculate-gtk",					NULL,				NULL,								0,				1,					.35,35,.3,.5,		-1},
+	{"discord",							NULL,				NULL,								0,				1,					.05,.05,.0,.9,		-1},
+	{"Bitwarden",						NULL,				NULL,								0,				1,					.5,.05,.4,.9,		-1},
+	{"firefox",							NULL,				NULL,								0,				1,					.05,.05,.9,.9,		-1},
+
 };
 
 /* layout(s) */
@@ -109,10 +116,14 @@ static const Layout layouts[] = {
 	{ WindowMask|ControlMask,           CHAIN,    KEY,      toggleview,     {.ui = 1 << TAG} }, \
 	{ WindowMask|ShiftMask,             CHAIN,    KEY,      tag,            {.ui = 1 << TAG} }, \
 	{ WindowMask|ControlMask|ShiftMask, CHAIN,    KEY,      toggletag,      {.ui = 1 << TAG} },
+
+#define MONKEYS(CHAIN,KEY,MON)											\
+	{ WindowMask,                       CHAIN,    KEY,      focusspecificmon,	{.i = MON} }, \
+	{ WindowMask|ShiftMask,           CHAIN,    KEY,      tagspecificmon,     {.i = MON} }, \
 	/* helper for spawning shell commands in the pre dwm-5.0 fashion */
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 
-static const char *startingscript[]          = { "/home/hain/.scripts/system/autostart.sh", NULL };
+		static const char *startingscript[]          = { "/home/hain/.scripts/system/autostart.sh", NULL };
 
 /* Application */
 static const char *termcmd[]  = {"alacritty", NULL};
@@ -216,10 +227,6 @@ static Key keys[] = {
 	{ WindowMask,						-1,					XK_f,		togglefullscreen,	},
 	{ WindowMask,						-1,					XK_0,		view,				{.ui = ~0 } },
 	{ WindowMask|ShiftMask,				-1,					XK_0,		tag,				{.ui = ~0 } },
-	{ WindowMask,						-1,					XK_comma,	focusmon,			{.i = -1 } },
-	{ WindowMask,						-1,					XK_period,	focusmon,			{.i = +1 } },
-	{ WindowMask|ShiftMask,				-1,					XK_comma,	tagmon,				{.i = -1 } },
-	{ WindowMask|ShiftMask,				-1,					XK_period,	tagmon,				{.i = +1 } },
 
 	/*Window Manager*/
 
@@ -235,6 +242,10 @@ static Key keys[] = {
 	TAGKEYS(							-1,					XK_7,							6)
 	TAGKEYS(							-1,					XK_8,							7)
 	TAGKEYS(							-1,					XK_9,							8)
+
+	/*Monitor*/
+	MONKEYS(							-1,					XK_w,							0)
+	MONKEYS(							-1,					XK_e,							1)
 }	;
 
 /* button definitions */
