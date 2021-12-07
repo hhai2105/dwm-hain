@@ -1716,7 +1716,7 @@ togglescratch(const Arg *arg)
 		if(found){
 			break;
 		}
-}
+	}
 	if (found) {
 		if(m != selmon){
 			sendmon(c, selmon);
@@ -1875,7 +1875,7 @@ unmanage(Client *c, int destroyed)
 	XWindowChanges wc;
 	int fullscreen = (selmon->sel == c && selmon->sel->isfullscreen)?1:0;
 	Client *nc;
-	for (nc = selmon->sel->next; nc && !ISVISIBLE(nc); nc = nc->next);
+	for (nc = c->next; nc && !ISVISIBLE(nc); nc = nc->next);
 	detach(c);
 	detachstack(c);
 	if (!destroyed) {
