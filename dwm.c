@@ -146,6 +146,7 @@ typedef struct {
 	const char *title;
 	unsigned int tags;
 	int isfloating;
+	float floatx, floaty, floatw, floath;
 	int monitor;
 } Rule;
 
@@ -175,6 +176,7 @@ static void expose(XEvent *e);
 static void focus(Client *c);
 static void focusin(XEvent *e);
 static void focusmon(const Arg *arg);
+static void focusspecificmon(const Arg *arg);
 static void focusstack(const Arg *arg);
 static Atom getatomprop(Client *c, Atom prop);
 static int getrootptr(int *x, int *y);
@@ -216,6 +218,7 @@ static void sigchld(int unused);
 static void spawn(const Arg *arg);
 static void tag(const Arg *arg);
 static void tagmon(const Arg *arg);
+static void tagspecificmon(const Arg *arg);
 static void tile(Monitor *);
 static void togglebar(const Arg *arg);
 static void togglefloating(const Arg *arg);
@@ -312,6 +315,12 @@ applyrules(Client *c)
 			for (m = mons; m && m->num != r->monitor; m = m->next);
 			if (m)
 				c->mon = m;
+			if(c->isfloating){
+				if (r->floatx >= 0) c->x = c->mon->mx + (int)((float)c->mon->mw * r->floatx);
+				if (r->floaty >= 0) c->y = c->mon->my + (int)((float)c->mon->mh * r->floaty);
+				if (r->floatw >= 0) c->w = (int)((float)c->mon->mw * r->floatw);
+				if (r->floath >= 0) c->h = (int)((float)c->mon->mh * r->floath);
+			}
 		}
 	}
 	if (ch.res_class)
@@ -827,6 +836,23 @@ focusmon(const Arg *arg)
 	unfocus(selmon->sel, 0);
 	selmon = m;
 	focus(NULL);
+}
+
+void
+focusspecificmon(const Arg *arg){
+	Monitor *m = mons;
+	if(!mons->next)
+		return;
+	int i = 0;
+	while(m && i < arg->i){
+		m = m->next;
+		i++;
+	}
+	if(i == arg->i){
+		unfocus(selmon->sel, 0);
+		selmon =  m;
+		focus(NULL);
+	}
 }
 
 void
@@ -1674,24 +1700,36 @@ void
 togglescratch(const Arg *arg)
 {
 	Client *c;
-	unsigned int found = 0;
-	for (c = selmon->clients; c ; c = c->next){
-		const char *class;
-		XClassHint ch = { NULL, NULL };
-		XGetClassHint(dpy, c->win, &ch);
-		class = ch.res_class ? ch.res_class : broken;
-		found = (((char *)((scratchpad *)arg->v)->class != NULL) && strcmp(class,(char *)((scratchpad *)arg->v)->class) == 0) || (((char *)((scratchpad *)arg->v)->title != NULL) && strcmp(c->name, (char *)((scratchpad *)arg->v)->title) == 0);
+	char found = 0;
+	Monitor *m;
+	for(m = mons; m; m = m->next){
+		for (c = m->clients; c; c = c->next){
+			const char *class;
+			XClassHint ch = { NULL, NULL };
+			XGetClassHint(dpy, c->win, &ch);
+			class = ch.res_class ? ch.res_class : broken;
+			found = (((char *)((scratchpad *)arg->v)->class != NULL) && strcmp(class,(char *)((scratchpad *)arg->v)->class) == 0) || (((char *)((scratchpad *)arg->v)->title != NULL) && strcmp(c->name, (char *)((scratchpad *)arg->v)->title) == 0);
+			if(found){
+				break;
+			}
+		}
 		if(found){
 			break;
 		}
-	}
+}
 	if (found) {
-		c->tags = ISVISIBLE(c) ? 1 << 31 : selmon->tagset[selmon->seltags];
+		if(m != selmon){
+			sendmon(c, selmon);
+			c->tags = selmon->tagset[selmon->seltags];
+			applyrules(c);
+		}else{
+			c->tags = ISVISIBLE(c) ? 1 << 31 : selmon->tagset[selmon->seltags];
+		}
 		focus(NULL);
 		arrange(selmon);
 		if (ISVISIBLE(c)) {
-			focus(c);
 			restack(selmon);
+			focus(c);
 		}
 	} else{
 		spawn(&((Arg){.v = ((scratchpad *)arg->v)->v}));
@@ -1714,6 +1752,21 @@ tagmon(const Arg *arg)
 	if (!selmon->sel || !mons->next)
 		return;
 	sendmon(selmon->sel, dirtomon(arg->i));
+}
+
+void
+tagspecificmon(const Arg *arg)
+{
+
+	if (!selmon->sel || !mons->next)
+		return;
+	Monitor *m = mons;
+	int i = 0;
+	while(m && i < arg->i){
+		m = m->next;
+		i++;
+	}
+	sendmon(selmon->sel, m);
 }
 
 void
