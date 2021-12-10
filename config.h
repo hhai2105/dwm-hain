@@ -88,7 +88,7 @@ static const Rule rules[] = {
 
 	{NULL,								NULL,				"scratchpad",						0,				1,					.05,.05,.9,.9,		-1},
 	{"Qalculate-gtk",					NULL,				NULL,								0,				1,					.35,35,.3,.5,		-1},
-	{"discord",							NULL,				NULL,								0,				1,					.05,.05,.0,.9,		-1},
+	{"discord",							NULL,				NULL,								0,				1,					.05,.05,.9,.9,		-1},
 	{"Bitwarden",						NULL,				NULL,								0,				1,					.5,.05,.4,.9,		-1},
 	{"firefox",							NULL,				NULL,								0,				1,					.05,.05,.9,.9,		-1},
 
@@ -111,16 +111,16 @@ static const Layout layouts[] = {
 #define WindowMask Mod4Mask
 #define AltMask Mod1Mask
 
-#define TAGKEYS(CHAIN,KEY,TAG)										\
-	{ WindowMask,                       CHAIN,    KEY,      view,           {.ui = 1 << TAG} }, \
-	{ WindowMask|ControlMask,           CHAIN,    KEY,      toggleview,     {.ui = 1 << TAG} }, \
-	{ WindowMask|ShiftMask,             CHAIN,    KEY,      tag,            {.ui = 1 << TAG} }, \
-	{ WindowMask|ControlMask|ShiftMask, CHAIN,    KEY,      toggletag,      {.ui = 1 << TAG} },
+#define TAGKEYS(KEY,TAG)										\
+	{1, {{WindowMask, KEY}},								view,           {.ui = 1 << TAG} },	\
+	{1, {{WindowMask|ControlMask, KEY}},					toggleview,     {.ui = 1 << TAG} }, \
+	{1, {{WindowMask|ShiftMask, KEY}},						tag,            {.ui = 1 << TAG} }, \
+	{1, {{WindowMask|ControlMask|ShiftMask, KEY}},			toggletag,      {.ui = 1 << TAG} },
 
-#define MONKEYS(CHAIN,KEY,MON)											\
-	{ WindowMask,                       CHAIN,    KEY,      focusspecificmon,	{.i = MON} }, \
-	{ WindowMask|ShiftMask,           CHAIN,    KEY,      tagspecificmon,     {.i = MON} }, \
-	/* helper for spawning shell commands in the pre dwm-5.0 fashion */
+#define MONKEYS(KEY,MON)											\
+	{1, {{WindowMask, KEY}},								focusspecificmon,	{.i = MON} }, \
+	{1, {{WindowMask|ShiftMask, KEY}},						tagspecificmon,     {.i = MON} },
+/* helper for spawning shell commands in the pre dwm-5.0 fashion */
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 
 		static const char *startingscript[]          = { "/home/hain/.scripts/system/autostart.sh", NULL };
@@ -165,87 +165,92 @@ static const scratchpad discord = {.class = "discord", .v = (char *[]){"discord"
 static const scratchpad bitwarden = {.class = "Bitwarden", .v = (char *[]){"bitwarden-desktop", NULL}};
 static const scratchpad firefox = {.class = "firefox", .v = (char *[]){"firefox", NULL}};
 
-static Key keys[] = {
+static Keychord keychords[] = {
 	/* modifier							chain key			key        function				argument */
 	/*Application*/
-	{ WindowMask|ShiftMask,				-1,					XK_Return,	spawn,				{.v = rofi}},
-	{ WindowMask,						-1,					XK_Return,	spawn,				{.v = termcmd}},
-	{ ControlMask|AltMask,				-1,					XK_e,		spawn,				{.v = emacs } },
-	{ ControlMask|AltMask,				-1,					XK_w,		spawn,				{.v = browser } },
-	{ ControlMask|AltMask,				-1,					XK_n,		spawn,				{.v = note } },
-	{ ControlMask|AltMask,				-1,					XK_m,		spawn,				{.v = mail } },
+	{1, {{WindowMask|ShiftMask, XK_Return}},					spawn,				{.v = rofi}},
+	{1, {{WindowMask, XK_Return}},								spawn,				{.v = termcmd}},
+	{1, {{ControlMask|AltMask,XK_e}},							spawn,				{.v = emacs } },
+	{1, {{ControlMask|AltMask,XK_w}},							spawn,				{.v = browser } },
+	{1, {{ControlMask|AltMask,XK_n}},							spawn,				{.v = note } },
+	{1, {{ControlMask|AltMask, XK_m}},							spawn,				{.v = mail } },
 
-	/*Scripts*/
+	/* Scripts */
 
-	{ WindowMask,						XK_p,				XK_p,		spawn,				{.v = autorandr}},
-	{ WindowMask,						XK_p,				XK_a,		spawn,				{.v = soundcard}},
-	{ WindowMask,						XK_o,				XK_o,		spawn,				{.v = search}},
-	{ WindowMask,						XK_o,				XK_m,		spawn,				{.v = quickmark}},
-	{ WindowMask,						XK_o,				XK_y,		spawn,				{.v = youtube}},
-	{ WindowMask,						XK_p,				XK_w,		spawn,				{.v = network}},
-	{ WindowMask,						XK_p,				XK_m,		spawn,				{.v = music}},
-	{ WindowMask,						XK_p,				XK_t,		spawn,				{.v = wacom}},
+	{2, {{WindowMask, XK_p}, {WindowMask, XK_p}},				spawn,				{.v = autorandr}},
+	{2, {{WindowMask, XK_p}, {WindowMask, XK_a}},				spawn,				{.v = soundcard}},
+	{2, {{WindowMask, XK_o}, {WindowMask, XK_o}},				spawn,				{.v = search}},
+	{2, {{WindowMask, XK_o}, {WindowMask, XK_m}},				spawn,				{.v = quickmark}},
+	{2, {{WindowMask, XK_o}, {WindowMask, XK_y}},				spawn,				{.v = youtube}},
+	{2, {{WindowMask, XK_p}, {WindowMask, XK_w}},				spawn,				{.v = network}},
+	{2, {{WindowMask, XK_p}, {WindowMask, XK_m}},				spawn,				{.v = music}},
+	{2, {{WindowMask, XK_p}, {WindowMask, XK_t}},				spawn,				{.v = wacom}},
 
 	/*Multimedia*/
 
-	{ 0,								-1,					XF86XK_AudioPlay,				spawn,				{.v = mediaplaypause}},
-	{ 0,								-1,					XF86XK_AudioPrev,				spawn,				{.v = mediaprev}},
-	{ 0,								-1,					XF86XK_AudioNext,				spawn,				{.v = medianext}},
+	{1, {{0,XF86XK_AudioPlay}},									spawn,				{.v = mediaplaypause}},
+	{1, {{0,XF86XK_AudioPrev}},									spawn,				{.v = mediaprev}},
+	{1, {{0,XF86XK_AudioNext}},									spawn,				{.v = medianext}},
 
-	{ 0,								-1,					XF86XK_AudioMute,				spawn,				{.v = volumetoggle}},
-	{ 0,								-1,					XF86XK_AudioRaiseVolume,		spawn,				{.v = volumeup}},
-	{ 0,								-1,					XF86XK_AudioLowerVolume,		spawn,				{.v = volumedown}},
+	{1, {{0,XF86XK_AudioMute}},									spawn,				{.v = volumetoggle}},
+	{1, {{0,XF86XK_AudioRaiseVolume}},							spawn,				{.v = volumeup}},
+	{1, {{0,XF86XK_AudioLowerVolume}},							spawn,				{.v = volumedown}},
 
-	{ 0,								-1,					XF86XK_MonBrightnessUp,			spawn,				{.v = brightnessup}},
-	{ 0,								-1,					XF86XK_MonBrightnessDown,		spawn,				{.v = brightnessdown}},
+	{1, {{0,XF86XK_MonBrightnessUp}},							spawn,				{.v = brightnessup}},
+	{1, {{0,XF86XK_MonBrightnessDown}},							spawn,				{.v = brightnessdown}},
 
-	{ 0,								-1,					XF86XK_TouchpadToggle,			spawn,				{.v = touchpadtoggle}},
+	{1, {{0,XF86XK_TouchpadToggle}},							spawn,				{.v = touchpadtoggle}},
 
-	{ 0,								-1,					XK_Print,						spawn,				{.v = printscreencrop}},
-	{ ControlMask,						-1,					XK_Print,						spawn,				{.v = printscreenwindow}},
-	{ ControlMask|ShiftMask,			-1,					XK_Print,						spawn,				{.v = printscreenall}},
+	{1, {{0,XK_Print}},											spawn,				{.v = printscreencrop}},
+	{1, {{ControlMask,XK_Print}},								spawn,				{.v = printscreenwindow}},
+	{1, {{ControlMask|ShiftMask,XK_Print}},						spawn,				{.v = printscreenall}},
 
 	/*Scratchpad*/
-	{ ControlMask,						XK_s,				XK_c,		togglescratch,		{.v = &qalculate } },
-	{ ControlMask,						XK_s,				XK_p,		togglescratch,		{.v = &bitwarden } },
-	{ ControlMask,						XK_s,				XK_d,		togglescratch,		{.v = &discord } },
-	{ ControlMask,						XK_s,				XK_t,		togglescratch,		{.v = &scratchterm } },
-	{ ControlMask,						XK_s,				XK_b,		togglescratch,		{.v = &firefox } },
+	{2, {{ControlMask,XK_s},{ControlMask, XK_c}},				togglescratch,		{.v = &qalculate } },
+	{2, {{ControlMask,XK_s},{0, XK_c}},							togglescratch,		{.v = &qalculate } },
+	{2, {{ControlMask,XK_s},{ControlMask, XK_p}},				togglescratch,		{.v = &bitwarden } },
+	{2, {{ControlMask,XK_s},{0, XK_p}},							togglescratch,		{.v = &bitwarden } },
+	{2, {{ControlMask,XK_s},{ControlMask, XK_d}},				togglescratch,		{.v = &discord } },
+	{2, {{ControlMask,XK_s},{0, XK_d}},							togglescratch,		{.v = &discord } },
+	{2, {{ControlMask,XK_s},{ControlMask, XK_t}},				togglescratch,		{.v = &scratchterm } },
+	{2, {{ControlMask,XK_s},{0, XK_t}},							togglescratch,		{.v = &scratchterm } },
+	{2, {{ControlMask,XK_s},{ControlMask, XK_b}},				togglescratch,		{.v = &firefox } },
+	{2, {{ControlMask,XK_s},{0, XK_b}},							togglescratch,		{.v = &firefox } },
 
 	/*Layout*/
-	{ WindowMask,						-1,					XK_b,		togglebar,			{0} },
-	{ WindowMask,						-1,					XK_j,		focusstack,			{.i = +1 } },
-	{ WindowMask,						-1,					XK_k,		focusstack,			{.i = -1 } },
-	{ WindowMask,						-1,					XK_i,		incnmaster,			{.i = +1 } },
-	{ WindowMask,						-1,					XK_d,		incnmaster,			{.i = -1 } },
-	{ WindowMask,						-1,					XK_h,		setmfact,			{.f = -0.05} },
-	{ WindowMask,						-1,					XK_l,		setmfact,			{.f = +0.05} },
-	{ WindowMask|ShiftMask,				-1,					XK_q,		killclient,			{0} },
-	{ WindowMask,						-1,					XK_Tab,		cyclelayout,		{.i = +1} },
-	{ WindowMask|ShiftMask,				-1,					XK_Tab,		cyclelayout,		{.i = -1} },
-	{ WindowMask,						-1,					XK_t,		togglefloating,		{0} },
-	{ WindowMask,						-1,					XK_f,		togglefullscreen,	},
-	{ WindowMask,						-1,					XK_0,		view,				{.ui = ~0 } },
-	{ WindowMask|ShiftMask,				-1,					XK_0,		tag,				{.ui = ~0 } },
+	{1, {{WindowMask,XK_b}},										togglebar,			{0} },
+	{1, {{WindowMask,XK_j}},										focusstack,			{.i = +1 } },
+	{1, {{WindowMask,XK_k}},										focusstack,			{.i = -1 } },
+	{1, {{WindowMask,XK_i}},										incnmaster,			{.i = +1 } },
+	{1, {{WindowMask,XK_d}},										incnmaster,			{.i = -1 } },
+	{1, {{WindowMask,XK_h}},										setmfact,			{.f = -0.05} },
+	{1, {{WindowMask,XK_l}},										setmfact,			{.f = +0.05} },
+	{1, {{WindowMask|ShiftMask, XK_q}},							killclient,			{0} },
+	{1, {{WindowMask,XK_Tab}},									cyclelayout,		{.i = +1} },
+	{1, {{WindowMask|ShiftMask,XK_Tab}},							cyclelayout,		{.i = -1} },
+	{1, {{WindowMask,XK_t}},										togglefloating,		{0} },
+	{1, {{WindowMask,XK_f}},										togglefullscreen,	},
+	{1, {{WindowMask,XK_0}},										view,				{.ui = ~0 } },
+	{1, {{WindowMask|ShiftMask,XK_0}},							tag,				{.ui = ~0 } },
 
 	/*Window Manager*/
 
-	{ WindowMask|ShiftMask,				-1,					XK_r,		restart,		{0}},
+	{1, {{WindowMask|ShiftMask,XK_r}},							restart,		{0}},
 
 	/*window*/
-	TAGKEYS(							-1,					XK_1,							0)
-	TAGKEYS(							-1,					XK_2,							1)
-	TAGKEYS(							-1,					XK_3,							2)
-	TAGKEYS(							-1,					XK_4,							3)
-	TAGKEYS(							-1,					XK_5,							4)
-	TAGKEYS(							-1,					XK_6,							5)
-	TAGKEYS(							-1,					XK_7,							6)
-	TAGKEYS(							-1,					XK_8,							7)
-	TAGKEYS(							-1,					XK_9,							8)
+	TAGKEYS(XK_1,							0)
+	TAGKEYS(XK_2,							1)
+	TAGKEYS(XK_3,							2)
+	TAGKEYS(XK_4,							3)
+	TAGKEYS(XK_5,							4)
+	TAGKEYS(XK_6,							5)
+	TAGKEYS(XK_7,							6)
+	TAGKEYS(XK_8,							7)
+	TAGKEYS(XK_9,							8)
 
 	/*Monitor*/
-	MONKEYS(							-1,					XK_w,							0)
-	MONKEYS(							-1,					XK_e,							1)
+	MONKEYS(XK_w,							0)
+	MONKEYS(XK_e,							1)
 }	;
 
 /* button definitions */
