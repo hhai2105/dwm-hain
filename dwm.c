@@ -985,11 +985,12 @@ grabkeys(void)
 		KeyCode code;
 
 		XUngrabKey(dpy, AnyKey, AnyModifier, root);
-		for (i = 0; i < LENGTH(keychords); i++)
-			if ((code = XKeysymToKeycode(dpy, keychords[i].keys[currentkey].keysym)))
-				for (k = 0; k < LENGTH(modifiers); k++)
-					XGrabKey(dpy, code, keychords[i].keys[currentkey].mod | modifiers[k], root,
-							 True, GrabModeAsync, GrabModeAsync);
+			for (i = 0; i < LENGTH(keychords); i++)
+				if ((code = XKeysymToKeycode(dpy, keychords[i].keys[currentkey].keysym)))
+					for (k = 0; k < LENGTH(modifiers); k++)
+						XGrabKey(dpy, code, keychords[i].keys[currentkey].mod | modifiers[k], root,
+								 True, GrabModeAsync, GrabModeAsync);
+
 	}
 }
 
@@ -1025,7 +1026,7 @@ keypress(XEvent *e)
 
 	memcpy(oldoptions, keychords, sizeof(keychords));
 	size_t numoption = 0;
-	while(!ran){
+	while(1){
 		ev = &event.xkey;
 		keysym = XKeycodeToKeysym(dpy, (KeyCode)ev->keycode, 0);
 		newoptions = (Keychord *)malloc(0);
@@ -1045,7 +1046,7 @@ keypress(XEvent *e)
 			}
 		}
 		currentkey++;
-		if(numoption == 0)
+		if(numoption == 0 || ran == 1)
 			break;
 		grabkeys();
 		while (running && !XNextEvent(dpy, &event) && !ran)
