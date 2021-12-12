@@ -7,12 +7,12 @@ static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 static const int focusonwheel       = 0;
 static const char *fonts[]          = {
-	"Noto Sans Mono:size=12",
-	"Material Design Icons:size=12",
-	"FontAwesome5Brnds:size=12",
-	"FontAwesome:size=12",
-	"NotoEmoji:size=12",
-	"Noto Sans JP:size=12",
+	"Noto Sans Mono:size=9",
+	"Material Design Icons:size=9",
+	"FontAwesome5Brnds:size=9",
+	"FontAwesome:size=9",
+	"NotoEmoji:size=9",
+	"Noto Sans JP:size=9",
 };
 static const char dmenufont[]       = "monospace:size=12";
 static const char col_gray1[]       = "#222222";
@@ -45,7 +45,7 @@ static const char *colors[][3]      = {
 	[SchemeNormTag]		= { col_cyan,		col_bg,			col_bg			},
 	[SchemeSelBar]		= { col_magenta,	col_bg,			col_bg			},
 	[SchemeStatus]		= { col_magenta,	col_bg,			col_bg			},
-	[SchemeLt]			= { col_dark_cyan,	col_bg,			col_bg			}
+	[SchemeLt]			= { col_violet,		col_bg,			col_bg			}
 
 };
 
@@ -87,7 +87,7 @@ static const Rule rules[] = {
 	{"Xournalpp",						NULL,				NULL,								1 << 2,			0,					-1,-1,-1,-1,		-1},
 
 	{NULL,								NULL,				"scratchpad",						0,				1,					.05,.05,.9,.9,		-1},
-	{"Qalculate-gtk",					NULL,				NULL,								0,				1,					.35,35,.3,.5,		-1},
+	{"Qalculate-gtk",					NULL,				NULL,								0,				1,					.25,.25,.4,.2,		-1},
 	{"discord",							NULL,				NULL,								0,				1,					.05,.05,.9,.9,		-1},
 	{"Bitwarden",						NULL,				NULL,								0,				1,					.5,.05,.4,.9,		-1},
 	{"firefox",							NULL,				NULL,								0,				1,					.05,.05,.9,.9,		-1},
@@ -141,6 +141,7 @@ static const char *search[] = {"/home/hain/.scripts/rofi/rofi-search/search", "s
 static const char *quickmark[] = {"/home/hain/.scripts/rofi/rofi-search/search", "quickmark", NULL};
 static const char *youtube[] = {"/home/hain/.scripts/rofi/rofi-youtube/rofi-youtube", NULL};
 static const char *network[] = {"/home/hain/.scripts/rofi/wifi", NULL};
+static const char *bluetooth[] = {"/home/hain/.scripts/rofi/rofi-bluetooth/bluetooth", NULL};
 static const char *music[] = {"/home/hain/.scripts/rofi/rofi-music/music.sh", NULL};
 static const char *wacom[] = {"/home/hain/.scripts/rofi/wacom", NULL};
 
@@ -183,14 +184,18 @@ static Keychord keychords[] = {
 	{2, {{WindowMask, XK_o}, {WindowMask, XK_m}},				spawn,				{.v = quickmark}},
 	{2, {{WindowMask, XK_o}, {WindowMask, XK_y}},				spawn,				{.v = youtube}},
 	{2, {{WindowMask, XK_p}, {WindowMask, XK_w}},				spawn,				{.v = network}},
+	{2, {{WindowMask, XK_p}, {WindowMask, XK_b}},				spawn,				{.v = bluetooth}},
 	{2, {{WindowMask, XK_p}, {WindowMask, XK_m}},				spawn,				{.v = music}},
 	{2, {{WindowMask, XK_p}, {WindowMask, XK_t}},				spawn,				{.v = wacom}},
 
 	/*Multimedia*/
 
 	{1, {{0,XF86XK_AudioPlay}},									spawn,				{.v = mediaplaypause}},
+	{1, {{WindowMask|ShiftMask, XK_slash}},						spawn,				{.v = mediaplaypause}},
 	{1, {{0,XF86XK_AudioPrev}},									spawn,				{.v = mediaprev}},
+	{1, {{WindowMask|ShiftMask, XK_comma}},						spawn,				{.v = mediaprev}},
 	{1, {{0,XF86XK_AudioNext}},									spawn,				{.v = medianext}},
+	{1, {{WindowMask|ShiftMask, XK_period}},					spawn,				{.v = medianext}},
 
 	{1, {{0,XF86XK_AudioMute}},									spawn,				{.v = volumetoggle}},
 	{1, {{0,XF86XK_AudioRaiseVolume}},							spawn,				{.v = volumeup}},
