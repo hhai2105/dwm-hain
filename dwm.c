@@ -985,16 +985,18 @@ grabkeys(void)
 		KeyCode code;
 
 		XUngrabKey(dpy, AnyKey, AnyModifier, root);
-			for (i = 0; i < LENGTH(keychords); i++)
-				if ((code = XKeysymToKeycode(dpy, keychords[i].keys[currentkey].keysym)))
-					for (k = 0; k < LENGTH(modifiers); k++)
-						XGrabKey(dpy, code, keychords[i].keys[currentkey].mod | modifiers[k], root,
-								 True, GrabModeAsync, GrabModeAsync);
-
+		for (i = 0; i < LENGTH(keychords); i++)
+			if ((code = XKeysymToKeycode(dpy, keychords[i].keys[currentkey].keysym)))
+				for (k = 0; k < LENGTH(modifiers); k++)
+					XGrabKey(dpy, code, keychords[i].keys[currentkey].mod | modifiers[k], root,
+							 True, GrabModeAsync, GrabModeAsync);
+		if(currentkey > 0)
+			XGrabKey(dpy, XKeysymToKeycode(dpy, XK_Escape), AnyModifier, root, True, GrabModeAsync, GrabModeAsync);
 	}
 }
 
 void
+
 incnmaster(const Arg *arg)
 {
 	selmon->nmaster = MAX(selmon->nmaster + arg->i, 0);
