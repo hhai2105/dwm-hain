@@ -166,6 +166,8 @@ static const scratchpad discord = {.class = "discord", .v = (char *[]){"discord"
 static const scratchpad bitwarden = {.class = "Bitwarden", .v = (char *[]){"bitwarden-desktop", NULL}};
 static const scratchpad firefox = {.class = "firefox", .v = (char *[]){"firefox", NULL}};
 
+
+#include "movestack.c"
 static Keychord keychords[] = {
 	/* modifier							chain key			key        function				argument */
 	/*Application*/
@@ -223,19 +225,21 @@ static Keychord keychords[] = {
 	{2, {{ControlMask,XK_s},{0, XK_b}},							togglescratch,		{.v = &firefox } },
 
 	/*Layout*/
-	{1, {{WindowMask,XK_b}},										togglebar,			{0} },
-	{1, {{WindowMask,XK_j}},										focusstack,			{.i = +1 } },
-	{1, {{WindowMask,XK_k}},										focusstack,			{.i = -1 } },
-	{1, {{WindowMask,XK_i}},										incnmaster,			{.i = +1 } },
-	{1, {{WindowMask,XK_d}},										incnmaster,			{.i = -1 } },
-	{1, {{WindowMask,XK_h}},										setmfact,			{.f = -0.05} },
-	{1, {{WindowMask,XK_l}},										setmfact,			{.f = +0.05} },
+	{1, {{WindowMask,XK_b}},									togglebar,			{0} },
+	{1, {{WindowMask,XK_j}},									focusstack,			{.i = +1 } },
+	{1, {{WindowMask,XK_k}},									focusstack,			{.i = -1 } },
+	{1, {{WindowMask|ShiftMask, XK_j}},							movestack,			{.i = +1 } },
+	{1, {{WindowMask|ShiftMask, XK_k}},							movestack,			{.i = -1 } },
+	{1, {{WindowMask,XK_i}},									incnmaster,			{.i = +1 } },
+	{1, {{WindowMask,XK_d}},									incnmaster,			{.i = -1 } },
+	{1, {{WindowMask,XK_h}},									setmfact,			{.f = -0.05} },
+	{1, {{WindowMask,XK_l}},									setmfact,			{.f = +0.05} },
 	{1, {{WindowMask|ShiftMask, XK_q}},							killclient,			{0} },
 	{1, {{WindowMask,XK_Tab}},									cyclelayout,		{.i = +1} },
-	{1, {{WindowMask|ShiftMask,XK_Tab}},							cyclelayout,		{.i = -1} },
-	{1, {{WindowMask,XK_t}},										togglefloating,		{0} },
-	{1, {{WindowMask,XK_f}},										togglefullscreen,	},
-	{1, {{WindowMask,XK_0}},										view,				{.ui = ~0 } },
+	{1, {{WindowMask|ShiftMask,XK_Tab}},						cyclelayout,		{.i = -1} },
+	{1, {{WindowMask,XK_t}},									togglefloating,		{0} },
+	{1, {{WindowMask,XK_f}},									togglefullscreen,	},
+	{1, {{WindowMask,XK_0}},									view,				{.ui = ~0 } },
 	{1, {{WindowMask|ShiftMask,XK_0}},							tag,				{.ui = ~0 } },
 
 	/*Window Manager*/
