@@ -7,12 +7,12 @@ static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 static const int focusonwheel       = 0;
 static const char *fonts[]          = {
-	"Noto Sans Mono:size=9",
-	"Material Design Icons:size=9",
-	"FontAwesome5Brnds:size=9",
-	"FontAwesome:size=9",
-	"NotoEmoji:size=9",
-	"Noto Sans JP:size=9",
+	"Noto Sans Mono:size=12",
+	"Material Design Icons:size=12",
+	"FontAwesome5Brnds:size=12",
+	"FontAwesome:size=12",
+	"NotoEmoji:size=12",
+	"Noto Sans JP:size=12",
 };
 static const char dmenufont[]       = "monospace:size=12";
 static const char col_gray1[]       = "#222222";
@@ -154,7 +154,7 @@ static const char *volumedown[] = {"/home/hain/.scripts/dwmblocks/pavolume.sh", 
 static const char *volumeup[] = {"/home/hain/.scripts/dwmblocks/pavolume.sh", "--up", NULL};
 static const char *brightnessup[] = {"lux", "-a", "1%", NULL};
 static const char *brightnessdown[] = {"lux", "-s", "1%", NULL};
-static const char *touchpadtoggle[] = {"$HOME/.scripts/system/touchpad-toggle", NULL};
+static const char *touchpadtoggle[] = {"/home/hain/.scripts/system/touchpad-toggle", NULL};
 static const char *printscreencrop[] = {"/home/hain/.scripts/system/print-screen", "-c", NULL};
 static const char *printscreenwindow[] = {"/home/hain/.scripts/system/print-screen", "-w", NULL};
 static const char *printscreenall[] = {"/home/hain/.scripts/system/print-screen" "-a", NULL};
