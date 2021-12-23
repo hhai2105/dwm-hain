@@ -812,8 +812,8 @@ focus(Client *c)
 	}else{
 		selmon->sel = c;
 	}
-	if(c){
-		XRaiseWindow(dpy, c->win);
+	if(selmon->sel){
+		XRaiseWindow(dpy, selmon->sel->win);
 	}
 	drawbars();
 }
