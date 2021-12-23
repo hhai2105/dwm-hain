@@ -123,7 +123,7 @@ static const Layout layouts[] = {
 /* helper for spawning shell commands in the pre dwm-5.0 fashion */
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 
-		static const char *startingscript[]          = { "/home/hain/.scripts/system/autostart.sh", NULL };
+static const char *startingscript[]          = { "/home/hain/.scripts/system/autostart.sh", NULL };
 
 /* Application */
 static const char *termcmd[]  = {"alacritty", NULL};
@@ -268,6 +268,18 @@ static Button buttons[] = {
 	/* click                event mask			button          function        argument */
 	{ ClkLtSymbol,          0,					Button1,        setlayout,      {0} },
 	{ ClkLtSymbol,          0,					Button3,        setlayout,      {.v = &layouts[2]} },
+
+	{ ClkRootWin,			WindowMask,			Button4,        spawn,			{.v = &volumeup} },
+	{ ClkRootWin,			WindowMask,			Button5,        spawn,			{.v = &volumedown} },
+
+	{ ClkClientWin,			WindowMask,			Button4,        spawn,			{.v = &volumeup} },
+	{ ClkClientWin,			WindowMask,			Button5,        spawn,			{.v = &volumedown} },
+
+	{ ClkRootWin,			WindowMask,			Button4,        spawn,			{.v = &volumeup} },
+	{ ClkRootWin,			WindowMask,			Button5,        spawn,			{.v = &volumedown} },
+
+	{ ClkRootWin,			WindowMask,			Button4,        spawn,			{.v = &volumeup} },
+	{ ClkRootWin,			WindowMask,			Button5,        spawn,			{.v = &volumedown} },
 	{ ClkWinTitle,          0,					Button2,        zoom,           {0} },
 	{ ClkStatusText,        0,					Button2,        spawn,          {.v = termcmd } },
 	{ ClkClientWin,         WindowMask,         Button1,        movemouse,      {0} },
