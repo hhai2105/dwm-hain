@@ -38,8 +38,8 @@ static const char col_dark_cyan[]		= "#204052";
 
 static const char *colors[][3]      = {
 	/*						fg				bg				border   */
-	[SchemeNorm]		= { col_cyan,		col_bg,			col_bg			},
-	[SchemeSel]			= { col_bg,			col_bg,			col_magenta		},
+	[SchemeNorm]		= { col_cyan,		col_bg,			col_dark_cyan		},
+	[SchemeSel]			= { col_bg,			col_bg,			col_cyan		},
 	[SchemeSelTag]		= { col_magenta,	col_bg,			col_bg			},
 	[SchemeOccTag]		= { col_yellow,		col_bg,			col_bg			},
 	[SchemeNormTag]		= { col_cyan,		col_bg,			col_bg			},
@@ -112,14 +112,14 @@ static const Layout layouts[] = {
 #define AltMask Mod1Mask
 
 #define TAGKEYS(KEY,TAG)										\
-	{1, {{WindowMask, KEY}},								view,           {.ui = 1 << TAG} },	\
-	{1, {{WindowMask|ControlMask, KEY}},					toggleview,     {.ui = 1 << TAG} }, \
-	{1, {{WindowMask|ShiftMask, KEY}},						tag,            {.ui = 1 << TAG} }, \
-	{1, {{WindowMask|ControlMask|ShiftMask, KEY}},			toggletag,      {.ui = 1 << TAG} },
+	&((Keychord){1, {{WindowMask, KEY}},								view,           {.ui = 1 << TAG} }), \
+		&((Keychord){1, {{WindowMask|ControlMask, KEY}},					toggleview,     {.ui = 1 << TAG} }), \
+		&((Keychord){1, {{WindowMask|ShiftMask, KEY}},						tag,            {.ui = 1 << TAG} }), \
+		&((Keychord){1, {{WindowMask|ControlMask|ShiftMask, KEY}},			toggletag,      {.ui = 1 << TAG} }),
 
-#define MONKEYS(KEY,MON)											\
-	{1, {{WindowMask, KEY}},								focusspecificmon,	{.i = MON} }, \
-	{1, {{WindowMask|ShiftMask, KEY}},						tagspecificmon,     {.i = MON} },
+#define MONKEYS(KEY,MON)												\
+	&((Keychord){1, {{WindowMask, KEY}},								focusspecificmon,	{.i = MON} }), \
+		&((Keychord){1, {{WindowMask|ShiftMask, KEY}},						tagspecificmon,     {.i = MON} }),
 /* helper for spawning shell commands in the pre dwm-5.0 fashion */
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 
@@ -149,9 +149,9 @@ static const char *wacom[] = {"/home/hain/.scripts/rofi/wacom", NULL};
 static const char *mediaplaypause[] = {"playerctl", "play-pause", NULL};
 static const char *mediaprev[] = {"playerctl", "previous", NULL};
 static const char *medianext[] = {"playerctl", "next", NULL};
-static const char *volumetoggle[] = {"/home/hain/.scripts/dwmblocks/pavolume.sh", "--togmute", NULL};
-static const char *volumedown[] = {"/home/hain/.scripts/dwmblocks/pavolume.sh", "--down", NULL};
-static const char *volumeup[] = {"/home/hain/.scripts/dwmblocks/pavolume.sh", "--up", NULL};
+static const char *volumetoggle[] = {"/home/hain/.scripts/system/pavolume.sh", "--togmute", NULL};
+static const char *volumedown[] = {"/home/hain/.scripts/system/pavolume.sh", "--down", NULL};
+static const char *volumeup[] = {"/home/hain/.scripts/system/pavolume.sh", "--up", NULL};
 static const char *brightnessup[] = {"lux", "-a", "1%", NULL};
 static const char *brightnessdown[] = {"lux", "-s", "1%", NULL};
 static const char *touchpadtoggle[] = {"/home/hain/.scripts/system/touchpad-toggle", NULL};
@@ -168,83 +168,83 @@ static const scratchpad firefox = {.class = "firefox", .v = (char *[]){"firefox"
 
 
 #include "movestack.c"
-static Keychord keychords[] = {
+static Keychord *keychords[] = {
 	/* modifier							chain key			key        function				argument */
 	/*Application*/
-	{1, {{WindowMask|ShiftMask, XK_Return}},					spawn,				{.v = rofi}},
-	{1, {{WindowMask, XK_Return}},								spawn,				{.v = termcmd}},
-	{1, {{ControlMask|AltMask,XK_e}},							spawn,				{.v = emacs } },
-	{1, {{ControlMask|AltMask,XK_w}},							spawn,				{.v = browser } },
-	{1, {{ControlMask|AltMask,XK_n}},							spawn,				{.v = note } },
-	{1, {{ControlMask|AltMask, XK_m}},							spawn,				{.v = mail } },
+	&((Keychord){1, {{WindowMask|ShiftMask, XK_Return}},					spawn,				{.v = rofi}}),
+	&((Keychord){1, {{WindowMask, XK_Return}},								spawn,				{.v = termcmd}}),
+	&((Keychord){1, {{ControlMask|AltMask,XK_e}},							spawn,				{.v = emacs } }),
+	&((Keychord){1, {{ControlMask|AltMask,XK_w}},							spawn,				{.v = browser } }),
+	&((Keychord){1, {{ControlMask|AltMask,XK_n}},							spawn,				{.v = note } }),
+	&((Keychord){1, {{ControlMask|AltMask, XK_m}},							spawn,				{.v = mail } }),
 
 	/* Scripts */
 
-	{2, {{WindowMask, XK_p}, {WindowMask, XK_p}},				spawn,				{.v = autorandr}},
-	{2, {{WindowMask, XK_p}, {WindowMask, XK_a}},				spawn,				{.v = soundcard}},
-	{2, {{WindowMask, XK_o}, {WindowMask, XK_o}},				spawn,				{.v = search}},
-	{2, {{WindowMask, XK_o}, {WindowMask, XK_m}},				spawn,				{.v = quickmark}},
-	{2, {{WindowMask, XK_o}, {WindowMask, XK_y}},				spawn,				{.v = youtube}},
-	{2, {{WindowMask, XK_p}, {WindowMask, XK_w}},				spawn,				{.v = network}},
-	{2, {{WindowMask, XK_p}, {WindowMask, XK_b}},				spawn,				{.v = bluetooth}},
-	{2, {{WindowMask, XK_p}, {WindowMask, XK_m}},				spawn,				{.v = music}},
-	{2, {{WindowMask, XK_p}, {WindowMask, XK_t}},				spawn,				{.v = wacom}},
+	&((Keychord){2, {{WindowMask, XK_p}, {WindowMask, XK_p}},				spawn,				{.v = autorandr}}),
+	&((Keychord){2, {{WindowMask, XK_p}, {WindowMask, XK_a}},				spawn,				{.v = soundcard}}),
+	&((Keychord){2, {{WindowMask, XK_o}, {WindowMask, XK_o}},				spawn,				{.v = search}}),
+	&((Keychord){2, {{WindowMask, XK_o}, {WindowMask, XK_m}},				spawn,				{.v = quickmark}}),
+	&((Keychord){2, {{WindowMask, XK_o}, {WindowMask, XK_y}},				spawn,				{.v = youtube}}),
+	&((Keychord){2, {{WindowMask, XK_p}, {WindowMask, XK_w}},				spawn,				{.v = network}}),
+	&((Keychord){2, {{WindowMask, XK_p}, {WindowMask, XK_b}},				spawn,				{.v = bluetooth}}),
+	&((Keychord){2, {{WindowMask, XK_p}, {WindowMask, XK_m}},				spawn,				{.v = music}}),
+	&((Keychord){2, {{WindowMask, XK_p}, {WindowMask, XK_t}},				spawn,				{.v = wacom}}),
 
 	/*Multimedia*/
 
-	{1, {{0,XF86XK_AudioPlay}},									spawn,				{.v = mediaplaypause}},
-	{1, {{WindowMask|ShiftMask, XK_slash}},						spawn,				{.v = mediaplaypause}},
-	{1, {{0,XF86XK_AudioPrev}},									spawn,				{.v = mediaprev}},
-	{1, {{WindowMask|ShiftMask, XK_comma}},						spawn,				{.v = mediaprev}},
-	{1, {{0,XF86XK_AudioNext}},									spawn,				{.v = medianext}},
-	{1, {{WindowMask|ShiftMask, XK_period}},					spawn,				{.v = medianext}},
+	&((Keychord){1, {{0,XF86XK_AudioPlay}},									spawn,				{.v = mediaplaypause}}),
+	&((Keychord){1, {{WindowMask|ShiftMask, XK_slash}},						spawn,				{.v = mediaplaypause}}),
+	&((Keychord){1, {{0,XF86XK_AudioPrev}},									spawn,				{.v = mediaprev}}),
+	&((Keychord){1, {{WindowMask|ShiftMask, XK_comma}},						spawn,				{.v = mediaprev}}),
+	&((Keychord){1, {{0,XF86XK_AudioNext}},									spawn,				{.v = medianext}}),
+	&((Keychord){1, {{WindowMask|ShiftMask, XK_period}},					spawn,				{.v = medianext}}),
 
-	{1, {{0,XF86XK_AudioMute}},									spawn,				{.v = volumetoggle}},
-	{1, {{0,XF86XK_AudioRaiseVolume}},							spawn,				{.v = volumeup}},
-	{1, {{0,XF86XK_AudioLowerVolume}},							spawn,				{.v = volumedown}},
+	&((Keychord){1, {{0,XF86XK_AudioMute}},									spawn,				{.v = volumetoggle}}),
+	&((Keychord){1, {{0,XF86XK_AudioRaiseVolume}},							spawn,				{.v = volumeup}}),
+	&((Keychord){1, {{0,XF86XK_AudioLowerVolume}},							spawn,				{.v = volumedown}}),
 
-	{1, {{0,XF86XK_MonBrightnessUp}},							spawn,				{.v = brightnessup}},
-	{1, {{0,XF86XK_MonBrightnessDown}},							spawn,				{.v = brightnessdown}},
+	&((Keychord){1, {{0,XF86XK_MonBrightnessUp}},							spawn,				{.v = brightnessup}}),
+	&((Keychord){1, {{0,XF86XK_MonBrightnessDown}},							spawn,				{.v = brightnessdown}}),
 
-	{1, {{0,XF86XK_TouchpadToggle}},							spawn,				{.v = touchpadtoggle}},
+	&((Keychord){1, {{0,XF86XK_TouchpadToggle}},							spawn,				{.v = touchpadtoggle}}),
 
-	{1, {{0,XK_Print}},											spawn,				{.v = printscreencrop}},
-	{1, {{ControlMask,XK_Print}},								spawn,				{.v = printscreenwindow}},
-	{1, {{ControlMask|ShiftMask,XK_Print}},						spawn,				{.v = printscreenall}},
+	&((Keychord){1, {{0,XK_Print}},											spawn,				{.v = printscreencrop}}),
+	&((Keychord){1, {{ControlMask,XK_Print}},								spawn,				{.v = printscreenwindow}}),
+	&((Keychord){1, {{ControlMask|ShiftMask,XK_Print}},						spawn,				{.v = printscreenall}}),
 
 	/*Scratchpad*/
-	{2, {{ControlMask,XK_s},{ControlMask, XK_c}},				togglescratch,		{.v = &qalculate } },
-	{2, {{ControlMask,XK_s},{0, XK_c}},							togglescratch,		{.v = &qalculate } },
-	{2, {{ControlMask,XK_s},{ControlMask, XK_p}},				togglescratch,		{.v = &bitwarden } },
-	{2, {{ControlMask,XK_s},{0, XK_p}},							togglescratch,		{.v = &bitwarden } },
-	{2, {{ControlMask,XK_s},{ControlMask, XK_d}},				togglescratch,		{.v = &discord } },
-	{2, {{ControlMask,XK_s},{0, XK_d}},							togglescratch,		{.v = &discord } },
-	{2, {{ControlMask,XK_s},{ControlMask, XK_t}},				togglescratch,		{.v = &scratchterm } },
-	{2, {{ControlMask,XK_s},{0, XK_t}},							togglescratch,		{.v = &scratchterm } },
-	{2, {{ControlMask,XK_s},{ControlMask, XK_b}},				togglescratch,		{.v = &firefox } },
-	{2, {{ControlMask,XK_s},{0, XK_b}},							togglescratch,		{.v = &firefox } },
+	&((Keychord){2, {{ControlMask,XK_s},{ControlMask, XK_c}},				togglescratch,		{.v = &qalculate } }),
+	&((Keychord){2, {{ControlMask,XK_s},{0, XK_c}},							togglescratch,		{.v = &qalculate } }),
+	&((Keychord){2, {{ControlMask,XK_s},{ControlMask, XK_p}},				togglescratch,		{.v = &bitwarden } }),
+	&((Keychord){2, {{ControlMask,XK_s},{0, XK_p}},							togglescratch,		{.v = &bitwarden } }),
+	&((Keychord){2, {{ControlMask,XK_s},{ControlMask, XK_d}},				togglescratch,		{.v = &discord } }),
+	&((Keychord){2, {{ControlMask,XK_s},{0, XK_d}},							togglescratch,		{.v = &discord } }),
+	&((Keychord){2, {{ControlMask,XK_s},{ControlMask, XK_t}},				togglescratch,		{.v = &scratchterm } }),
+	&((Keychord){2, {{ControlMask,XK_s},{0, XK_t}},							togglescratch,		{.v = &scratchterm } }),
+	&((Keychord){2, {{ControlMask,XK_s},{ControlMask, XK_b}},				togglescratch,		{.v = &firefox } }),
+	&((Keychord){2, {{ControlMask,XK_s},{0, XK_b}},							togglescratch,		{.v = &firefox } }),
 
 	/*Layout*/
-	{1, {{WindowMask,XK_b}},									togglebar,			{0} },
-	{1, {{WindowMask,XK_j}},									focusstack,			{.i = +1 } },
-	{1, {{WindowMask,XK_k}},									focusstack,			{.i = -1 } },
-	{1, {{WindowMask|ShiftMask, XK_j}},							movestack,			{.i = +1 } },
-	{1, {{WindowMask|ShiftMask, XK_k}},							movestack,			{.i = -1 } },
-	{1, {{WindowMask,XK_i}},									incnmaster,			{.i = +1 } },
-	{1, {{WindowMask,XK_d}},									incnmaster,			{.i = -1 } },
-	{1, {{WindowMask,XK_h}},									setmfact,			{.f = -0.05} },
-	{1, {{WindowMask,XK_l}},									setmfact,			{.f = +0.05} },
-	{1, {{WindowMask|ShiftMask, XK_q}},							killclient,			{0} },
-	{1, {{WindowMask,XK_Tab}},									cyclelayout,		{.i = +1} },
-	{1, {{WindowMask|ShiftMask,XK_Tab}},						cyclelayout,		{.i = -1} },
-	{1, {{WindowMask,XK_t}},									togglefloating,		{0} },
-	{1, {{WindowMask,XK_f}},									togglefullscreen,	},
-	{1, {{WindowMask,XK_0}},									view,				{.ui = ~0 } },
-	{1, {{WindowMask|ShiftMask,XK_0}},							tag,				{.ui = ~0 } },
+	&((Keychord){1, {{WindowMask,XK_b}},									togglebar,			{0} }),
+	&((Keychord){1, {{WindowMask,XK_j}},									focusstack,			{.i = +1 } }),
+	&((Keychord){1, {{WindowMask,XK_k}},									focusstack,			{.i = -1 } }),
+	&((Keychord){1, {{WindowMask|ShiftMask, XK_j}},							movestack,			{.i = +1 } }),
+	&((Keychord){1, {{WindowMask|ShiftMask, XK_k}},							movestack,			{.i = -1 } }),
+	&((Keychord){1, {{WindowMask,XK_i}},									incnmaster,			{.i = +1 } }),
+	&((Keychord){1, {{WindowMask,XK_d}},									incnmaster,			{.i = -1 } }),
+	&((Keychord){1, {{WindowMask,XK_h}},									setmfact,			{.f = -0.05} }),
+	&((Keychord){1, {{WindowMask,XK_l}},									setmfact,			{.f = +0.05} }),
+	&((Keychord){1, {{WindowMask|ShiftMask, XK_q}},							killclient,			{0} }),
+	&((Keychord){1, {{WindowMask,XK_Tab}},									cyclelayout,		{.i = +1} }),
+	&((Keychord){1, {{WindowMask|ShiftMask,XK_Tab}},						cyclelayout,		{.i = -1} }),
+	&((Keychord){1, {{WindowMask,XK_t}},									togglefloating,		{0} }),
+	&((Keychord){1, {{WindowMask,XK_f}},									togglefullscreen,	}),
+	&((Keychord){1, {{WindowMask,XK_0}},									view,				{.ui = ~0 } }),
+	&((Keychord){1, {{WindowMask|ShiftMask,XK_0}},							tag,				{.ui = ~0 } }),
 
 	/*Window Manager*/
 
-	{1, {{WindowMask|ShiftMask,XK_r}},							restart,		{0}},
+	&((Keychord){1, {{WindowMask|ShiftMask,XK_r}},							restart,		{0}}),
 
 	/*window*/
 	TAGKEYS(XK_1,							0)
