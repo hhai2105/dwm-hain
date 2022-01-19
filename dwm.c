@@ -983,12 +983,11 @@ grabkeys(void)
 		unsigned int i, k;
 		unsigned int modifiers[] = { 0, LockMask, numlockmask, numlockmask|LockMask };
 		KeyCode code;
-
 		XUngrabKey(dpy, AnyKey, AnyModifier, root);
 		for (i = 0; i < LENGTH(keychords); i++)
-			if ((code = XKeysymToKeycode(dpy, keychords[i].keys[currentkey].keysym)))
+			if ((code = XKeysymToKeycode(dpy, keychords[i]->keys[currentkey].keysym)))
 				for (k = 0; k < LENGTH(modifiers); k++)
-					XGrabKey(dpy, code, keychords[i].keys[currentkey].mod | modifiers[k], root,
+					XGrabKey(dpy, code, keychords[i]->keys[currentkey].mod | modifiers[k], root,
 							 True, GrabModeAsync, GrabModeAsync);
 		if(currentkey > 0)
 			XGrabKey(dpy, XKeysymToKeycode(dpy, XK_Escape), AnyModifier, root, True, GrabModeAsync, GrabModeAsync);
@@ -1019,45 +1018,47 @@ void
 keypress(XEvent *e)
 {
 	XEvent event = *e;
-	Keychord *keychord;
 	unsigned int ran = 0;
 	KeySym keysym;
 	XKeyEvent *ev;
-	Keychord *newoptions;
-	Keychord *oldoptions = (Keychord *)malloc(sizeof(keychords));
 
-	memcpy(oldoptions, keychords, sizeof(keychords));
-	size_t numoption = 0;
+	Keychord *arr1[sizeof(keychords) / sizeof(Keychord*)];
+	Keychord *arr2[sizeof(keychords) / sizeof(Keychord*)];
+	memcpy(arr1, keychords, sizeof(keychords));
+	Keychord **rpointer = arr1;
+	Keychord **wpointer = arr2;
+
+	size_t r = sizeof(keychords)/ sizeof(Keychord*);
+
 	while(1){
 		ev = &event.xkey;
 		keysym = XKeycodeToKeysym(dpy, (KeyCode)ev->keycode, 0);
-		newoptions = (Keychord *)malloc(0);
-		numoption = 0;
-		for (keychord = oldoptions; keychord->n != 0 && currentkey < 5; keychord = (Keychord *)((char *)keychord + sizeof(Keychord))){
-			if(keysym == keychord->keys[currentkey].keysym
-			   && CLEANMASK(keychord->keys[currentkey].mod) == CLEANMASK(ev->state)
-			   && keychord->func){
-				if(keychord->n == currentkey +1){
-					keychord->func(&(keychord->arg));
+		size_t w = 0;
+		for (int i = 0; i < r; i++){
+			if(keysym == (*(rpointer + i))->keys[currentkey].keysym
+			   && CLEANMASK((*(rpointer + i))->keys[currentkey].mod) == CLEANMASK(ev->state)
+			   && (*(rpointer + i))->func){
+				if((*(rpointer + i))->n == currentkey +1){
+					(*(rpointer + i))->func(&((*(rpointer + i))->arg));
 					ran = 1;
 				}else{
-					numoption++;
-					newoptions = (Keychord *)realloc(newoptions, numoption * sizeof(Keychord));
-					memcpy((char *)newoptions + (numoption -1) * sizeof(Keychord),keychord, sizeof(Keychord));
+					*(wpointer + w) = *(rpointer + i);
+					w++;
 				}
 			}
 		}
 		currentkey++;
-		if(numoption == 0 || ran == 1)
+		if(w == 0 || ran == 1)
 			break;
 		grabkeys();
 		while (running && !XNextEvent(dpy, &event) && !ran)
 			if(event.type == KeyPress)
 				break;
-		free(oldoptions);
-		oldoptions = newoptions;
+		r = w;
+		Keychord **holder = rpointer;
+		rpointer = wpointer;
+		wpointer = holder;
 	}
-	free(newoptions);
 	currentkey = 0;
 	grabkeys();
 }
@@ -1136,6 +1137,8 @@ manage(Window w, XWindowAttributes *wa)
 					(unsigned char *) &(c->win), 1);
 	XMoveResizeWindow(dpy, c->win, c->x + 2 * sw, c->y, c->w, c->h); /* some windows require this */
 	setclientstate(c, NormalState);
+	if(c->mon == selmon)
+		unfocus(selmon->sel, 0);
 	arrange(c->mon);
 	XMapWindow(dpy, c->win);
 	focus(NULL);
@@ -1460,6 +1463,8 @@ sendmon(Client *c, Monitor *m)
 {
 	if (c->mon == m)
 		return;
+	if(c->isfullscreen)
+		setfullscreen(c, !c->isfullscreen);
 	unfocus(c, 1);
 	detach(c);
 	detachstack(c);
