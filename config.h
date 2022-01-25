@@ -1,3 +1,4 @@
+
 /* See LICENSE file for copyright and license details. */
 
 /* appearance */
@@ -5,6 +6,10 @@ static const unsigned int borderpx  = 1;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
+static const int usealtbar          = 1;        /* 1 means use non-dwm status bar */
+static const char *altbarclass      = "Polybar"; /* Alternate bar class name */
+static const char *alttrayname      = "tray";    /* Polybar tray instance name */
+static const char *altbarcmd        = "$HOME/.config/polybar/launch.sh"; /* Alternate bar launch command */
 static const int focusonwheel       = 0;
 static const char *fonts[]          = {
 	"Noto Sans Mono:size=12",
@@ -51,7 +56,7 @@ static const char *colors[][3]      = {
 
 /* tagging */
 /* static const char *tags[] = { "dev", "sys",	"note",	"www", "doc", "mail", "chat", "media", "misc"}; */
-static const char *tags[] = { "",	"", "",	"", "", "", "", "", ""};
+static const char *tags[] = { "",	"", "",	"", "", "", "", "", ""};
 
 
 static const Rule rules[] = {
@@ -289,4 +294,22 @@ static Button buttons[] = {
 	{ ClkTagBar,            0,					Button3,        toggleview,     {0} },
 	{ ClkTagBar,            WindowMask,         Button1,        tag,            {0} },
 	{ ClkTagBar,            WindowMask,         Button3,        toggletag,      {0} },
+};
+
+static const char *ipcsockpath = "/tmp/dwm.sock";
+static IPCCommand ipccommands[] = {
+  IPCCOMMAND(  view,                1,      {ARG_TYPE_UINT}   ),
+  IPCCOMMAND(  toggleview,          1,      {ARG_TYPE_UINT}   ),
+  IPCCOMMAND(  tag,                 1,      {ARG_TYPE_UINT}   ),
+  IPCCOMMAND(  toggletag,           1,      {ARG_TYPE_UINT}   ),
+  IPCCOMMAND(  tagmon,              1,      {ARG_TYPE_UINT}   ),
+  IPCCOMMAND(  focusmon,            1,      {ARG_TYPE_SINT}   ),
+  IPCCOMMAND(  focusstack,          1,      {ARG_TYPE_SINT}   ),
+  IPCCOMMAND(  zoom,                1,      {ARG_TYPE_NONE}   ),
+  IPCCOMMAND(  incnmaster,          1,      {ARG_TYPE_SINT}   ),
+  IPCCOMMAND(  killclient,          1,      {ARG_TYPE_SINT}   ),
+  IPCCOMMAND(  togglefloating,      1,      {ARG_TYPE_NONE}   ),
+  IPCCOMMAND(  setmfact,            1,      {ARG_TYPE_FLOAT}  ),
+  IPCCOMMAND(  setlayoutsafe,       1,      {ARG_TYPE_PTR}    ),
+  IPCCOMMAND(  quit,                1,      {ARG_TYPE_NONE}   )
 };
