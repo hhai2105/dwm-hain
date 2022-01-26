@@ -99,66 +99,68 @@ int
 dump_monitor(yajl_gen gen, Monitor *mon, int is_selected)
 {
   // clang-format off
-  YMAP(
-    YSTR("master_factor"); YDOUBLE(mon->mfact);
-    YSTR("num_master"); YINT(mon->nmaster);
-    YSTR("num"); YINT(mon->num);
-    YSTR("is_selected"); YBOOL(is_selected);
+	YMAP(
+		 YSTR("master_factor"); YDOUBLE(mon->mfact);
+		 YSTR("num_master"); YINT(mon->nmaster);
+		 YSTR("num"); YINT(mon->num);
+		 YSTR("is_selected"); YBOOL(is_selected);
 
-    YSTR("monitor_geometry"); YMAP(
-      YSTR("x"); YINT(mon->mx);
-      YSTR("y"); YINT(mon->my);
-      YSTR("width"); YINT(mon->mw);
-      YSTR("height"); YINT(mon->mh);
-    )
+		 YSTR("monitor_geometry"); YMAP(
+										YSTR("x"); YINT(mon->mx);
+										YSTR("y"); YINT(mon->my);
+										YSTR("width"); YINT(mon->mw);
+										YSTR("height"); YINT(mon->mh);
+										)
 
-    YSTR("window_geometry"); YMAP(
-      YSTR("x"); YINT(mon->wx);
-      YSTR("y"); YINT(mon->wy);
-      YSTR("width"); YINT(mon->ww);
-      YSTR("height"); YINT(mon->wh);
-    )
+		 YSTR("window_geometry"); YMAP(
+									   YSTR("x"); YINT(mon->wx);
+									   YSTR("y"); YINT(mon->wy);
+									   YSTR("width"); YINT(mon->ww);
+									   YSTR("height"); YINT(mon->wh);
+									   )
 
-    YSTR("tagset"); YMAP(
-      YSTR("current");  YINT(mon->tagset[mon->seltags]);
-      YSTR("old"); YINT(mon->tagset[mon->seltags ^ 1]);
-    )
+		 YSTR("tagset"); YMAP(
+							  YSTR("current");  YINT(mon->tagset[mon->seltags]);
+							  YSTR("old"); YINT(mon->tagset[mon->seltags ^ 1]);
+							  )
 
-    YSTR("tag_state"); dump_tag_state(gen, mon->tagstate);
+		 YSTR("tag_state"); dump_tag_state(gen, mon->tagstate);
 
-    YSTR("clients"); YMAP(
-      YSTR("selected"); YINT(mon->sel ? mon->sel->win : 0);
-      YSTR("stack"); YARR(
-        for (Client* c = mon->stack; c; c = c->snext)
-          YINT(c->win);
-      )
-      YSTR("all"); YARR(
-        for (Client* c = mon->clients; c; c = c->next)
-          YINT(c->win);
-      )
-    )
+		 YSTR("clients"); YMAP(
+							   YSTR("selected"); YINT(mon->sel ? mon->sel->win : 0);
+							   YSTR("stack"); YARR(
+												   for (Client* c = mon->stack; c; c = c->snext)
+													   YINT(c->win);
+												   )
+							   YSTR("all"); YARR(
+												 for (Client* c = mon->clients; c; c = c->next)
+													 YINT(c->win);
+												 )
+							   )
 
-    YSTR("layout"); YMAP(
-      YSTR("symbol"); YMAP(
-        YSTR("current"); YSTR(mon->ltsymbol);
-        YSTR("old"); YSTR(mon->lastltsymbol);
-      )
-      YSTR("address"); YMAP(
-        YSTR("current"); YINT((uintptr_t)mon->lt[mon->sellt]);
-        YSTR("old"); YINT((uintptr_t)mon->lt[mon->sellt ^ 1]);
-      )
-    )
+		 YSTR("layout"); YMAP(
+							  YSTR("symbol"); YMAP(
+												   YSTR("current"); YSTR(mon->ltsymbol);
+												   YSTR("old"); YSTR(mon->lastltsymbol);
+												   )
+							  YSTR("address"); YMAP(
+													YSTR("current"); YINT((uintptr_t)mon->lt[mon->sellt]);
+													YSTR("old"); YINT((uintptr_t)mon->lt[mon->sellt ^ 1]);
+													)
+							  )
 
-    YSTR("bar"); YMAP(
-      YSTR("y"); YINT(mon->by);
-      YSTR("is_shown"); YBOOL(mon->showbar);
-      YSTR("is_top"); YBOOL(mon->topbar);
-      YSTR("window_id"); YINT(mon->barwin);
-    )
-  )
-  // clang-format on
+		 if(!usealtbar){
+			 YSTR("bar"); YMAP(
+							   YSTR("y"); YINT(mon->by);
+							   YSTR("is_shown"); YBOOL(mon->showbar);
+							   YSTR("is_top"); YBOOL(mon->topbar);
+							   YSTR("window_id"); YINT(mon->barwin);
+							   )
+							  }
+		 )
+		// clang-format on
 
-  return 0;
+		return 0;
 }
 
 int
