@@ -6,13 +6,13 @@ static const unsigned int borderpx  = 1;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
-static const int usealtbar          = 1;        /* 1 means use non-dwm status bar */
+static const char usealtbar         = 1;        /* 1 means use non-dwm status bar */
 static const char *altbarclass      = "Polybar"; /* Alternate bar class name */
 static const char *alttrayname      = "tray";    /* Polybar tray instance name */
-static const char *altbarcmd        = "$HOME/.config/polybar/launch.sh"; /* Alternate bar launch command */
+static const char *altbarcmd        = "~/.config/polybar/launch.sh"; /* Alternate bar launch command */
 static const int focusonwheel       = 0;
 static const char *fonts[]          = {
-	"Noto Sans Mono:size=12",
+	"",
 	"Material Design Icons:size=12",
 	"FontAwesome5Brnds:size=12",
 	"FontAwesome:size=12",

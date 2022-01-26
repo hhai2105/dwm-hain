@@ -282,6 +282,7 @@ static int xerrordummy(Display *dpy, XErrorEvent *ee);
 static int xerrorstart(Display *dpy, XErrorEvent *ee);
 static void zoom(const Arg *arg);
 static void restart();
+static void autostart();
 
 /* variables */
 static const char broken[] = "broken";
@@ -1848,6 +1849,7 @@ setup(void)
 	grabkeys();
 	focus(NULL);
 	setupepoll();
+	autostart();
 	spawnbar();
 }
 
@@ -1974,7 +1976,7 @@ togglescratch(const Arg *arg)
 void
 spawnbar()
 {
-	if (*altbarcmd)
+	if(usealtbar)
 		system(altbarcmd);
 }
 
@@ -2578,11 +2580,9 @@ main(int argc, char *argv[])
 	checkotherwm();
 	setup();
 #ifdef __OpenBSD__
-	autostart();
 	if (pledge("stdio rpath proc exec", NULL) == -1)
 		die("pledge");
 #endif /* __OpenBSD__ */
-	autostart();
 	scan();
 	run();
 	cleanup();
