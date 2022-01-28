@@ -9,7 +9,7 @@ static const int topbar             = 1;        /* 0 means bottom bar */
 static const char usealtbar         = 1;        /* 1 means use non-dwm status bar */
 static const char *altbarclass      = "Polybar"; /* Alternate bar class name */
 static const char *alttrayname      = "tray";    /* Polybar tray instance name */
-static const char *altbarcmd        = "~/.config/polybar/launch.sh"; /* Alternate bar launch command */
+static const char *altbarcmd        = ""; /* Alternate bar launch command */
 static const int focusonwheel       = 0;
 static const char *fonts[]          = {
 	"",
@@ -85,7 +85,6 @@ static const Rule rules[] = {
 	{"Thunderbird",						NULL,				NULL,								1 << 5,			0,					-1,-1,-1,-1,		-1},
 	{"Mailspring",						NULL,				NULL,								1 << 5,			0,					-1,-1,-1,-1,		-1},
 	{"Gcr-prompter",					NULL,				NULL,								1 << 5,			0,					-1,-1,-1,-1,		-1},
-	{"Zathura",							NULL,				NULL,								1 << 4,			0,					-1,-1,-1,-1,		-1},
 	{"mpv",								NULL,				NULL,								1 << 7,			0,					-1,-1,-1,-1,		-1},
 	{"Gimp",							NULL,				NULL,								1 << 2,			0,					-1,-1,-1,-1,		-1},
 	{"Write",							NULL,				NULL,								1 << 2,			0,					-1,-1,-1,-1,		-1},
@@ -128,7 +127,7 @@ static const Layout layouts[] = {
 /* helper for spawning shell commands in the pre dwm-5.0 fashion */
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 
-static const char *startingscript[]          = { "/home/hain/.scripts/system/autostart.sh", NULL };
+static const char *startingscript          =  "/home/hain/.scripts/system/autostart.sh";
 
 /* Application */
 static const char *termcmd[]  = {"alacritty", NULL};
@@ -149,6 +148,7 @@ static const char *network[] = {"/home/hain/.scripts/rofi/wifi", NULL};
 static const char *bluetooth[] = {"/home/hain/.scripts/rofi/rofi-bluetooth/bluetooth", NULL};
 static const char *music[] = {"/home/hain/.scripts/rofi/rofi-music/music.sh", NULL};
 static const char *wacom[] = {"/home/hain/.scripts/rofi/wacom", NULL};
+static const char *logout[] = {"/home/hain/.scripts/rofi/logout", NULL};
 
 /* multimedia  */
 static const char *mediaplaypause[] = {"playerctl", "play-pause", NULL};
@@ -186,14 +186,25 @@ static Keychord *keychords[] = {
 	/* Scripts */
 
 	&((Keychord){2, {{WindowMask, XK_p}, {WindowMask, XK_p}},				spawn,				{.v = autorandr}}),
+	&((Keychord){2, {{WindowMask, XK_p}, {0, XK_p}},						spawn,				{.v = autorandr}}),
 	&((Keychord){2, {{WindowMask, XK_p}, {WindowMask, XK_a}},				spawn,				{.v = soundcard}}),
+	&((Keychord){2, {{WindowMask, XK_p}, {0, XK_a}},						spawn,				{.v = soundcard}}),
 	&((Keychord){2, {{WindowMask, XK_o}, {WindowMask, XK_o}},				spawn,				{.v = search}}),
+	&((Keychord){2, {{WindowMask, XK_o}, {0, XK_o}},						spawn,				{.v = search}}),
 	&((Keychord){2, {{WindowMask, XK_o}, {WindowMask, XK_m}},				spawn,				{.v = quickmark}}),
+	&((Keychord){2, {{WindowMask, XK_o}, {0, XK_m}},						spawn,				{.v = quickmark}}),
 	&((Keychord){2, {{WindowMask, XK_o}, {WindowMask, XK_y}},				spawn,				{.v = youtube}}),
+	&((Keychord){2, {{WindowMask, XK_o}, {0, XK_y}},						spawn,				{.v = youtube}}),
 	&((Keychord){2, {{WindowMask, XK_p}, {WindowMask, XK_w}},				spawn,				{.v = network}}),
+	&((Keychord){2, {{WindowMask, XK_p}, {0, XK_w}},						spawn,				{.v = network}}),
 	&((Keychord){2, {{WindowMask, XK_p}, {WindowMask, XK_b}},				spawn,				{.v = bluetooth}}),
+	&((Keychord){2, {{WindowMask, XK_p}, {0, XK_b}},						spawn,				{.v = bluetooth}}),
 	&((Keychord){2, {{WindowMask, XK_p}, {WindowMask, XK_m}},				spawn,				{.v = music}}),
+	&((Keychord){2, {{WindowMask, XK_p}, {0, XK_m}},						spawn,				{.v = music}}),
 	&((Keychord){2, {{WindowMask, XK_p}, {WindowMask, XK_t}},				spawn,				{.v = wacom}}),
+	&((Keychord){2, {{WindowMask, XK_p}, {0, XK_t}},						spawn,				{.v = wacom}}),
+	&((Keychord){2, {{WindowMask, XK_p}, {WindowMask, XK_q}},				spawn,				{.v = logout}}),
+	&((Keychord){2, {{WindowMask, XK_p}, {0, XK_q}},						spawn,				{.v = logout}}),
 
 	/*Multimedia*/
 
