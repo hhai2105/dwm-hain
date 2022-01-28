@@ -585,6 +585,7 @@ cleanupmon(Monitor *mon)
 void
 clientmessage(XEvent *e)
 {
+	fprintf(stderr,"clientmessage\n");
 	XClientMessageEvent *cme = &e->xclient;
 	Client *c = wintoclient(cme->window);
 
@@ -1557,16 +1558,17 @@ run(void)
 		for (int i = 0; i < event_count; i++) {
 			int event_fd = events[i].data.fd;
 			DEBUG("Got event from fd %d\n", event_fd);
-
 			if (event_fd == dpy_fd) {
 				// -1 means EPOLLHUP
-				if (handlexevent(events + i) == -1)
+				//problem location
+				if (handlexevent(events + i) == -1){
 					return;
+				}
 			} else if (event_fd == ipc_get_sock_fd()) {
 				ipc_handle_socket_epoll_event(events + i);
 			} else if (ipc_is_client_registered(event_fd)){
 				if (ipc_handle_client_epoll_event(events + i, mons, &lastselmon, selmon,
-							tags, LENGTH(tags), layouts, LENGTH(layouts)) < 0) {
+												  tags, LENGTH(tags), layouts, LENGTH(layouts)) < 0) {
 					fprintf(stderr, "Error handling IPC event on fd %d\n", event_fd);
 				}
 			} else {
@@ -1790,7 +1792,11 @@ setup(void)
 	/* clean up any zombies immediately */
 	sigchld(0);
 
+	/*	setup epoll for IPC */
+	setupepoll();
+
 	/* init screen */
+	autostart();
 	screen = DefaultScreen(dpy);
 	sw = DisplayWidth(dpy, screen);
 	sh = DisplayHeight(dpy, screen);
@@ -1837,7 +1843,7 @@ setup(void)
 		PropModeReplace, (unsigned char *) &wmcheckwin, 1);
 	/* EWMH support per view */
 	XChangeProperty(dpy, root, netatom[NetSupported], XA_ATOM, 32,
-		PropModeReplace, (unsigned char *) netatom, NetLast);
+					PropModeReplace, (unsigned char *) netatom, NetLast);
 	XDeleteProperty(dpy, root, netatom[NetClientList]);
 	/* select events */
 	wa.cursor = cursor[CurNormal]->cursor;
@@ -1847,10 +1853,8 @@ setup(void)
 	XChangeWindowAttributes(dpy, root, CWEventMask|CWCursor, &wa);
 	XSelectInput(dpy, root, wa.event_mask);
 	grabkeys();
-	focus(NULL);
-	setupepoll();
-	autostart();
 	spawnbar();
+	focus(NULL);
 }
 
 void
@@ -1960,7 +1964,7 @@ togglescratch(const Arg *arg)
 			c->tags = selmon->tagset[selmon->seltags];
 			applyrules(c);
 		}else{
-			c->tags = ISVISIBLE(c) ? 1 << 31 : selmon->tagset[selmon->seltags];
+			c->tags = ISVISIBLE(c) ? 1 << 20 : selmon->tagset[selmon->seltags];
 		}
 		focus(NULL);
 		arrange(selmon);
@@ -2558,7 +2562,7 @@ zoom(const Arg *arg)
 }
 
 void autostart(){
-	spawn(&((Arg){.v = startingscript}));
+	system(startingscript);
 }
 
 void restart(){
@@ -2577,6 +2581,7 @@ main(int argc, char *argv[])
 		fputs("warning: no locale support\n", stderr);
 	if (!(dpy = XOpenDisplay(NULL)))
 		die("dwm: cannot open display");
+
 	checkotherwm();
 	setup();
 #ifdef __OpenBSD__
