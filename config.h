@@ -246,8 +246,6 @@ static Keychord *keychords[] = {
 	&((Keychord){1, {{WindowMask,XK_k}},									focusstack,			{.i = -1 } }),
 	&((Keychord){1, {{WindowMask|ShiftMask, XK_j}},							movestack,			{.i = +1 } }),
 	&((Keychord){1, {{WindowMask|ShiftMask, XK_k}},							movestack,			{.i = -1 } }),
-	&((Keychord){1, {{WindowMask,XK_i}},									incnmaster,			{.i = +1 } }),
-	&((Keychord){1, {{WindowMask,XK_d}},									incnmaster,			{.i = -1 } }),
 	&((Keychord){1, {{WindowMask,XK_h}},									setmfact,			{.f = -0.05} }),
 	&((Keychord){1, {{WindowMask,XK_l}},									setmfact,			{.f = +0.05} }),
 	&((Keychord){1, {{WindowMask|ShiftMask, XK_q}},							killclient,			{0} }),
@@ -257,6 +255,23 @@ static Keychord *keychords[] = {
 	&((Keychord){1, {{WindowMask,XK_f}},									togglefullscreen,	}),
 	&((Keychord){1, {{WindowMask,XK_0}},									view,				{.ui = ~0 } }),
 	&((Keychord){1, {{WindowMask|ShiftMask,XK_0}},							tag,				{.ui = ~0 } }),
+
+	&((Keychord){1, {{WindowMask,XK_Down}},									moveresize,			{.v = "0x 25y 0w 0h" } }),
+	&((Keychord){1, {{WindowMask, XK_Up}},									moveresize,			{.v = "0x -25y 0w 0h" } }),
+	&((Keychord){1, {{WindowMask, XK_Right}},								moveresize,			{.v = "25x 0y 0w 0h" } }),
+	&((Keychord){1, {{WindowMask, XK_Left}},								moveresize,			{.v = "-25x 0y 0w 0h" } }),
+	&((Keychord){1, {{WindowMask|ShiftMask, XK_Down}},						moveresize,			{.v = "0x 0y 0w 25h" } }),
+	&((Keychord){1, {{WindowMask|ShiftMask, XK_Up}},						moveresize,			{.v = "0x 0y 0w -25h" } }),
+	&((Keychord){1, {{WindowMask|ShiftMask, XK_Right}},						moveresize,			{.v = "0x 0y 25w 0h" } }),
+	&((Keychord){1, {{WindowMask|ShiftMask, XK_Left}},						moveresize,			{.v = "0x 0y -25w 0h" } }),
+	&((Keychord){1, {{WindowMask|ControlMask, XK_Up}},						moveresizeedge,		{.v = "t"} }),
+	&((Keychord){1, {{WindowMask|ControlMask, XK_Down}},					moveresizeedge,		{.v = "b"} }),
+	&((Keychord){1, {{WindowMask|ControlMask, XK_Left}},					moveresizeedge,		{.v = "l"} }),
+	&((Keychord){1, {{WindowMask|ControlMask, XK_Right}},					moveresizeedge,		{.v = "r"} }),
+	&((Keychord){1, {{WindowMask|ControlMask|ShiftMask, XK_Up  }},			moveresizeedge,		{.v = "T"} }),
+	&((Keychord){1, {{WindowMask|ControlMask|ShiftMask, XK_Down}},			moveresizeedge,		{.v = "B"} }),
+	&((Keychord){1, {{WindowMask|ControlMask|ShiftMask, XK_Left}},			moveresizeedge,		{.v = "L"} }),
+	&((Keychord){1, {{WindowMask|ControlMask|ShiftMask, XK_Right}},			moveresizeedge,		{.v = "R"} }),
 
 	/*Window Manager*/
 
@@ -268,7 +283,7 @@ static Keychord *keychords[] = {
 	TAGKEYS(XK_3,							2)
 	TAGKEYS(XK_4,							3)
 	TAGKEYS(XK_5,							4)
-	TAGKEYS(XK_6,							5)
+TAGKEYS(XK_6,							5)
 	TAGKEYS(XK_7,							6)
 	TAGKEYS(XK_8,							7)
 	TAGKEYS(XK_9,							8)
