@@ -79,6 +79,7 @@ static const Rule rules[] = {
 	{"Firefox",							NULL,				NULL,								1 << 3,			0,					-1,-1,-1,-1,		-1},
 	{"qutebrowser",						NULL,				NULL,								1 << 3,			0,					-1,-1,-1,-1,		-1},
 	{"Brave-browser",					NULL,				NULL,								1 << 3,			0,					-1,-1,-1,-1,		-1},
+	{"Google-chrome",					NULL,				NULL,								1 << 3,			0,					-1,-1,-1,-1,		-1},
 	{"Gimp",							NULL,				NULL,								0,				1,					-1,-1,-1,-1,		-1},
 	{"zoom",							NULL,				NULL,								1 << 3,			0,					-1,-1,-1,-1,		-1},
 	{"Mail",							NULL,				NULL,								1 << 5,			0,					-1,-1,-1,-1,		-1},
@@ -93,6 +94,7 @@ static const Rule rules[] = {
 	{NULL,								NULL,				"scratchpad",						0,				1,					.05,.05,.9,.9,		-1},
 	{"Qalculate-gtk",					NULL,				NULL,								0,				1,					.25,.25,.4,.2,		-1},
 	{"discord",							NULL,				NULL,								0,				1,					.05,.05,.9,.9,		-1},
+	{"Slack",							NULL,				NULL,								0,				1,					.05,.05,.9,.9,		-1},
 	{"Bitwarden",						NULL,				NULL,								0,				1,					.5,.05,.4,.9,		-1},
 	{"firefox",							NULL,				NULL,								0,				1,					.05,.05,.9,.9,		-1},
 
@@ -133,7 +135,7 @@ static const char *startingscript          =  "/home/hain/.scripts/system/autost
 static const char *termcmd[]  = {"alacritty", NULL};
 static const char *emacs[] = {"emacsclient", "-c", "-a", "\"emacs\"", NULL};
 static const char *rofi[] = { "rofi", "-show", "run", NULL};
-static const char *browser[] = { "brave", NULL};
+static const char *browser[] = { "google-chrome-stable", NULL};
 static const char *note[] = { "xournalpp", NULL};
 static const char *mail[] = { "mailspring", NULL};
 
@@ -168,6 +170,7 @@ static const char *printscreenall[] = {"/home/hain/.scripts/system/print-screen"
 static const scratchpad scratchterm = {.title = "scratchpad", .v = (char *[]){"alacritty", "-t", "scratchpad",NULL}};
 static const scratchpad qalculate = {.class = "Qalculate-gtk", .v = (char *[]){"qalculate-gtk", NULL}};
 static const scratchpad discord = {.class = "discord", .v = (char *[]){"discord", NULL}};
+static const scratchpad slack = {.class = "Slack", .v = (char *[]){"slack", NULL}};
 static const scratchpad bitwarden = {.class = "Bitwarden", .v = (char *[]){"bitwarden-desktop", NULL}};
 static const scratchpad firefox = {.class = "firefox", .v = (char *[]){"firefox", NULL}};
 
@@ -239,6 +242,8 @@ static Keychord *keychords[] = {
 	&((Keychord){2, {{ControlMask,XK_s},{0, XK_t}},							togglescratch,		{.v = &scratchterm } }),
 	&((Keychord){2, {{ControlMask,XK_s},{ControlMask, XK_b}},				togglescratch,		{.v = &firefox } }),
 	&((Keychord){2, {{ControlMask,XK_s},{0, XK_b}},							togglescratch,		{.v = &firefox } }),
+	&((Keychord){2, {{ControlMask,XK_s},{ControlMask, XK_s}},				togglescratch,		{.v = &slack } }),
+	&((Keychord){2, {{ControlMask,XK_s},{0, XK_s}},							togglescratch,		{.v = &slack } }),
 
 	/*Layout*/
 	&((Keychord){1, {{WindowMask,XK_b}},									togglebar,			{0} }),
