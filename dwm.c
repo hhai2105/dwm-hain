@@ -850,6 +850,12 @@ expose(XEvent *e)
 void
 focus(Client *c)
 {
+	Client* fsv = NULL;
+	for (Client* cl = selmon->stack; cl && !fsv; cl = cl->snext){
+		if(cl->isfullscreen){
+			fsv = cl;
+		}
+	}
 	if (!c || !ISVISIBLE(c))
 		for (c = selmon->stack; c && !ISVISIBLE(c); c = c->snext);
 	if (selmon->sel && selmon->sel != c)
@@ -859,6 +865,8 @@ focus(Client *c)
 			selmon = c->mon;
 		if (c->isurgent)
 			seturgent(c, 0);
+		detachstack(c);
+		attachstack(c);
 		grabbuttons(c, 1);
 		XSetWindowBorder(dpy, c->win, scheme[SchemeSel][ColBorder].pixel);
 		setfocus(c);
@@ -866,8 +874,8 @@ focus(Client *c)
 		XSetInputFocus(dpy, root, RevertToPointerRoot, CurrentTime);
 		XDeleteProperty(dpy, root, netatom[NetActiveWindow]);
 	}
-	if(selmon->sel && selmon->sel->isfullscreen){
-		togglefullscreen();
+	if(fsv && !c->isfloating){
+		setfullscreen(fsv, !fsv->isfullscreen);
 		selmon->sel = c;
 		togglefullscreen();
 	}else{
@@ -943,8 +951,8 @@ focusstack(const Arg *arg)
 					c = i;
 	}
 	if (c) {
-		restack(selmon);
 		focus(c);
+		restack(selmon);
 	}
 }
 
@@ -1956,11 +1964,11 @@ setup(void)
 	sh = DisplayHeight(dpy, screen);
 	root = RootWindow(dpy, screen);
 	drw = drw_create(dpy, screen, root, sw, sh);
+	updategeom();
 	if (!drw_fontset_create(drw, fonts, LENGTH(fonts)))
 		die("no fonts could be loaded.");
 	lrpad = drw->fonts->h;
 	bh = usealtbar ? 0 : drw->fonts->h + 2;
-	updategeom();
 	/* init atoms */
 	utf8string = XInternAtom(dpy, "UTF8_STRING", False);
 	wmatom[WMProtocols] = XInternAtom(dpy, "WM_PROTOCOLS", False);
@@ -2007,7 +2015,6 @@ setup(void)
 	XChangeWindowAttributes(dpy, root, CWEventMask|CWCursor, &wa);
 	XSelectInput(dpy, root, wa.event_mask);
 	grabkeys();
-	spawnbar();
 	focus(NULL);
 }
 
@@ -2285,8 +2292,6 @@ unmanage(Client *c, int destroyed)
 	Monitor *m = c->mon;
 	XWindowChanges wc;
 	int fullscreen = (selmon->sel == c && selmon->sel->isfullscreen)?1:0;
-	Client *nc;
-	for (nc = c->next; nc && !ISVISIBLE(nc); nc = nc->next);
 	detach(c);
 	detachstack(c);
 	if (!destroyed) {
@@ -2301,11 +2306,11 @@ unmanage(Client *c, int destroyed)
 		XUngrabServer(dpy);
 	}
 	free(c);
-	arrange(m);
-	focus(nc);
+	focus(NULL);
 	if(fullscreen)
-			togglefullscreen();
+		togglefullscreen();
 	updateclientlist();
+	arrange(m);
 }
 
 void
