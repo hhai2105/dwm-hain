@@ -852,7 +852,7 @@ focus(Client *c)
 {
 	Client* fsv = NULL;
 	for (Client* cl = selmon->stack; cl && !fsv; cl = cl->snext){
-		if(cl->isfullscreen){
+		if( ISVISIBLE(cl) && cl->isfullscreen ){
 			fsv = cl;
 		}
 	}
