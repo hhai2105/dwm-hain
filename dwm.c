@@ -2292,6 +2292,8 @@ unmanage(Client *c, int destroyed)
 	Monitor *m = c->mon;
 	XWindowChanges wc;
 	int fullscreen = (selmon->sel == c && selmon->sel->isfullscreen)?1:0;
+	Client *nc = selmon->sel == c? selmon->sel->next : NULL;
+	for(; nc && !ISVISIBLE(nc); nc = nc->next);
 	detach(c);
 	detachstack(c);
 	if (!destroyed) {
@@ -2305,8 +2307,7 @@ unmanage(Client *c, int destroyed)
 		XSetErrorHandler(xerror);
 		XUngrabServer(dpy);
 	}
-	free(c);
-	focus(NULL);
+	focus(nc);
 	if(fullscreen)
 		togglefullscreen();
 	updateclientlist();
