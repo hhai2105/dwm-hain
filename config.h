@@ -4,6 +4,11 @@
 /* appearance */
 static const unsigned int borderpx  = 1;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
+static const unsigned int gappih    = 20;       /* horiz inner gap between windows */
+static const unsigned int gappiv    = 10;       /* vert inner gap between windows */
+static const unsigned int gappoh    = 10;       /* horiz outer gap between windows and screen edge */
+static const unsigned int gappov    = 30;       /* vert outer gap between windows and screen edge */
+static       int smartgaps          = 0;        /* 1 means no outer gap when there is only one window */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 static const char usealtbar         = 1;        /* 1 means use non-dwm status bar */
@@ -103,25 +108,40 @@ static const Rule rules[] = {
 /* layout(s) */
 static const float mfact     = 0.55; /* factor of master area size [0.05..0.95] */
 static const int nmaster     = 1;    /* number of clients in master area */
-static const int resizehints = 1;    /* 1 means respect size hints in tiled resizals */
+static const int resizehints = 0;    /* 1 means respect size hints in tiled resizals */
 static const int lockfullscreen = 0; /* 1 will force focus on the fullscreen window */
+
+#define FORCE_VSPLIT 1  /* nrowgrid layout: force two clients to always split vertically */
+#include "vanitygaps.c"
 
 static const Layout layouts[] = {
 	/*symbol	arrange function */
 	{"[]=",		tile },    /* first entry is default */
 	{"><>",		NULL },
 	{"[M]",		monocle },
+	{ "[@]",      spiral },
+	{ "[\\]",     dwindle },
+	{ "H[]",      deck },
+	{ "TTT",      bstack },
+	{ "===",      bstackhoriz },
+	{ "HHH",      grid },
+	{ "###",      nrowgrid },
+	{ "---",      horizgrid },
+	{ ":::",      gaplessgrid },
+	{ "|M|",      centeredmaster },
+	{ ">M>",      centeredfloatingmaster },
+	{ "><>",      NULL },    /* no layout function means floating behavior */
 };
 
 /* key definitions */
-#define WindowMask Mod4Mask
+#define WindowMask Mod4Mask 
 #define AltMask Mod1Mask
 
 #define TAGKEYS(KEY,TAG)										\
 	&((Keychord){1, {{WindowMask, KEY}},								view,           {.ui = 1 << TAG} }), \
-		&((Keychord){1, {{WindowMask|ControlMask, KEY}},					toggleview,     {.ui = 1 << TAG} }), \
+		&((Keychord){1, {{WindowMask|WindowMask, KEY}},					toggleview,     {.ui = 1 << TAG} }), \
 		&((Keychord){1, {{WindowMask|ShiftMask, KEY}},						tag,            {.ui = 1 << TAG} }), \
-		&((Keychord){1, {{WindowMask|ControlMask|ShiftMask, KEY}},			toggletag,      {.ui = 1 << TAG} }),
+		&((Keychord){1, {{WindowMask|WindowMask|ShiftMask, KEY}},			toggletag,      {.ui = 1 << TAG} }),
 
 #define MONKEYS(KEY,MON)												\
 	&((Keychord){1, {{WindowMask, KEY}},								focusspecificmon,	{.i = MON} }), \
@@ -228,22 +248,22 @@ static Keychord *keychords[] = {
 	&((Keychord){1, {{0,XF86XK_TouchpadToggle}},							spawn,				{.v = touchpadtoggle}}),
 
 	&((Keychord){1, {{0,XK_Print}},											spawn,				{.v = printscreencrop}}),
-	&((Keychord){1, {{ControlMask,XK_Print}},								spawn,				{.v = printscreenwindow}}),
-	&((Keychord){1, {{ControlMask|ShiftMask,XK_Print}},						spawn,				{.v = printscreenall}}),
+	&((Keychord){1, {{WindowMask,XK_Print}},								spawn,				{.v = printscreenwindow}}),
+	&((Keychord){1, {{WindowMask|ShiftMask,XK_Print}},						spawn,				{.v = printscreenall}}),
 
 	/*Scratchpad*/
-	&((Keychord){2, {{ControlMask,XK_s},{ControlMask, XK_c}},				togglescratch,		{.v = &qalculate } }),
-	&((Keychord){2, {{ControlMask,XK_s},{0, XK_c}},							togglescratch,		{.v = &qalculate } }),
-	&((Keychord){2, {{ControlMask,XK_s},{ControlMask, XK_p}},				togglescratch,		{.v = &bitwarden } }),
-	&((Keychord){2, {{ControlMask,XK_s},{0, XK_p}},							togglescratch,		{.v = &bitwarden } }),
-	&((Keychord){2, {{ControlMask,XK_s},{ControlMask, XK_d}},				togglescratch,		{.v = &discord } }),
-	&((Keychord){2, {{ControlMask,XK_s},{0, XK_d}},							togglescratch,		{.v = &discord } }),
-	&((Keychord){2, {{ControlMask,XK_s},{ControlMask, XK_t}},				togglescratch,		{.v = &scratchterm } }),
-	&((Keychord){2, {{ControlMask,XK_s},{0, XK_t}},							togglescratch,		{.v = &scratchterm } }),
-	&((Keychord){2, {{ControlMask,XK_s},{ControlMask, XK_b}},				togglescratch,		{.v = &firefox } }),
-	&((Keychord){2, {{ControlMask,XK_s},{0, XK_b}},							togglescratch,		{.v = &firefox } }),
-	&((Keychord){2, {{ControlMask,XK_s},{ControlMask, XK_s}},				togglescratch,		{.v = &slack } }),
-	&((Keychord){2, {{ControlMask,XK_s},{0, XK_s}},							togglescratch,		{.v = &slack } }),
+	&((Keychord){2, {{WindowMask,XK_s},{WindowMask, XK_c}},				togglescratch,		{.v = &qalculate } }),
+	&((Keychord){2, {{WindowMask,XK_s},{0, XK_c}},							togglescratch,		{.v = &qalculate } }),
+	&((Keychord){2, {{WindowMask,XK_s},{WindowMask, XK_p}},				togglescratch,		{.v = &bitwarden } }),
+	&((Keychord){2, {{WindowMask,XK_s},{0, XK_p}},							togglescratch,		{.v = &bitwarden } }),
+	&((Keychord){2, {{WindowMask,XK_s},{WindowMask, XK_d}},				togglescratch,		{.v = &discord } }),
+	&((Keychord){2, {{WindowMask,XK_s},{0, XK_d}},							togglescratch,		{.v = &discord } }),
+	&((Keychord){2, {{WindowMask,XK_s},{WindowMask, XK_t}},				togglescratch,		{.v = &scratchterm } }),
+	&((Keychord){2, {{WindowMask,XK_s},{0, XK_t}},							togglescratch,		{.v = &scratchterm } }),
+	&((Keychord){2, {{WindowMask,XK_s},{WindowMask, XK_b}},				togglescratch,		{.v = &firefox } }),
+	&((Keychord){2, {{WindowMask,XK_s},{0, XK_b}},							togglescratch,		{.v = &firefox } }),
+	&((Keychord){2, {{WindowMask,XK_s},{WindowMask, XK_s}},				togglescratch,		{.v = &slack } }),
+	&((Keychord){2, {{WindowMask,XK_s},{0, XK_s}},							togglescratch,		{.v = &slack } }),
 
 	/*Layout*/
 	&((Keychord){1, {{WindowMask,XK_b}},									togglebar,			{0} }),
@@ -269,14 +289,18 @@ static Keychord *keychords[] = {
 	&((Keychord){1, {{WindowMask|ShiftMask, XK_Up}},						moveresize,			{.v = "0x 0y 0w -25h" } }),
 	&((Keychord){1, {{WindowMask|ShiftMask, XK_Right}},						moveresize,			{.v = "0x 0y 25w 0h" } }),
 	&((Keychord){1, {{WindowMask|ShiftMask, XK_Left}},						moveresize,			{.v = "0x 0y -25w 0h" } }),
-	&((Keychord){1, {{WindowMask|ControlMask, XK_Up}},						moveresizeedge,		{.v = "t"} }),
-	&((Keychord){1, {{WindowMask|ControlMask, XK_Down}},					moveresizeedge,		{.v = "b"} }),
-	&((Keychord){1, {{WindowMask|ControlMask, XK_Left}},					moveresizeedge,		{.v = "l"} }),
-	&((Keychord){1, {{WindowMask|ControlMask, XK_Right}},					moveresizeedge,		{.v = "r"} }),
-	&((Keychord){1, {{WindowMask|ControlMask|ShiftMask, XK_Up  }},			moveresizeedge,		{.v = "T"} }),
-	&((Keychord){1, {{WindowMask|ControlMask|ShiftMask, XK_Down}},			moveresizeedge,		{.v = "B"} }),
-	&((Keychord){1, {{WindowMask|ControlMask|ShiftMask, XK_Left}},			moveresizeedge,		{.v = "L"} }),
-	&((Keychord){1, {{WindowMask|ControlMask|ShiftMask, XK_Right}},			moveresizeedge,		{.v = "R"} }),
+	&((Keychord){1, {{WindowMask|WindowMask, XK_Up}},						moveresizeedge,		{.v = "t"} }),
+	&((Keychord){1, {{WindowMask|WindowMask, XK_Down}},					moveresizeedge,		{.v = "b"} }),
+	&((Keychord){1, {{WindowMask|WindowMask, XK_Left}},					moveresizeedge,		{.v = "l"} }),
+	&((Keychord){1, {{WindowMask|WindowMask, XK_Right}},					moveresizeedge,		{.v = "r"} }),
+	&((Keychord){1, {{WindowMask|WindowMask|ShiftMask, XK_Up  }},			moveresizeedge,		{.v = "T"} }),
+	&((Keychord){1, {{WindowMask|WindowMask|ShiftMask, XK_Down}},			moveresizeedge,		{.v = "B"} }),
+	&((Keychord){1, {{WindowMask|WindowMask|ShiftMask, XK_Left}},			moveresizeedge,		{.v = "L"} }),
+	&((Keychord){1, {{WindowMask|WindowMask|ShiftMask, XK_Right}},			moveresizeedge,		{.v = "R"} }),
+
+
+	&((Keychord)	{1, {{AltMask|WindowMask, XK_0}},      togglegaps,     {0} }),
+	&((Keychord)	{1, {{AltMask|WindowMask|ShiftMask, XK_0}},      defaultgaps,    {0} }),
 
 	/*Window Manager*/
 
@@ -288,7 +312,7 @@ static Keychord *keychords[] = {
 	TAGKEYS(XK_3,							2)
 	TAGKEYS(XK_4,							3)
 	TAGKEYS(XK_5,							4)
-TAGKEYS(XK_6,							5)
+	TAGKEYS(XK_6,							5)
 	TAGKEYS(XK_7,							6)
 	TAGKEYS(XK_8,							7)
 	TAGKEYS(XK_9,							8)
@@ -298,45 +322,45 @@ TAGKEYS(XK_6,							5)
 	MONKEYS(XK_e,							1)
 }	;
 
-/* button definitions */
-/* click can be ClkTagBar, ClkLtSymbol, ClkStatusText, ClkWinTitle, ClkClientWin, or ClkRootWin */
-static Button buttons[] = {
-	/* click                event mask			button          function        argument */
-	{ ClkLtSymbol,          0,					Button1,        setlayout,      {0} },
-	{ ClkLtSymbol,          0,					Button3,        setlayout,      {.v = &layouts[2]} },
+	/* button definitions */
+	/* click can be ClkTagBar, ClkLtSymbol, ClkStatusText, ClkWinTitle, ClkClientWin, or ClkRootWin */
+	static Button buttons[] = {
+		/* click                event mask			button          function        argument */
+		{ ClkLtSymbol,          0,					Button1,        setlayout,      {0} },
+		{ ClkLtSymbol,          0,					Button3,        setlayout,      {.v = &layouts[2]} },
 
-	{ ClkRootWin,			WindowMask,			Button4,        spawn,			{.v = &volumeup} },
-	{ ClkRootWin,			WindowMask,			Button5,        spawn,			{.v = &volumedown} },
+		{ ClkRootWin,			WindowMask,			Button4,        spawn,			{.v = &volumeup} },
+		{ ClkRootWin,			WindowMask,			Button5,        spawn,			{.v = &volumedown} },
 
-	{ ClkClientWin,			WindowMask,			Button4,        spawn,			{.v = &volumeup} },
-	{ ClkClientWin,			WindowMask,			Button5,        spawn,			{.v = &volumedown} },
+		{ ClkClientWin,			WindowMask,			Button4,        spawn,			{.v = &volumeup} },
+		{ ClkClientWin,			WindowMask,			Button5,        spawn,			{.v = &volumedown} },
 
-	{ ClkRootWin,			WindowMask,			Button4,        spawn,			{.v = &volumeup} },
-	{ ClkRootWin,			WindowMask,			Button5,        spawn,			{.v = &volumedown} },
+		{ ClkRootWin,			WindowMask,			Button4,        spawn,			{.v = &volumeup} },
+		{ ClkRootWin,			WindowMask,			Button5,        spawn,			{.v = &volumedown} },
 
-	{ ClkRootWin,			WindowMask,			Button4,        spawn,			{.v = &volumeup} },
-	{ ClkRootWin,			WindowMask,			Button5,        spawn,			{.v = &volumedown} },
-	{ ClkWinTitle,          0,					Button2,        zoom,           {0} },
-	{ ClkStatusText,        0,					Button2,        spawn,          {.v = termcmd } },
-	{ ClkClientWin,         WindowMask,         Button1,        movemouse,      {0} },
-	{ ClkClientWin,         WindowMask,         Button2,        togglefloating, {0} },
-	{ ClkClientWin,         WindowMask,         Button3,        resizemouse,    {0} },
-	{ ClkTagBar,            0,					Button1,        view,           {0} },
-	{ ClkTagBar,            0,					Button3,        toggleview,     {0} },
-	{ ClkTagBar,            WindowMask,         Button1,        tag,            {0} },
-	{ ClkTagBar,            WindowMask,         Button3,        toggletag,      {0} },
-};
+		{ ClkRootWin,			WindowMask,			Button4,        spawn,			{.v = &volumeup} },
+		{ ClkRootWin,			WindowMask,			Button5,        spawn,			{.v = &volumedown} },
+		{ ClkWinTitle,          0,					Button2,        zoom,           {0} },
+		{ ClkStatusText,        0,					Button2,        spawn,          {.v = termcmd } },
+		{ ClkClientWin,         WindowMask,         Button1,        movemouse,      {0} },
+		{ ClkClientWin,         WindowMask,         Button2,        togglefloating, {0} },
+		{ ClkClientWin,         WindowMask,         Button3,        resizemouse,    {0} },
+		{ ClkTagBar,            0,					Button1,        view,           {0} },
+		{ ClkTagBar,            0,					Button3,        toggleview,     {0} },
+		{ ClkTagBar,            WindowMask,         Button1,        tag,            {0} },
+		{ ClkTagBar,            WindowMask,         Button3,        toggletag,      {0} },
+	};
 
-static const char *ipcsockpath = "/tmp/dwm.sock";
-static IPCCommand ipccommands[] = {
-  IPCCOMMAND(  view,                1,      {ARG_TYPE_UINT}   ),
-  IPCCOMMAND(  toggleview,          1,      {ARG_TYPE_UINT}   ),
-  IPCCOMMAND(  tag,                 1,      {ARG_TYPE_UINT}   ),
-  IPCCOMMAND(  toggletag,           1,      {ARG_TYPE_UINT}   ),
-  IPCCOMMAND(  tagmon,              1,      {ARG_TYPE_UINT}   ),
-  IPCCOMMAND(  focusmon,            1,      {ARG_TYPE_SINT}   ),
-  IPCCOMMAND(  focusstack,          1,      {ARG_TYPE_SINT}   ),
-  IPCCOMMAND(  zoom,                1,      {ARG_TYPE_NONE}   ),
+	static const char *ipcsockpath = "/tmp/dwm.sock";
+	static IPCCommand ipccommands[] = {
+		IPCCOMMAND(  view,                1,      {ARG_TYPE_UINT}   ),
+		IPCCOMMAND(  toggleview,          1,      {ARG_TYPE_UINT}   ),
+		IPCCOMMAND(  tag,                 1,      {ARG_TYPE_UINT}   ),
+		IPCCOMMAND(  toggletag,           1,      {ARG_TYPE_UINT}   ),
+		IPCCOMMAND(  tagmon,              1,      {ARG_TYPE_UINT}   ),
+		IPCCOMMAND(  focusmon,            1,      {ARG_TYPE_SINT}   ),
+		IPCCOMMAND(  focusstack,          1,      {ARG_TYPE_SINT}   ),
+IPCCOMMAND(  zoom,                1,      {ARG_TYPE_NONE}   ),
   IPCCOMMAND(  incnmaster,          1,      {ARG_TYPE_SINT}   ),
   IPCCOMMAND(  killclient,          1,      {ARG_TYPE_SINT}   ),
   IPCCOMMAND(  togglefloating,      1,      {ARG_TYPE_NONE}   ),
