@@ -189,7 +189,7 @@ static const scratchpad discord = {.class = "discord", .v = (char *[]){"discord"
 static const scratchpad slack = {.class = "Slack", .v = (char *[]){"slack", NULL}};
 static const scratchpad bitwarden = {.class = "Bitwarden", .v = (char *[]){"bitwarden-desktop", NULL}};
 static const scratchpad firefox = {.class = "firefox", .v = (char *[]){"firefox", NULL}};
-static const scratchpad brave = {.class = "Brave-Browser", .v = (char *[]){"brave", NULL}};
+static const scratchpad brave = {.class = "Brave-browser", .v = (char *[]){"brave", NULL}};
 
 
 #include "movestack.c"
