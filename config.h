@@ -1,8 +1,7 @@
-
 /* See LICENSE file for copyright and license details. */
 
 /* appearance */
-static const unsigned int borderpx  = 1;        /* border pixel of windows */
+static const unsigned int borderpx  = 3;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const unsigned int gappih    = 20;       /* horiz inner gap between windows */
 static const unsigned int gappiv    = 10;       /* vert inner gap between windows */
@@ -85,10 +84,10 @@ static const Rule rules[] = {
     {"Gimp",                    NULL,            NULL,         0,              1,        -1,-1,-1,-1,            -1},
     {"zoom",                    NULL,            NULL,         1 << 3,         0,        -1,-1,-1,-1,            -1},
     {"Mail",                    NULL,            NULL,         1 << 5,         0,        -1,-1,-1,-1,            -1},
-    {"Thunderbird",             NULL,            NULL,         1 << 5,         0,        -1,-1,-1,-1,            -1},
+    {"thunderbird",              NULL,            NULL,         1 << 5,         0,        -1,-1,-1,-1,            -1},
     {"Mailspring",              NULL,            NULL,         1 << 5,         0,        -1,-1,-1,-1,            -1},
     {"Gcr-prompter",            NULL,            NULL,         1 << 5,         0,        -1,-1,-1,-1,            -1},
-    {"mpv",                     NULL,            NULL,         1 << 7,         0,        -1,-1,-1,-1,            -1},
+    /* {"mpv",                     NULL,            NULL,         1 << 7,         0,        -1,-1,-1,-1,            -1}, */
     {"Gimp",                    NULL,            NULL,         1 << 2,         0,        -1,-1,-1,-1,            -1},
     {"Write",                   NULL,            NULL,         1 << 2,         0,        -1,-1,-1,-1,            -1},
     {"Xournalpp",               NULL,            NULL,         1 << 2,         0,        -1,-1,-1,-1,            -1},
@@ -98,7 +97,7 @@ static const Rule rules[] = {
     {"Slack",                   NULL,            NULL,         0,              1,        .05,.05,.9,.9,          -1},
     {"Bitwarden",               NULL,            NULL,         0,              1,        .5,.05,.4,.9,           -1},
     {"firefox",                 NULL,            NULL,         0,              1,        .05,.05,.9,.9,          -1},
-    {"Brave-browser",           NULL,            NULL,         0,              1,        .05,.05,.9,.9,            -1},
+    {"Brave-browser",           NULL,            NULL,         0,              1,        .05,.05,.9,.9,          -1},
 
 };
 
@@ -152,8 +151,8 @@ static const char *termcmd[]  = {"alacritty", NULL};
 static const char *emacs[] = {"emacsclient", "-c", "-a", "\"emacs\"", NULL};
 static const char *rofi[] = { "rofi", "-show", "run", NULL};
 static const char *browser[] = { "google-chrome-stable", NULL};
+static const char *email[] = { "thunderbird", NULL};
 static const char *note[] = { "xournalpp", NULL};
-static const char *mail[] = { "mailspring", NULL};
 
 /* rofi */
 
@@ -180,7 +179,8 @@ static const char *brightnessdown[] = {"lux", "-s", "1%", NULL};
 static const char *touchpadtoggle[] = {"/home/hain/.scripts/system/touchpad-toggle", NULL};
 static const char *printscreencrop[] = {"/home/hain/.scripts/system/print-screen", "-c", NULL};
 static const char *printscreenwindow[] = {"/home/hain/.scripts/system/print-screen", "-w", NULL};
-static const char *printscreenall[] = {"/home/hain/.scripts/system/print-screen" "-a", NULL};
+static const char *printscreenmonitor[] = {"/home/hain/.scripts/system/print-screen", "-m", NULL};
+static const char *printscreenall[] = {"/home/hain/.scripts/system/print-screen", "-w", NULL};
 
 /* scratchpad */
 static const scratchpad scratchterm = {.title = "scratchpad", .v = (char *[]){"alacritty", "-t", "scratchpad",NULL}};
@@ -201,8 +201,7 @@ static Keychord *keychords[] = {
     &((Keychord){1, {{ControlMask|AltMask,XK_e}},                                        spawn,                          {.v = emacs } }),
     &((Keychord){1, {{ControlMask|AltMask,XK_w}},                                        spawn,                          {.v = browser } }),
     &((Keychord){1, {{ControlMask|AltMask,XK_n}},                                        spawn,                          {.v = note } }),
-    &((Keychord){1, {{ControlMask|AltMask, XK_m}},                                       spawn,                          {.v = mail } }),
-
+    &((Keychord){1, {{ControlMask|AltMask,XK_m}},                                        spawn,                          {.v = email } }),
     /* Scripts */
 
     &((Keychord){2, {{WindowMask, XK_p}, {WindowMask, XK_p}},                            spawn,                          {.v = autorandr}}),
@@ -246,6 +245,7 @@ static Keychord *keychords[] = {
 
     &((Keychord){1, {{0,XK_Print}},                                                      spawn,                          {.v = printscreencrop}}),
     &((Keychord){1, {{WindowMask,XK_Print}},                                             spawn,                          {.v = printscreenwindow}}),
+    &((Keychord){1, {{ControlMask,XK_Print}},                                            spawn,                          {.v = printscreenmonitor}}),
     &((Keychord){1, {{WindowMask|ShiftMask,XK_Print}},                                   spawn,                          {.v = printscreenall}}),
 
     /*Scratchpad*/
