@@ -1167,7 +1167,6 @@ keypress(XEvent *e)
         currentkey++;
         if(w == 0 || ran == 1)
             break;
-        grabkeys();
         while (running && !XNextEvent(dpy, &event) && !ran)
             if(event.type == KeyPress)
                 break;
@@ -1177,7 +1176,6 @@ keypress(XEvent *e)
         wpointer = holder;
     }
     currentkey = 0;
-    grabkeys();
 }
 
 
