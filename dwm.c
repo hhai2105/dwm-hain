@@ -1979,9 +1979,11 @@ setup(void)
     /*	setup epoll for IPC */
     setupepoll();
 
-    /* init screen */
-    autostart();
-    screen = DefaultScreen(dpy);
+    /*	autostart */
+	autostart();
+
+	/* init screen */
+	screen = DefaultScreen(dpy);
     sw = DisplayWidth(dpy, screen);
     sh = DisplayHeight(dpy, screen);
     root = RootWindow(dpy, screen);
