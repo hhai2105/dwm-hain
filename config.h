@@ -192,6 +192,8 @@ static const scratchpad firefox = {.class = "firefox", .v = (char *[]){"firefox"
 static const scratchpad brave = {.class = "Brave-browser", .v = (char *[]){"brave", NULL}};
 
 
+
+#include "focusurgent.c"
 #include "movestack.c"
 static Keychord *keychords[] = {
     /* modifier      keychord                                                            function                             argument */
@@ -233,16 +235,12 @@ static Keychord *keychords[] = {
     &((Keychord){1, {{WindowMask|ShiftMask, XK_comma}},                                  spawn,                          {.v = mediaprev}}),
     &((Keychord){1, {{0,XF86XK_AudioNext}},                                              spawn,                          {.v = medianext}}),
     &((Keychord){1, {{WindowMask|ShiftMask, XK_period}},                                 spawn,                          {.v = medianext}}),
-
     &((Keychord){1, {{0,XF86XK_AudioMute}},                                              spawn,                          {.v = volumetoggle}}),
     &((Keychord){1, {{0,XF86XK_AudioRaiseVolume}},                                       spawn,                          {.v = volumeup}}),
     &((Keychord){1, {{0,XF86XK_AudioLowerVolume}},                                       spawn,                          {.v = volumedown}}),
-
     &((Keychord){1, {{0,XF86XK_MonBrightnessUp}},                                        spawn,                          {.v = brightnessup}}),
     &((Keychord){1, {{0,XF86XK_MonBrightnessDown}},                                      spawn,                          {.v = brightnessdown}}),
-
     &((Keychord){1, {{0,XF86XK_TouchpadToggle}},                                         spawn,                          {.v = touchpadtoggle}}),
-
     &((Keychord){1, {{0,XK_Print}},                                                      spawn,                          {.v = printscreencrop}}),
     &((Keychord){1, {{WindowMask,XK_Print}},                                             spawn,                          {.v = printscreenwindow}}),
     &((Keychord){1, {{ControlMask,XK_Print}},                                            spawn,                          {.v = printscreenmonitor}}),
@@ -277,7 +275,7 @@ static Keychord *keychords[] = {
     &((Keychord){1, {{WindowMask,XK_f}},                                                 togglefullscreen,               {0}  }),
     &((Keychord){1, {{WindowMask,XK_0}},                                                 view,                           {.ui = ~0 } }),
     &((Keychord){1, {{WindowMask|ShiftMask,XK_0}},                                       tag,                            {.ui = ~0 } }),
-
+    &((Keychord){1, {{WindowMask,XK_u}},												 focusurgent,                            {0} }),
     &((Keychord){1, {{WindowMask,XK_Down}},                                              moveresize,                     {.v = "0x 25y 0w 0h" } }),
     &((Keychord){1, {{WindowMask, XK_Up}},                                               moveresize,                     {.v = "0x -25y 0w 0h" } }),
     &((Keychord){1, {{WindowMask, XK_Right}},                                            moveresize,                     {.v = "25x 0y 0w 0h" } }),
@@ -294,6 +292,7 @@ static Keychord *keychords[] = {
 
     &((Keychord){1, {{AltMask|WindowMask, XK_0}},                                        togglegaps,     {0} }),
     &((Keychord){1, {{AltMask|WindowMask|ShiftMask, XK_0}},                              defaultgaps,    {0} }),
+
 
     /*Window Manager*/
     &((Keychord){1, {{WindowMask|ShiftMask,XK_r}},                                       restart,        {0}}),
