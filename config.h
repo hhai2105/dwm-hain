@@ -146,7 +146,7 @@ static const Layout layouts[] = {
 /* helper for spawning shell commands in the pre dwm-5.0 fashion */
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 
-static const char *startingscript          =  "/home/hain/.scripts/system/autostart.sh";
+static const char *startingscript =  "/home/hain/.scripts/system/autostart.sh";
 
 /* Application */
 static const char *termcmd[]  = {"alacritty", NULL};

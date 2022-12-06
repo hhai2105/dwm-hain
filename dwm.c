@@ -524,7 +524,7 @@ buttonpress(XEvent *e)
 	}
 	for (i = 0; i < LENGTH(buttons); i++)
 		if (click == buttons[i].click && buttons[i].func && buttons[i].button == ev->button
-		&& CLEANMASK(buttons[i].mask) == CLEANMASK(ev->state))
+			&& CLEANMASK(buttons[i].mask) == CLEANMASK(ev->state))
 			buttons[i].func(click == ClkTagBar && buttons[i].arg.i == 0 ? &arg : &buttons[i].arg);
 }
 
@@ -816,8 +816,8 @@ drawbar(Monitor *m)
 		drw_text(drw, x, 0, w, bh, lrpad / 2, tags[i], urg & 1 << i);
 		if (occ & 1 << i)
 			drw_rect(drw, x + boxs, boxs, boxw, boxw,
-				m == selmon && selmon->sel && selmon->sel->tags & 1 << i,
-				urg & 1 << i);
+					 m == selmon && selmon->sel && selmon->sel->tags & 1 << i,
+					 urg & 1 << i);
 		x += w;
 	}
 	w = TEXTW(m->ltsymbol);
@@ -1456,13 +1456,13 @@ moveresize(const Arg *arg) {
 
     /* move cursor along with the window to avoid problems caused by the sloppy focus */
     if (xqp && ox <= msx && (ox + ow) >= msx && oy <= msy && (oy + oh) >= msy)
-	{
+		{
             nmx = c->x - ox + c->w - ow;
             nmy = c->y - oy + c->h - oh;
             /* make sure the cursor stays inside the window */
             if ((msx + nmx) > c->x && (msy + nmy) > c->y)
                 XWarpPointer(dpy, None, None, 0, 0, 0, 0, nmx, nmy);
-	}
+		}
 }
 
 void
@@ -1877,8 +1877,8 @@ setfocus(Client *c)
     if (!c->neverfocus) {
         XSetInputFocus(dpy, c->win, RevertToPointerRoot, CurrentTime);
         XChangeProperty(dpy, root, netatom[NetActiveWindow],
-			XA_WINDOW, 32, PropModeReplace,
-			(unsigned char *) &(c->win), 1);
+						XA_WINDOW, 32, PropModeReplace,
+						(unsigned char *) &(c->win), 1);
     }
     sendevent(c, wmatom[WMTakeFocus]);
 }
@@ -1888,7 +1888,7 @@ setfullscreen(Client *c, int fullscreen)
 {
     if (fullscreen && !c->isfullscreen) {
         XChangeProperty(dpy, c->win, netatom[NetWMState], XA_ATOM, 32,
-			PropModeReplace, (unsigned char*)&netatom[NetWMFullscreen], 1);
+						PropModeReplace, (unsigned char*)&netatom[NetWMFullscreen], 1);
         c->isfullscreen = 1;
         c->oldstate = c->isfloating;
         c->oldbw = c->bw;
@@ -1898,7 +1898,7 @@ setfullscreen(Client *c, int fullscreen)
         XRaiseWindow(dpy, c->win);
     } else if (!fullscreen && c->isfullscreen){
         XChangeProperty(dpy, c->win, netatom[NetWMState], XA_ATOM, 32,
-			PropModeReplace, (unsigned char*)0, 0);
+						PropModeReplace, (unsigned char*)0, 0);
         c->isfullscreen = 0;
         c->isfloating = c->oldstate;
         c->bw = c->oldbw;
@@ -1980,14 +1980,17 @@ setup(void)
     /*	setup epoll for IPC */
     setupepoll();
 
+    /*	autostart */
+	autostart();
+
 
 	/* init screen */
 	screen = DefaultScreen(dpy);
-    sw = DisplayWidth(dpy, screen);
-    sh = DisplayHeight(dpy, screen);
-    root = RootWindow(dpy, screen);
-    drw = drw_create(dpy, screen, root, sw, sh);
-    if (!drw_fontset_create(drw, fonts, LENGTH(fonts)))
+	sw = DisplayWidth(dpy, screen);
+	sh = DisplayHeight(dpy, screen);
+	root = RootWindow(dpy, screen);
+	drw = drw_create(dpy, screen, root, sw, sh);
+	if (!drw_fontset_create(drw, fonts, LENGTH(fonts)))
         die("no fonts could be loaded.");
     lrpad = drw->fonts->h;
     bh = usealtbar ? 0 : drw->fonts->h + 2;
@@ -2039,8 +2042,6 @@ setup(void)
     XSelectInput(dpy, root, wa.event_mask);
     grabkeys();
     focus(NULL);
-    /*	autostart */
-	autostart();
 }
 
 void
@@ -2060,9 +2061,9 @@ setupepoll(void)
     dpy_event.events = EPOLLIN;
     dpy_event.data.fd = dpy_fd;
     if (epoll_ctl(epoll_fd, EPOLL_CTL_ADD, dpy_fd, &dpy_event)) {
-	fputs("Failed to add display file descriptor to epoll", stderr);
-	close(epoll_fd);
-	exit(1);
+		fputs("Failed to add display file descriptor to epoll", stderr);
+		close(epoll_fd);
+		exit(1);
     }
 
     if (ipc_init(ipcsockpath, epoll_fd, ipccommands, LENGTH(ipccommands)) < 0) {
@@ -2440,17 +2441,17 @@ updategeom(void)
 		}
 		for (i = 0, m = mons; i < nn && m; m = m->next, i++)
 			if (i >= n
-			|| unique[i].x_org != m->mx || unique[i].y_org != m->my
-			|| unique[i].width != m->mw || unique[i].height != m->mh)
-			{
-				dirty = 1;
-				m->num = i;
-				m->mx = m->wx = unique[i].x_org;
-				m->my = m->wy = unique[i].y_org;
-				m->mw = m->ww = unique[i].width;
-				m->mh = m->wh = unique[i].height;
-				updatebarpos(m);
-			}
+				|| unique[i].x_org != m->mx || unique[i].y_org != m->my
+				|| unique[i].width != m->mw || unique[i].height != m->mh)
+				{
+					dirty = 1;
+					m->num = i;
+					m->mx = m->wx = unique[i].x_org;
+					m->my = m->wy = unique[i].y_org;
+					m->mw = m->ww = unique[i].width;
+					m->mh = m->wh = unique[i].height;
+					updatebarpos(m);
+				}
 		/* removed monitors if n > nn */
 		for (i = nn; i < n; i++) {
 			for (m = mons; m && m->next; m = m->next);
@@ -2714,7 +2715,7 @@ zoom(const Arg *arg)
 }
 
 void autostart(){
-    system(startingscript);
+	system(startingscript);
 }
 
 void restart(){
