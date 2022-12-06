@@ -68,6 +68,8 @@ static const Rule rules[] = {
      *  WM_CLASS(STRING) = instance, class
      *  WM_NAME(STRING) = title
      */
+
+	/* { "Gimp",     NULL,       NULL,       0,            1,           -1 }, */
     /* class                    instance         title         tags mask       isfloating x, y, w, h              monitor */
     {"confirm",                 NULL,            NULL,         0,              1,        -1,-1,-1,-1,            -1},
     {"file_progress",           NULL,            NULL,         0,              1,        -1,-1,-1,-1,            -1},
@@ -84,10 +86,10 @@ static const Rule rules[] = {
     {"Gimp",                    NULL,            NULL,         0,              1,        -1,-1,-1,-1,            -1},
     {"zoom",                    NULL,            NULL,         1 << 3,         0,        -1,-1,-1,-1,            -1},
     {"Mail",                    NULL,            NULL,         1 << 5,         0,        -1,-1,-1,-1,            -1},
-    {"thunderbird",              NULL,            NULL,         1 << 5,         0,        -1,-1,-1,-1,            -1},
+    {"thunderbird",             NULL,            NULL,         1 << 5,         0,        -1,-1,-1,-1,            -1},
     {"Mailspring",              NULL,            NULL,         1 << 5,         0,        -1,-1,-1,-1,            -1},
-    {"Gcr-prompter",            NULL,            NULL,         1 << 5,         0,        -1,-1,-1,-1,            -1},
-    /* {"mpv",                     NULL,            NULL,         1 << 7,         0,        -1,-1,-1,-1,            -1}, */
+    {"Gcr-prompter",            NULL,            NULL,         0,			   1,        -1,-1,-1,-1,            -1},
+    {"mpv",                     NULL,            NULL,         1 << 7,         0,        -1,-1,-1,-1,            -1},
     {"Gimp",                    NULL,            NULL,         1 << 2,         0,        -1,-1,-1,-1,            -1},
     {"Write",                   NULL,            NULL,         1 << 2,         0,        -1,-1,-1,-1,            -1},
     {"Xournalpp",               NULL,            NULL,         1 << 2,         0,        -1,-1,-1,-1,            -1},

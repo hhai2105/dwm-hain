@@ -342,43 +342,44 @@ struct NumTags { char limitexceeded[LENGTH(tags) > 31 ? -1 : 1]; };
 void
 applyrules(Client *c)
 {
-    const char *class, *instance;
-    unsigned int i;
-    const Rule *r;
-    Monitor *m;
-    XClassHint ch = { NULL, NULL };
+	const char *class, *instance;
+	unsigned int i;
+	const Rule *r;
+	Monitor *m;
+	XClassHint ch = { NULL, NULL };
 
-    /* rule matching */
-    c->isfloating = 0;
-    c->tags = 0;
-    XGetClassHint(dpy, c->win, &ch);
-    class    = ch.res_class ? ch.res_class : broken;
-    instance = ch.res_name  ? ch.res_name  : broken;
+	/* rule matching */
+	c->isfloating = 0;
+	c->tags = 0;
+	XGetClassHint(dpy, c->win, &ch);
+	class    = ch.res_class ? ch.res_class : broken;
+	instance = ch.res_name  ? ch.res_name  : broken;
 
-    for (i = 0; i < LENGTH(rules); i++) {
-        r = &rules[i];
-        if ((!r->title || strstr(c->name, r->title))
-            && (!r->class || strstr(class, r->class))
-            && (!r->instance || strstr(instance, r->instance)))
-            {
-                c->isfloating = r->isfloating;
-                c->tags |= r->tags;
-                for (m = mons; m && m->num != r->monitor; m = m->next);
-                if (m)
-                    c->mon = m;
-                if(c->isfloating){
-                    if (r->floatx >= 0) c->x = c->mon->mx + (int)((float)c->mon->mw * r->floatx);
-                    if (r->floaty >= 0) c->y = c->mon->my + (int)((float)c->mon->mh * r->floaty);
-                    if (r->floatw >= 0) c->w = (int)((float)c->mon->mw * r->floatw);
-                    if (r->floath >= 0) c->h = (int)((float)c->mon->mh * r->floath);
-                }
-            }
-    }
-    if (ch.res_class)
-        XFree(ch.res_class);
-    if (ch.res_name)
-        XFree(ch.res_name);
-    c->tags = c->tags & TAGMASK ? c->tags & TAGMASK : c->mon->tagset[c->mon->seltags];
+	for (i = 0; i < LENGTH(rules); i++) {
+		r = &rules[i];
+		if ((!r->title || strstr(c->name, r->title))
+			&& (!r->class || strstr(class, r->class))
+			&& (!r->instance || strstr(instance, r->instance)))
+			{
+				c->isfloating = r->isfloating;
+				c->tags |= r->tags;
+				for (m = mons; m && m->num != r->monitor; m = m->next);
+				if (m)
+					c->mon = m;
+
+				if(c->isfloating){
+					if (r->floatx >= 0) c->x = c->mon->mx + (int)((float)c->mon->mw * r->floatx);
+					if (r->floaty >= 0) c->y = c->mon->my + (int)((float)c->mon->mh * r->floaty);
+					if (r->floatw >= 0) c->w = (int)((float)c->mon->mw * r->floatw);
+					if (r->floath >= 0) c->h = (int)((float)c->mon->mh * r->floath);
+				}
+			}
+	}
+	if (ch.res_class)
+		XFree(ch.res_class);
+	if (ch.res_name)
+		XFree(ch.res_name);
+	c->tags = c->tags & TAGMASK ? c->tags & TAGMASK : c->mon->tagset[c->mon->seltags];
 }
 
 int
@@ -1167,8 +1168,9 @@ keypress(XEvent *e)
         currentkey++;
         if(w == 0 || ran == 1)
             break;
-        while (running && !XNextEvent(dpy, &event) && !ran)
-            if(event.type == KeyPress)
+		grabkeys();
+		while (running && !XNextEvent(dpy, &event) && !ran)
+			if(event.type == KeyPress)
                 break;
         r = w;
         Keychord **holder = rpointer;
@@ -1176,6 +1178,7 @@ keypress(XEvent *e)
         wpointer = holder;
     }
     currentkey = 0;
+	grabkeys();
 }
 
 
@@ -1977,8 +1980,6 @@ setup(void)
     /*	setup epoll for IPC */
     setupepoll();
 
-    /*	autostart */
-	autostart();
 
 	/* init screen */
 	screen = DefaultScreen(dpy);
@@ -2038,6 +2039,8 @@ setup(void)
     XSelectInput(dpy, root, wa.event_mask);
     grabkeys();
     focus(NULL);
+    /*	autostart */
+	autostart();
 }
 
 void
