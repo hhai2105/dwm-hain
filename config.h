@@ -80,6 +80,7 @@ static const Rule rules[] = {
     {"pinentry-gtk-2",          NULL,            NULL,         0,              1,        -1,-1,-1,-1,            -1},
     {"splash",                  NULL,            NULL,         0,              1,        -1,-1,-1,-1,            -1},
     {"toolbar",                 NULL,            NULL,         0,              1,        -1,-1,-1,-1,            -1},
+    {"Gcr-prompter",            NULL,            NULL,         0,			   1,        -1,-1,-1,-1,            -1},
     {"Firefox",                 NULL,            NULL,         1 << 3,         0,        -1,-1,-1,-1,            -1},
     {"qutebrowser",             NULL,            NULL,         1 << 3,         0,        -1,-1,-1,-1,            -1},
     {"Google-chrome",           NULL,            NULL,         1 << 3,         0,        -1,-1,-1,-1,            -1},
@@ -88,7 +89,6 @@ static const Rule rules[] = {
     {"Mail",                    NULL,            NULL,         1 << 5,         0,        -1,-1,-1,-1,            -1},
     {"thunderbird",             NULL,            NULL,         1 << 5,         0,        -1,-1,-1,-1,            -1},
     {"Mailspring",              NULL,            NULL,         1 << 5,         0,        -1,-1,-1,-1,            -1},
-    {"Gcr-prompter",            NULL,            NULL,         0,			   1,        -1,-1,-1,-1,            -1},
     {"mpv",                     NULL,            NULL,         1 << 7,         0,        -1,-1,-1,-1,            -1},
     {"Gimp",                    NULL,            NULL,         1 << 2,         0,        -1,-1,-1,-1,            -1},
     {"Write",                   NULL,            NULL,         1 << 2,         0,        -1,-1,-1,-1,            -1},
@@ -153,7 +153,7 @@ static const char *termcmd[]  = {"alacritty", NULL};
 static const char *emacs[] = {"emacsclient", "-c", "-a", "\"emacs\"", NULL};
 static const char *rofi[] = { "rofi", "-show", "run", NULL};
 static const char *browser[] = { "google-chrome-stable", NULL};
-static const char *email[] = { "thunderbird", NULL};
+static const char *email[] = { "mailspring", NULL};
 static const char *note[] = { "xournalpp", NULL};
 
 /* rofi */
