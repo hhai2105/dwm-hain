@@ -168,6 +168,7 @@ static const char *bluetooth[] = {"/home/hain/.scripts/rofi/rofi-bluetooth/bluet
 static const char *music[] = {"/home/hain/.scripts/rofi/rofi-music/music.sh", NULL};
 static const char *wacom[] = {"/home/hain/.scripts/rofi/wacom", NULL};
 static const char *logout[] = {"/home/hain/.scripts/rofi/logout", NULL};
+static const char *killscript[] = {"/home/hain/.scripts/rofi/killscript", NULL};
 
 /* multimedia  */
 static const char *mediaplaypause[] = {"playerctl", "play-pause", NULL};
