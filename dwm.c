@@ -2185,7 +2185,7 @@ showhide(Client *c)
 	} else {
 		/* hide clients bottom up */
 		showhide(c->snext);
-		XMoveWindow(dpy, c->win, c->mon->wx + c->mon->ww / 2 - WIDTH(c) / 2, c->mon->wy + c->mon->wh);
+		XMoveWindow(dpy, c->win, c->mon->wx + c->mon->ww / 2 - WIDTH(c) / 2, c->mon->wy + 2 * c->mon->wh);
 		/* XMoveWindow(dpy, c->win, WIDTH(c) * -2, c->y); */
 	}
 }
