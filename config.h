@@ -85,18 +85,17 @@ static const Rule rules[] = {
     {"qutebrowser",             NULL,            NULL,         1 << 3,         0,        -1,-1,-1,-1,            -1},
     {"Google-chrome",           NULL,            NULL,         1 << 3,         0,        -1,-1,-1,-1,            -1},
     {"Gimp",                    NULL,            NULL,         0,              1,        -1,-1,-1,-1,            -1},
-    {"zoom",                    NULL,            NULL,         1 << 3,         0,        -1,-1,-1,-1,            -1},
-    {"Mail",                    NULL,            NULL,         1 << 5,         0,        -1,-1,-1,-1,            -1},
-    {"thunderbird",             NULL,            NULL,         1 << 5,         0,        -1,-1,-1,-1,            -1},
-    {"Mailspring",              NULL,            NULL,         1 << 5,         0,        -1,-1,-1,-1,            -1},
+    {"Zoom",                    NULL,            NULL,         1 << 3,         0,        -1,-1,-1,-1,            -1},
+    {"thunderbird",             NULL,            NULL,         0,              0,        -1,-1,-1,-1,            -1},
+    {"Mailspring",              NULL,            NULL,         0,              0,        -1,-1,-1,-1,            -1},
+    {"discord",                 NULL,            NULL,         0,              0,        -1,-1,-1,-1,            -1},
+    {"Slack",                   NULL,            NULL,         0,              0,        -1,-1,-1,-1,            -1},
     {"mpv",                     NULL,            NULL,         1 << 7,         0,        -1,-1,-1,-1,            -1},
     {"Gimp",                    NULL,            NULL,         1 << 2,         0,        -1,-1,-1,-1,            -1},
     {"Write",                   NULL,            NULL,         1 << 2,         0,        -1,-1,-1,-1,            -1},
     {"Xournalpp",               NULL,            NULL,         1 << 2,         0,        -1,-1,-1,-1,            -1},
     {NULL,                      NULL,            "scratchpad", 1,              1,        .05,.05,.9,.9,          -1},
     {"Qalculate-gtk",           NULL,            NULL,         0,              1,        .25,.25,.4,.2,          -1},
-    {"discord",                 NULL,            NULL,         0,              1,        .05,.05,.9,.9,          -1},
-    {"Slack",                   NULL,            NULL,         0,              1,        .05,.05,.9,.9,          -1},
     {"Bitwarden",               NULL,            NULL,         0,              1,        .5,.05,.4,.9,           -1},
     {"firefox",                 NULL,            NULL,         0,              1,        .05,.05,.9,.9,          -1},
     {"Brave-browser",           NULL,            NULL,         0,              1,        .05,.05,.9,.9,          -1},
@@ -155,7 +154,9 @@ static const char *rofi[] = { "rofi", "-show", "run", NULL};
 static const char *browser[] = { "google-chrome-stable", NULL};
 static const char *email[] = { "mailspring", NULL};
 static const char *note[] = { "xournalpp", NULL};
-
+static const char *calendar[] = {"google-calendar-nativefier", NULL};;
+static const char *discord[] = {"discord", NULL};
+static const char *slack[] = {"slack", NULL};
 /* rofi */
 
 static const char *autorandr[] = {"/home/hain/.scripts/rofi/display", NULL};
@@ -188,8 +189,6 @@ static const char *printscreenall[] = {"/home/hain/.scripts/system/print-screen"
 /* scratchpad */
 static const scratchpad scratchterm = {.title = "scratchpad", .v = (char *[]){"alacritty", "-t", "scratchpad",NULL}};
 static const scratchpad qalculate = {.class = "Qalculate-gtk", .v = (char *[]){"qalculate-gtk", NULL}};
-static const scratchpad discord = {.class = "discord", .v = (char *[]){"discord", NULL}};
-static const scratchpad slack = {.class = "Slack", .v = (char *[]){"slack", NULL}};
 static const scratchpad bitwarden = {.class = "Bitwarden", .v = (char *[]){"bitwarden-desktop", NULL}};
 static const scratchpad firefox = {.class = "firefox", .v = (char *[]){"firefox", NULL}};
 static const scratchpad brave = {.class = "Brave-browser", .v = (char *[]){"brave", NULL}};
@@ -207,6 +206,9 @@ static Keychord *keychords[] = {
     &((Keychord){1, {{ControlMask|AltMask,XK_w}},                                        spawn,                          {.v = browser } }),
     &((Keychord){1, {{ControlMask|AltMask,XK_n}},                                        spawn,                          {.v = note } }),
     &((Keychord){1, {{ControlMask|AltMask,XK_m}},                                        spawn,                          {.v = email } }),
+    &((Keychord){1, {{ControlMask|AltMask,XK_d}},                                        spawn,                          {.v = discord } }),
+    &((Keychord){1, {{ControlMask|AltMask,XK_s}},                                        spawn,                          {.v = slack } }),
+    &((Keychord){1, {{ControlMask|AltMask,XK_c}},                                        spawn,                          {.v = calendar } }),
     /* Scripts */
 
     &((Keychord){2, {{WindowMask, XK_p}, {WindowMask, XK_p}},                            spawn,                          {.v = autorandr}}),
@@ -256,14 +258,10 @@ static Keychord *keychords[] = {
     &((Keychord){2, {{ControlMask,XK_s},{0, XK_c}},                                      togglescratch,          {.v = &qalculate } }),
     &((Keychord){2, {{ControlMask,XK_s},{ControlMask, XK_p}},                            togglescratch,          {.v = &bitwarden } }),
     &((Keychord){2, {{ControlMask,XK_s},{0, XK_p}},                                      togglescratch,          {.v = &bitwarden } }),
-    &((Keychord){2, {{ControlMask,XK_s},{ControlMask, XK_d}},                            togglescratch,          {.v = &discord } }),
-    &((Keychord){2, {{ControlMask,XK_s},{0, XK_d}},                                      togglescratch,          {.v = &discord } }),
     &((Keychord){2, {{ControlMask,XK_s},{ControlMask, XK_t}},                            togglescratch,          {.v = &scratchterm } }),
     &((Keychord){2, {{ControlMask,XK_s},{0, XK_t}},                                      togglescratch,          {.v = &scratchterm } }),
     &((Keychord){2, {{ControlMask,XK_s},{ControlMask, XK_b}},                            togglescratch,          {.v = &brave } }),
     &((Keychord){2, {{ControlMask,XK_s},{0, XK_b}},                                      togglescratch,          {.v = &brave } }),
-    &((Keychord){2, {{ControlMask,XK_s},{ControlMask, XK_s}},                            togglescratch,          {.v = &slack } }),
-    &((Keychord){2, {{ControlMask,XK_s},{0, XK_s}},                                      togglescratch,          {.v = &slack } }),
 
     /*Layout*/
     &((Keychord){1, {{WindowMask,XK_b}},                                                 togglebar,                      {0} }),
