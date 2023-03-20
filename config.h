@@ -152,9 +152,7 @@ static const char *termcmd[]  = {"alacritty", NULL};
 static const char *emacs[] = {"emacsclient", "-c", "-a", "\"emacs\"", NULL};
 static const char *rofi[] = { "rofi", "-show", "run", NULL};
 static const char *browser[] = { "google-chrome-stable", NULL};
-static const char *email[] = { "mailspring", NULL};
 static const char *note[] = { "xournalpp", NULL};
-static const char *calendar[] = {"google-calendar-nativefier", NULL};;
 static const char *discord[] = {"discord", NULL};
 static const char *slack[] = {"slack", NULL};
 /* rofi */
@@ -193,7 +191,9 @@ static const scratchpad bitwarden = {.class = "Bitwarden", .v = (char *[]){"bitw
 static const scratchpad firefox = {.class = "firefox", .v = (char *[]){"firefox", NULL}};
 static const scratchpad brave = {.class = "Brave-browser", .v = (char *[]){"brave", NULL}};
 
-
+/* single-window application */
+static const scratchpad email = {.class = "Mailspring", .v = (char *[]){"mailspring", NULL}};
+static const scratchpad calendar = {.class = "googlecalendar-nativefier-e22938", .v = (char *[]){"google-calendar-nativefier", NULL}};
 
 #include "focusurgent.c"
 #include "movestack.c"
@@ -205,10 +205,14 @@ static Keychord *keychords[] = {
     &((Keychord){1, {{ControlMask|AltMask,XK_e}},                                        spawn,                          {.v = emacs } }),
     &((Keychord){1, {{ControlMask|AltMask,XK_w}},                                        spawn,                          {.v = browser } }),
     &((Keychord){1, {{ControlMask|AltMask,XK_n}},                                        spawn,                          {.v = note } }),
-    &((Keychord){1, {{ControlMask|AltMask,XK_m}},                                        spawn,                          {.v = email } }),
     &((Keychord){1, {{ControlMask|AltMask,XK_d}},                                        spawn,                          {.v = discord } }),
     &((Keychord){1, {{ControlMask|AltMask,XK_s}},                                        spawn,                          {.v = slack } }),
-    &((Keychord){1, {{ControlMask|AltMask,XK_c}},                                        spawn,                          {.v = calendar } }),
+
+	/* single-window application */
+
+    &((Keychord){1, {{ControlMask|AltMask,XK_c}},                                        showspawned,					 {.v = &calendar } }),
+    &((Keychord){1, {{ControlMask|AltMask,XK_m}},                                        showspawned,					 {.v = &email } }),
+
     /* Scripts */
 
     &((Keychord){2, {{WindowMask, XK_p}, {WindowMask, XK_p}},                            spawn,                          {.v = autorandr}}),

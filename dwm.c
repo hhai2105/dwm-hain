@@ -268,6 +268,7 @@ static void togglefullscreen();
 static void toggletag(const Arg *arg);
 static void toggleview(const Arg *arg);
 static void togglescratch(const Arg *arg);
+static void showspawned(const Arg *arg);
 static void unfocus(Client *c, int setfocus);
 static void unmanage(Client *c, int destroyed);
 static void unmanagealtbar(Window w);
@@ -2263,6 +2264,40 @@ togglescratch(const Arg *arg)
 			restack(selmon);
 			focus(c);
 		}
+	} else{
+		spawn(&((Arg){.v = ((scratchpad *)arg->v)->v}));
+	}
+}
+
+void
+showspawned(const Arg *arg)
+{
+	Client *c;
+	char found = 0;
+	Monitor *m;
+	for(m = mons; m; m = m->next){
+		for (c = m->clients; c; c = c->next){
+			const char *class;
+			XClassHint ch = { NULL, NULL };
+			XGetClassHint(dpy, c->win, &ch);
+			class = ch.res_class ? ch.res_class : broken;
+			found = (((char *)((scratchpad *)arg->v)->class != NULL) && strcmp(class,(char *)((scratchpad *)arg->v)->class) == 0) || (((char *)((scratchpad *)arg->v)->title != NULL) && strcmp(c->name, (char *)((scratchpad *)arg->v)->title) == 0);
+			if(found){
+				break;
+			}
+		}
+		if(found){
+			break;
+		}
+	}
+	if (found) {
+		if(m != selmon)
+			sendmon(c, selmon);
+		c->tags = selmon->tagset[selmon->seltags];
+		applyrules(c);
+		arrange(selmon);
+		restack(selmon);
+		focus(c);
 	} else{
 		spawn(&((Arg){.v = ((scratchpad *)arg->v)->v}));
 	}
