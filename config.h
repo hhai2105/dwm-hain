@@ -154,7 +154,6 @@ static const char *rofi[] = { "rofi", "-show", "run", NULL};
 static const char *browser[] = { "google-chrome-stable", NULL};
 static const char *note[] = { "xournalpp", NULL};
 static const char *discord[] = {"discord", NULL};
-static const char *slack[] = {"slack", NULL};
 /* rofi */
 
 static const char *autorandr[] = {"/home/hain/.scripts/rofi/display", NULL};
@@ -194,6 +193,7 @@ static const scratchpad brave = {.class = "Brave-browser", .v = (char *[]){"brav
 /* single-window application */
 static const scratchpad email = {.class = "Mailspring", .v = (char *[]){"mailspring", NULL}};
 static const scratchpad calendar = {.class = "googlecalendar-nativefier-e22938", .v = (char *[]){"google-calendar-nativefier", NULL}};
+static const scratchpad slack = {.class = "Slack", .v = (char *[]){"slack", NULL}};
 
 #include "focusurgent.c"
 #include "movestack.c"
@@ -206,12 +206,12 @@ static Keychord *keychords[] = {
     &((Keychord){1, {{ControlMask|AltMask,XK_w}},                                        spawn,                          {.v = browser } }),
     &((Keychord){1, {{ControlMask|AltMask,XK_n}},                                        spawn,                          {.v = note } }),
     &((Keychord){1, {{ControlMask|AltMask,XK_d}},                                        spawn,                          {.v = discord } }),
-    &((Keychord){1, {{ControlMask|AltMask,XK_s}},                                        spawn,                          {.v = slack } }),
 
 	/* single-window application */
 
     &((Keychord){1, {{ControlMask|AltMask,XK_c}},                                        showspawned,					 {.v = &calendar } }),
     &((Keychord){1, {{ControlMask|AltMask,XK_m}},                                        showspawned,					 {.v = &email } }),
+    &((Keychord){1, {{ControlMask|AltMask,XK_s}},                                        showspawned,					 {.v = &slack } }),
 
     /* Scripts */
 
