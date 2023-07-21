@@ -154,6 +154,7 @@ static const char *rofi[] = { "rofi", "-show", "run", NULL};
 static const char *browser[] = { "google-chrome-stable", NULL};
 static const char *note[] = { "xournalpp", NULL};
 static const char *discord[] = {"discord", NULL};
+static const char *mouse[] = {"xmouseless", NULL};
 
 /* Scripts */
 static const char *autorandr[] = {"/home/hain/.scripts/rofi/display", NULL};
@@ -206,6 +207,7 @@ static Keychord *keychords[] = {
 	&((Keychord){1, {{ControlMask|AltMask,XK_w}},										 spawn,							 {.v = browser } }),
 	&((Keychord){1, {{ControlMask|AltMask,XK_n}},										 spawn,							 {.v = note } }),
 	&((Keychord){1, {{ControlMask|AltMask,XK_d}},										 spawn,							 {.v = discord } }),
+	&((Keychord){1, {{ControlMask|AltMask,XK_i}},										 spawn,							 {.v = mouse } }),
 
 	/* single-window application */
 
