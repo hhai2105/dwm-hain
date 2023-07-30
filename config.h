@@ -99,6 +99,7 @@ static const Rule rules[] = {
 	{"Qalculate-gtk",			NULL,			 NULL,		   0,			   1,		 .25,.25,.4,.2,			 -1},
 	{"Bitwarden",				NULL,			 NULL,		   0,			   1,		 .5,.05,.4,.9,			 -1},
 	{"Brave-browser",			NULL,			 NULL,		   0,			   1,		 .05,.05,.9,.9,			 -1},
+	{"Peek",					NULL,			 NULL,		   0,			   1,		 .05,.05,.9,.9,			 -1},
 
 };
 
@@ -155,6 +156,7 @@ static const char *browser[] = { "google-chrome-stable", NULL};
 static const char *note[] = { "xournalpp", NULL};
 static const char *discord[] = {"discord", NULL};
 static const char *mouse[] = {"xmouseless", NULL};
+static const char *peek[] = {"peek", NULL};
 
 /* Scripts */
 static const char *autorandr[] = {"/home/hain/.scripts/rofi/display", NULL};
@@ -258,7 +260,7 @@ static Keychord *keychords[] = {
 	&((Keychord){1, {{0,XK_Print}},														 spawn,							 {.v = printscreencrop}}),
 	&((Keychord){1, {{WindowMask,XK_Print}},											 spawn,							 {.v = printscreenwindow}}),
 	&((Keychord){1, {{ControlMask,XK_Print}},											 spawn,							 {.v = printscreenmonitor}}),
-	&((Keychord){1, {{WindowMask|ShiftMask,XK_Print}},									 spawn,							 {.v = printscreenall}}),
+	&((Keychord){1, {{WindowMask|ShiftMask,XK_Print}},									 spawn,							 {.v = peek}}),
 
 	/*Scratchpad*/
 	&((Keychord){2, {{ControlMask,XK_s},{ControlMask, XK_c}},							 togglescratch,			 {.v = &qalculate } }),
