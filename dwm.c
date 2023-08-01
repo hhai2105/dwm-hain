@@ -942,6 +942,8 @@ focus(Client *c)
 	if(selmon->sel){
 		XRaiseWindow(dpy, selmon->sel->win);
 	}
+	if (selmon->lt[selmon->sellt]->arrange == monocle)
+		arrangemon(selmon);
 	drawbars();
 }
 
@@ -1377,8 +1379,16 @@ monocle(Monitor *m)
 			n++;
 	if (n > 0) /* override layout symbol */
 		snprintf(m->ltsymbol, sizeof m->ltsymbol, "[%d]", n);
-	for (c = nexttiled(m->clients); c; c = nexttiled(c->next))
+	for (c = m->stack; c && (!ISVISIBLE(c) || c->isfloating); c = c->snext);
+	if (c && !c->isfloating) {
+		XMoveWindow(dpy, c->win, m->wx, m->wy);
 		resize(c, m->wx, m->wy, m->ww - 2 * c->bw, m->wh - 2 * c->bw, 0);
+		c = c->snext;
+	}
+	for (; c; c = c->snext)
+		if (!c->isfloating && ISVISIBLE(c))
+			XMoveWindow(dpy, c->win, c->mon->wx + c->mon->ww / 2 - WIDTH(c) / 2, c->mon->wy + 2 * c->mon->wh);
+
 }
 
 void
@@ -1860,8 +1870,6 @@ scantray(void)
 		XFree(wins);
 }
 
-
-
 void
 sendmon(Client *c, Monitor *m)
 {
@@ -1885,8 +1893,6 @@ setcurrentdesktop(void){
 	XChangeProperty(dpy, root, netatom[NetCurrentDesktop], XA_CARDINAL, 32,
 					PropModeReplace, (unsigned char *)data, 1);
 }
-
-
 
 void
 setclientstate(Client *c, long state)
@@ -1935,9 +1941,23 @@ setfocus(Client *c)
 }
 
 void
+hideunselect(Monitor *m){
+	Client *c;
+	for (c = m->stack; c && (!ISVISIBLE(c) || c->isfloating); c = c->snext);
+	if (c && !c->isfloating) {
+		c = c->snext;
+	}
+	for (; c; c = c->snext)
+		if (!c->isfloating && ISVISIBLE(c))
+			XMoveWindow(dpy, c->win, c->mon->wx + c->mon->ww / 2 - WIDTH(c) / 2, c->mon->wy + 2 * c->mon->wh);
+
+}
+
+void
 setfullscreen(Client *c, int fullscreen)
 {
 	if (fullscreen && !c->isfullscreen) {
+		hideunselect(c->mon);
 		XChangeProperty(dpy, c->win, netatom[NetWMState], XA_ATOM, 32,
 						PropModeReplace, (unsigned char*)&netatom[NetWMFullscreen], 1);
 		c->isfullscreen = 1;
