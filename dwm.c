@@ -186,7 +186,8 @@ typedef struct {
 static void applyrules(Client *c);
 static int applysizehints(Client *c, int *x, int *y, int *w, int *h, int interact);
 static void arrange(Monitor *m);
-static void arrangemon(Monitor *m);
+static void
+arrangemon(Monitor *m);
 static void attach(Client *c);
 static void attachstack(Client *c);
 static void buttonpress(XEvent *e);
@@ -245,6 +246,7 @@ static int sendevent(Client *c, Atom proto);
 static void sendmon(Client *c, Monitor *m);
 static void setclientstate(Client *c, long state);
 static void setfocus(Client *c);
+static void hideunselect(Monitor *m);
 static void setfullscreen(Client *c, int fullscreen);
 static void setlayout(const Arg *arg);
 static void setlayoutsafe(const Arg *arg);
@@ -1961,17 +1963,14 @@ setfullscreen(Client *c, int fullscreen)
 		XChangeProperty(dpy, c->win, netatom[NetWMState], XA_ATOM, 32,
 						PropModeReplace, (unsigned char*)&netatom[NetWMFullscreen], 1);
 		c->isfullscreen = 1;
-		c->oldstate = c->isfloating;
 		c->oldbw = c->bw;
 		c->bw = 0;
-		c->isfloating = 1;
 		resizeclient(c, c->mon->mx, c->mon->my, c->mon->mw, c->mon->mh);
 		XRaiseWindow(dpy, c->win);
 	} else if (!fullscreen && c->isfullscreen){
 		XChangeProperty(dpy, c->win, netatom[NetWMState], XA_ATOM, 32,
 						PropModeReplace, (unsigned char*)0, 0);
 		c->isfullscreen = 0;
-		c->isfloating = c->oldstate;
 		c->bw = c->oldbw;
 		c->x = c->oldx;
 		c->y = c->oldy;
@@ -2592,9 +2591,8 @@ updateclientlist()
 void
 updatecurrentdesktop(){
 	long data[] = { selmon->tagset[selmon->seltags] };
-	        
-			XChangeProperty(dpy, root, netatom[NetCurrentDesktop], XA_CARDINAL, 32,
-								PropModeReplace, (unsigned char *)data, 1);
+	XChangeProperty(dpy, root, netatom[NetCurrentDesktop], XA_CARDINAL, 32,
+					PropModeReplace, (unsigned char *)data, 1);
 }
 
 int
@@ -2819,8 +2817,8 @@ view(const Arg *arg)
 	selmon->lt[selmon->sellt^1] = selmon->pertag->ltidxs[selmon->pertag->curtag][selmon->sellt^1];
 	if (selmon->showbar != selmon->pertag->showbars[selmon->pertag->curtag])
 		togglebar(NULL);
-	focus(NULL);
 	arrange(selmon);
+	focus(NULL);
     updatecurrentdesktop();
 }
 
