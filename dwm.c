@@ -257,6 +257,7 @@ static void setup(void);
 static void setupepoll(void);
 static void seturgent(Client *c, int urg);
 static void showhide(Client *c);
+static void toggleshow(Client *c, int show);
 static void spawn(const Arg *arg);
 static void spawnbar();
 static void tag(const Arg *arg);
@@ -946,6 +947,9 @@ focus(Client *c)
 	}
 	if (selmon->lt[selmon->sellt]->arrange == monocle)
 		arrangemon(selmon);
+	if (fsv){
+		hideunselect(selmon);
+	}
 	drawbars();
 }
 
@@ -1946,13 +1950,9 @@ void
 hideunselect(Monitor *m){
 	Client *c;
 	for (c = m->stack; c && (!ISVISIBLE(c) || c->isfloating); c = c->snext);
-	if (c && !c->isfloating) {
-		c = c->snext;
-	}
 	for (; c; c = c->snext)
 		if (!c->isfloating && ISVISIBLE(c))
-			XMoveWindow(dpy, c->win, c->mon->wx + c->mon->ww / 2 - WIDTH(c) / 2, c->mon->wy + 2 * c->mon->wh);
-
+			toggleshow(c, 0);
 }
 
 void
@@ -1963,14 +1963,17 @@ setfullscreen(Client *c, int fullscreen)
 		XChangeProperty(dpy, c->win, netatom[NetWMState], XA_ATOM, 32,
 						PropModeReplace, (unsigned char*)&netatom[NetWMFullscreen], 1);
 		c->isfullscreen = 1;
+		c->oldstate = c->isfloating;
 		c->oldbw = c->bw;
 		c->bw = 0;
+		c->isfloating = 1;
 		resizeclient(c, c->mon->mx, c->mon->my, c->mon->mw, c->mon->mh);
 		XRaiseWindow(dpy, c->win);
 	} else if (!fullscreen && c->isfullscreen){
 		XChangeProperty(dpy, c->win, netatom[NetWMState], XA_ATOM, 32,
 						PropModeReplace, (unsigned char*)0, 0);
 		c->isfullscreen = 0;
+		c->isfloating = c->oldstate;
 		c->bw = c->oldbw;
 		c->x = c->oldx;
 		c->y = c->oldy;
@@ -2204,15 +2207,27 @@ showhide(Client *c)
 		return;
 	if (ISVISIBLE(c)) {
 		/* show clients top down */
-		XMoveWindow(dpy, c->win, c->x, c->y);
-		if ((!c->mon->lt[c->mon->sellt]->arrange || c->isfloating) && !c->isfullscreen)
-			resize(c, c->x, c->y, c->w, c->h, 0);
+		toggleshow(c, 1);
 		showhide(c->snext);
 	} else {
 		/* hide clients bottom up */
 		showhide(c->snext);
-		XMoveWindow(dpy, c->win, c->mon->wx + c->mon->ww / 2 - WIDTH(c) / 2, c->mon->wy + 2 * c->mon->wh);
+		toggleshow(c, 0);
 		/* XMoveWindow(dpy, c->win, WIDTH(c) * -2, c->y); */
+	}
+}
+
+void
+toggleshow(Client *c, int show)
+{
+	if (!c)
+		return;
+	if (show) {
+		XMoveWindow(dpy, c->win, c->x, c->y);
+		if ((!c->mon->lt[c->mon->sellt]->arrange || c->isfloating) && !c->isfullscreen)
+			resize(c, c->x, c->y, c->w, c->h, 0);
+	} else {
+		XMoveWindow(dpy, c->win, c->mon->wx + c->mon->ww / 2 - WIDTH(c) / 2, c->mon->wy + 2 * c->mon->wh);
 	}
 }
 
