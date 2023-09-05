@@ -2315,8 +2315,12 @@ showspawned(const Arg *arg)
 		}
 	}
 	if (found) {
-		unfocus(selmon->sel, 0);
-		selmon = m;
+		if(m != selmon){
+			sendmon(c, selmon);
+			applyrules(c);
+			arrange(selmon);
+			restack(selmon);
+		}
 		int i;
 		for(i = 0; i < LENGTH(tags) && !((1 << i) & c->tags); i++);
 		if(i < LENGTH(tags)) {
