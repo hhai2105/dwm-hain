@@ -88,8 +88,10 @@ static const Rule rules[] = {
 	{"Gimp",					NULL,			 NULL,		   0,			   1,		 -1,-1,-1,-1,			 -1},
 	{"Zoom",					NULL,			 NULL,		   1 << 3,		   0,		 -1,-1,-1,-1,			 -1},
 	{"thunderbird",				NULL,			 NULL,		   0,			   0,		 -1,-1,-1,-1,			 -1},
-	{"Mailspring",				NULL,			 NULL,		   0,			   0,		 -1,-1,-1,-1,			 -1},
-	{"discord",					NULL,			 NULL,		   0,			   0,		 -1,-1,-1,-1,			 -1},
+	{"Mailspring",				NULL,			 NULL,		   1 << 5,         0,		 -1,-1,-1,-1,			 -1},
+	{"discord",					NULL,			 NULL,		   1 << 6,		   0,		 -1,-1,-1,-1,			 -1},
+	{"Beeper",					NULL,			 NULL,		   1 << 6,		   0,		 -1,-1,-1,-1,			 -1},
+	{"Caprine",					NULL,			 NULL,		   1 << 6,         0,		 -1,-1,-1,-1,			 -1},
 	{"Slack",					NULL,			 NULL,		   0,			   0,		 -1,-1,-1,-1,			 -1},
 	{"mpv",						NULL,			 NULL,		   1 << 7,		   0,		 -1,-1,-1,-1,			 -1},
 	{"Gimp",					NULL,			 NULL,		   1 << 2,		   0,		 -1,-1,-1,-1,			 -1},
@@ -100,7 +102,6 @@ static const Rule rules[] = {
 	{"Bitwarden",				NULL,			 NULL,		   0,			   1,		 .5,.05,.4,.9,			 -1},
 	{"Brave-browser",			NULL,			 NULL,		   0,			   1,		 .05,.05,.9,.9,			 -1},
 	{"Peek",					NULL,			 NULL,		   0,			   1,		 .05,.05,.9,.9,			 -1},
-
 };
 
 /* layout(s) */
@@ -154,7 +155,6 @@ static const char *emacs[] = {"emacsclient", "-c", "-a", "\"emacs\"", NULL};
 static const char *rofi[] = { "rofi", "-show", "run", NULL};
 static const char *browser[] = { "google-chrome-stable", NULL};
 static const char *note[] = { "xournalpp", NULL};
-static const char *discord[] = {"discord", NULL};
 static const char *peek[] = {"peek", NULL};
 
 /* Scripts */
@@ -194,8 +194,10 @@ static const scratchpad brave = {.class = "Brave-browser", .v = (char *[]){"brav
 
 /* single-window application */
 static const scratchpad email = {.class = "Mailspring", .v = (char *[]){"mailspring", NULL}};
-static const scratchpad calendar = {.class = "googlecalendar-nativefier-e22938", .v = (char *[]){"google-calendar-nativefier", NULL}};
 static const scratchpad slack = {.class = "Slack", .v = (char *[]){"slack", NULL}};
+static const scratchpad discord = {.class = "discord", .v = (char *[]){"discord", NULL}};
+static const scratchpad beeper = {.class = "Beeper", .v = (char *[]){"beeper", NULL}};
+static const scratchpad messenger = {.class = "Caprine", .v = (char *[]){"caprine", NULL}};
 
 #include "focusurgent.c"
 #include "movestack.c"
@@ -207,13 +209,14 @@ static Keychord *keychords[] = {
 	&((Keychord){1, {{ControlMask|AltMask,XK_e}},										 spawn,							 {.v = emacs } }),
 	&((Keychord){1, {{ControlMask|AltMask,XK_w}},										 spawn,							 {.v = browser } }),
 	&((Keychord){1, {{ControlMask|AltMask,XK_n}},										 spawn,							 {.v = note } }),
-	&((Keychord){1, {{ControlMask|AltMask,XK_d}},										 spawn,							 {.v = discord } }),
 
 	/* single-window application */
 
-	&((Keychord){1, {{ControlMask|AltMask,XK_c}},										 showspawned,					 {.v = &calendar } }),
 	&((Keychord){1, {{ControlMask|AltMask,XK_m}},										 showspawned,					 {.v = &email } }),
 	&((Keychord){1, {{ControlMask|AltMask,XK_s}},										 showspawned,					 {.v = &slack } }),
+	&((Keychord){1, {{ControlMask|AltMask,XK_d}},										 showspawned,					 {.v = &discord } }),
+	&((Keychord){1, {{ControlMask|AltMask,XK_b}},										 showspawned,					 {.v = &beeper } }),
+	&((Keychord){1, {{ControlMask|AltMask,XK_c}},										 showspawned,					 {.v = &messenger } }),
 
 	/* Scripts */
 

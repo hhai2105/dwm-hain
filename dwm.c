@@ -2315,13 +2315,15 @@ showspawned(const Arg *arg)
 		}
 	}
 	if (found) {
-		if(m != selmon)
-			sendmon(c, selmon);
-		c->tags = selmon->tagset[selmon->seltags];
-		applyrules(c);
-		arrange(selmon);
-		restack(selmon);
-		focus(c);
+		unfocus(selmon->sel, 0);
+		selmon = m;
+		int i;
+		for(i = 0; i < LENGTH(tags) && !((1 << i) & c->tags); i++);
+		if(i < LENGTH(tags)) {
+			const Arg a = {.ui = 1 << i};
+			view(&a);
+			focus(c);
+		}
 	} else{
 		spawn(&((Arg){.v = ((scratchpad *)arg->v)->v}));
 	}
