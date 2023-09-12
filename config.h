@@ -71,37 +71,39 @@ static const Rule rules[] = {
 
 	/* { "Gimp",	 NULL,		 NULL,		 0,			   1,			-1 }, */
 	/* class					instance		 title		   tags mask	   isfloating x, y, w, h			  monitor */
-	{"confirm",					NULL,			 NULL,		   0,			   1,		 -1,-1,-1,-1,			 -1},
-	{"file_progress",			NULL,			 NULL,		   0,			   1,		 -1,-1,-1,-1,			 -1},
-	{"dialog",					NULL,			 NULL,		   0,			   1,		 -1,-1,-1,-1,			 -1},
-	{"download",				NULL,			 NULL,		   0,			   1,		 -1,-1,-1,-1,			 -1},
-	{"error",					NULL,			 NULL,		   0,			   1,		 -1,-1,-1,-1,			 -1},
-	{"notification",			NULL,			 NULL,		   0,			   1,		 -1,-1,-1,-1,			 -1},
-	{"pinentry-gtk-2",			NULL,			 NULL,		   0,			   1,		 -1,-1,-1,-1,			 -1},
-	{"splash",					NULL,			 NULL,		   0,			   1,		 -1,-1,-1,-1,			 -1},
-	{"toolbar",					NULL,			 NULL,		   0,			   1,		 -1,-1,-1,-1,			 -1},
-	{"Gcr-prompter",			NULL,			 NULL,		   0,			   1,		 -1,-1,-1,-1,			 -1},
-	{"Firefox",					NULL,			 NULL,		   1 << 3,		   0,		 -1,-1,-1,-1,			 -1},
-	{"qutebrowser",				NULL,			 NULL,		   1 << 3,		   0,		 -1,-1,-1,-1,			 -1},
-	{"Google-chrome",			NULL,			 NULL,		   1 << 3,		   0,		 -1,-1,-1,-1,			 -1},
-	{"firefox",					NULL,			 NULL,		   1 << 3,		   0,		 -1,-1,-1,-1,			 -1},
-	{"Gimp",					NULL,			 NULL,		   0,			   1,		 -1,-1,-1,-1,			 -1},
-	{"Zoom",					NULL,			 NULL,		   1 << 3,		   0,		 -1,-1,-1,-1,			 -1},
-	{"thunderbird",				NULL,			 NULL,		   0,			   0,		 -1,-1,-1,-1,			 -1},
-	{"Mailspring",				NULL,			 NULL,		   1 << 5,         0,		 -1,-1,-1,-1,			 -1},
-	{"discord",					NULL,			 NULL,		   1 << 6,		   0,		 -1,-1,-1,-1,			 -1},
-	{"Beeper",					NULL,			 NULL,		   1 << 6,		   0,		 -1,-1,-1,-1,			 -1},
-	{"Caprine",					NULL,			 NULL,		   1 << 6,         0,		 -1,-1,-1,-1,			 -1},
-	{"Slack",					NULL,			 NULL,		   0,			   0,		 -1,-1,-1,-1,			 -1},
-	{"mpv",						NULL,			 NULL,		   1 << 7,		   0,		 -1,-1,-1,-1,			 -1},
-	{"Gimp",					NULL,			 NULL,		   1 << 2,		   0,		 -1,-1,-1,-1,			 -1},
-	{"Write",					NULL,			 NULL,		   1 << 2,		   0,		 -1,-1,-1,-1,			 -1},
-	{"Xournalpp",				NULL,			 NULL,		   1 << 2,		   0,		 -1,-1,-1,-1,			 -1},
-	{NULL,						NULL,			 "scratchpad", 1,			   1,		 .05,.05,.9,.9,			 -1},
-	{"Qalculate-gtk",			NULL,			 NULL,		   0,			   1,		 .25,.25,.4,.2,			 -1},
-	{"Bitwarden",				NULL,			 NULL,		   0,			   1,		 .5,.05,.4,.9,			 -1},
-	{"Brave-browser",			NULL,			 NULL,		   0,			   1,		 .05,.05,.9,.9,			 -1},
-	{"Peek",					NULL,			 NULL,		   0,			   1,		 .05,.05,.9,.9,			 -1},
+	{"confirm",						NULL,			 NULL,		   0,				1,		 -1,-1,-1,-1,			 -1},
+	{"file_progress",				NULL,			 NULL,		   0,				1,		 -1,-1,-1,-1,			 -1},
+	{"dialog",						NULL,			 NULL,		   0,				1,		 -1,-1,-1,-1,			 -1},
+	{"download",					NULL,			 NULL,		   0,				1,		 -1,-1,-1,-1,			 -1},
+	{"error",						NULL,			 NULL,		   0,				1,		 -1,-1,-1,-1,			 -1},
+	{"notification",				NULL,			 NULL,		   0,				1,		 -1,-1,-1,-1,			 -1},
+	{"pinentry-gtk-2",				NULL,			 NULL,		   0,				1,		 -1,-1,-1,-1,			 -1},
+	{"splash",						NULL,			 NULL,		   0,				1,		 -1,-1,-1,-1,			 -1},
+	{"toolbar",						NULL,			 NULL,		   0,				1,		 -1,-1,-1,-1,			 -1},
+	{"Gcr-prompter",				NULL,			 NULL,		   0,				1,		 -1,-1,-1,-1,			 -1},
+	{"Firefox",						NULL,			 NULL,		   1 << 3,			0,		 -1,-1,-1,-1,			 -1},
+	{"qutebrowser",					NULL,			 NULL,		   1 << 3,			0,		 -1,-1,-1,-1,			 -1},
+	{"Google-chrome",				NULL,			 NULL,		   1 << 3,			0,		 -1,-1,-1,-1,			 -1},
+	{"firefox",						NULL,			 NULL,		   1 << 3,			0,		 -1,-1,-1,-1,			 -1},
+	{"Gimp",						NULL,			 NULL,		   0,				1,		 -1,-1,-1,-1,			 -1},
+	{"Zoom",						NULL,			 NULL,		   1 << 3,			0,		 -1,-1,-1,-1,			 -1},
+	{"thunderbird",					NULL,			 NULL,		   0,				0,		 -1,-1,-1,-1,			 -1},
+	{"Mailspring",					NULL,			 NULL,		   1 << 5,			0,		 -1,-1,-1,-1,			 -1},
+	{"discord",						NULL,			 NULL,		   1 << 6,			0,		 -1,-1,-1,-1,			 -1},
+	{"Beeper",						NULL,			 NULL,		   1 << 6,			0,		 -1,-1,-1,-1,			 -1},
+	{"Caprine",						NULL,			 NULL,		   1 << 6,			0,		 -1,-1,-1,-1,			 -1},
+	{"Slack",						NULL,			 NULL,		   0,				0,		 -1,-1,-1,-1,			 -1},
+	{"mpv",							NULL,			 NULL,		   1 << 7,			0,		 -1,-1,-1,-1,			 -1},
+	{"Gimp",						NULL,			 NULL,		   1 << 2,			0,		 -1,-1,-1,-1,			 -1},
+	{"Write",						NULL,			 NULL,		   1 << 2,			0,		 -1,-1,-1,-1,			 -1},
+	{"Xournalpp",					NULL,			 NULL,		   1 << 2,			0,		 -1,-1,-1,-1,			 -1},
+	{NULL,							NULL,			 "scratchpad", 1,				1,		 .05,.05,.9,.9,			 -1},
+	{"Qalculate-gtk",				NULL,			 NULL,		   0,				1,		 .25,.25,.4,.2,			 -1},
+	{"Bitwarden",					NULL,			 NULL,		   0,				1,		 .5,.05,.4,.9,			 -1},
+	{"Brave-browser",				NULL,			 NULL,		   0,				1,		 .05,.05,.9,.9,			 -1},
+	{"Peek",						NULL,			 NULL,		   0,				1,		 .05,.05,.9,.9,			 -1},
+	{"googlecalendar-nativefier",	NULL,			 NULL,		   1 << 4,			0,		 -1,-1,-1,-1,			 -1},
+	{"todoist-nativefier",			NULL,			 NULL,		   1 << 4,			0,		 -1,-1,-1,-1,			 -1},
 };
 
 /* layout(s) */
@@ -198,6 +200,8 @@ static const scratchpad slack = {.class = "Slack", .v = (char *[]){"slack", NULL
 static const scratchpad discord = {.class = "discord", .v = (char *[]){"discord", NULL}};
 static const scratchpad beeper = {.class = "Beeper", .v = (char *[]){"beeper", NULL}};
 static const scratchpad messenger = {.class = "Caprine", .v = (char *[]){"caprine", NULL}};
+static const scratchpad task = {.class = "todoist-nativefier", .v = (char *[]){"todoist-nativefier", NULL}};
+static const scratchpad calendar = {.class = "googlecalendar-nativefier", .v = (char *[]){"google-calendar-nativefier", NULL}};
 
 #include "focusurgent.c"
 #include "movestack.c"
@@ -216,7 +220,8 @@ static Keychord *keychords[] = {
 	&((Keychord){1, {{ControlMask|AltMask,XK_s}},										 showspawned,					 {.v = &slack } }),
 	&((Keychord){1, {{ControlMask|AltMask,XK_d}},										 showspawned,					 {.v = &discord } }),
 	&((Keychord){1, {{ControlMask|AltMask,XK_b}},										 showspawned,					 {.v = &beeper } }),
-	&((Keychord){1, {{ControlMask|AltMask,XK_c}},										 showspawned,					 {.v = &messenger } }),
+	&((Keychord){1, {{ControlMask|AltMask,XK_c}},										 showspawned,					 {.v = &calendar } }),
+	&((Keychord){1, {{ControlMask|AltMask,XK_t}},										 showspawned,					 {.v = &task } }),
 
 	/* Scripts */
 

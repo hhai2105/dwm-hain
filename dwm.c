@@ -2260,19 +2260,16 @@ togglescratch(const Arg *arg)
 	char found = 0;
 	Monitor *m;
 	for(m = mons; m; m = m->next){
-		for (c = m->clients; c; c = c->next){
+		for (c = m->clients; c ; c = c->next){
 			const char *class;
 			XClassHint ch = { NULL, NULL };
 			XGetClassHint(dpy, c->win, &ch);
 			class = ch.res_class ? ch.res_class : broken;
-			found = (((char *)((scratchpad *)arg->v)->class != NULL) && strcmp(class,(char *)((scratchpad *)arg->v)->class) == 0) || (((char *)((scratchpad *)arg->v)->title != NULL) && strcmp(c->name, (char *)((scratchpad *)arg->v)->title) == 0);
-			if(found){
-				break;
-			}
+			found = ((char *)((scratchpad *)arg->v)->class && strstr(class, (char *)((scratchpad *)arg->v)->class));
+			found = found || ((char *)((scratchpad *)arg->v)->title && strstr(c->name, (char *)((scratchpad *)arg->v)->title));
+			if (found) break;
 		}
-		if(found){
-			break;
-		}
+		if (found) break;
 	}
 	if (found) {
 		if(m != selmon){
@@ -2299,20 +2296,17 @@ showspawned(const Arg *arg)
 	Client *c;
 	char found = 0;
 	Monitor *m;
-	for(m = mons; m; m = m->next){
-		for (c = m->clients; c; c = c->next){
+	for(m = mons; m && !found; m = m->next){
+		for (c = m->clients; c ; c = c->next){
 			const char *class;
 			XClassHint ch = { NULL, NULL };
 			XGetClassHint(dpy, c->win, &ch);
 			class = ch.res_class ? ch.res_class : broken;
-			found = (((char *)((scratchpad *)arg->v)->class != NULL) && strcmp(class,(char *)((scratchpad *)arg->v)->class) == 0) || (((char *)((scratchpad *)arg->v)->title != NULL) && strcmp(c->name, (char *)((scratchpad *)arg->v)->title) == 0);
-			if(found){
-				break;
-			}
+			found = ((char *)((scratchpad *)arg->v)->class && strstr(class, (char *)((scratchpad *)arg->v)->class));
+			found = found || ((char *)((scratchpad *)arg->v)->title && strstr(c->name, (char *)((scratchpad *)arg->v)->title));
+			if (found) break;
 		}
-		if(found){
-			break;
-		}
+		if (found) break;
 	}
 	if (found) {
 		if(m != selmon){
