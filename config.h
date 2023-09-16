@@ -60,7 +60,7 @@ static const char *colors[][3]		= {
 
 /* tagging */
 /* static const char *tags[] = { "dev", "sys",	"note", "www", "doc", "mail", "chat", "media", "misc"}; */
-static const char *tags[] = { "", "", "", "", "", "", "", "", ""};
+static const char *tags[] = { "", "", "", "", "", "", "", "", ""};
 
 
 static const Rule rules[] = {
@@ -104,6 +104,7 @@ static const Rule rules[] = {
 	{"Peek",						NULL,			 NULL,		   0,				1,		 .05,.05,.9,.9,			 -1},
 	{"googlecalendar-nativefier",	NULL,			 NULL,		   1 << 4,			0,		 -1,-1,-1,-1,			 -1},
 	{"todoist-nativefier",			NULL,			 NULL,		   1 << 4,			0,		 -1,-1,-1,-1,			 -1},
+	{"Chat-gpt",					NULL,			 NULL,		   1 << 8,			0,		 -1,-1,-1,-1,			 -1},
 };
 
 /* layout(s) */
@@ -202,6 +203,7 @@ static const scratchpad beeper = {.class = "Beeper", .v = (char *[]){"beeper", N
 static const scratchpad messenger = {.class = "Caprine", .v = (char *[]){"caprine", NULL}};
 static const scratchpad task = {.class = "todoist-nativefier", .v = (char *[]){"todoist-nativefier", NULL}};
 static const scratchpad calendar = {.class = "googlecalendar-nativefier", .v = (char *[]){"google-calendar-nativefier", NULL}};
+static const scratchpad chatgpt = {.class = "Chat-gpt", .v = (char *[]){"chat-gpt", NULL}};
 
 #include "focusurgent.c"
 #include "movestack.c"
@@ -221,7 +223,8 @@ static Keychord *keychords[] = {
 	&((Keychord){1, {{ControlMask|AltMask,XK_d}},										 showspawned,					 {.v = &discord } }),
 	&((Keychord){1, {{ControlMask|AltMask,XK_b}},										 showspawned,					 {.v = &beeper } }),
 	&((Keychord){1, {{ControlMask|AltMask,XK_c}},										 showspawned,					 {.v = &calendar } }),
-	&((Keychord){1, {{ControlMask|AltMask,XK_t}},										 showspawned,					 {.v = &task } }),
+	&((Keychord){1, {{ControlMask|AltMask,XK_c}},										 showspawned,					 {.v = &task } }),
+	&((Keychord){1, {{ControlMask|AltMask,XK_o}},										 showspawned,					 {.v = &chatgpt } }),
 
 	/* Scripts */
 
