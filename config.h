@@ -71,40 +71,41 @@ static const Rule rules[] = {
 
 	/* { "Gimp",	 NULL,		 NULL,		 0,			   1,			-1 }, */
 	/* class					instance		 title		   tags mask	   isfloating x, y, w, h			  monitor */
-	{"confirm",						NULL,			 NULL,		   0,				1,		 -1,-1,-1,-1,			 -1},
-	{"file_progress",				NULL,			 NULL,		   0,				1,		 -1,-1,-1,-1,			 -1},
-	{"dialog",						NULL,			 NULL,		   0,				1,		 -1,-1,-1,-1,			 -1},
-	{"download",					NULL,			 NULL,		   0,				1,		 -1,-1,-1,-1,			 -1},
-	{"error",						NULL,			 NULL,		   0,				1,		 -1,-1,-1,-1,			 -1},
-	{"notification",				NULL,			 NULL,		   0,				1,		 -1,-1,-1,-1,			 -1},
-	{"pinentry-gtk-2",				NULL,			 NULL,		   0,				1,		 -1,-1,-1,-1,			 -1},
-	{"splash",						NULL,			 NULL,		   0,				1,		 -1,-1,-1,-1,			 -1},
-	{"toolbar",						NULL,			 NULL,		   0,				1,		 -1,-1,-1,-1,			 -1},
-	{"Gcr-prompter",				NULL,			 NULL,		   0,				1,		 -1,-1,-1,-1,			 -1},
-	{"Firefox",						NULL,			 NULL,		   1 << 3,			0,		 -1,-1,-1,-1,			 -1},
-	{"qutebrowser",					NULL,			 NULL,		   1 << 3,			0,		 -1,-1,-1,-1,			 -1},
-	{"Google-chrome",				NULL,			 NULL,		   1 << 3,			0,		 -1,-1,-1,-1,			 -1},
-	{"firefox",						NULL,			 NULL,		   1 << 3,			0,		 -1,-1,-1,-1,			 -1},
-	{"Gimp",						NULL,			 NULL,		   0,				1,		 -1,-1,-1,-1,			 -1},
-	{"Zoom",						NULL,			 NULL,		   1 << 3,			0,		 -1,-1,-1,-1,			 -1},
-	{"thunderbird",					NULL,			 NULL,		   0,				0,		 -1,-1,-1,-1,			 -1},
-	{"Mailspring",					NULL,			 NULL,		   1 << 5,			0,		 -1,-1,-1,-1,			 -1},
-	{"discord",						NULL,			 NULL,		   1 << 6,			0,		 -1,-1,-1,-1,			 -1},
-	{"Beeper",						NULL,			 NULL,		   1 << 6,			0,		 -1,-1,-1,-1,			 -1},
-	{"Caprine",						NULL,			 NULL,		   1 << 6,			0,		 -1,-1,-1,-1,			 -1},
-	{"Slack",						NULL,			 NULL,		   0,				0,		 -1,-1,-1,-1,			 -1},
-	{"mpv",							NULL,			 NULL,		   1 << 7,			0,		 -1,-1,-1,-1,			 -1},
-	{"Gimp",						NULL,			 NULL,		   1 << 2,			0,		 -1,-1,-1,-1,			 -1},
-	{"Write",						NULL,			 NULL,		   1 << 2,			0,		 -1,-1,-1,-1,			 -1},
-	{"Xournalpp",					NULL,			 NULL,		   1 << 2,			0,		 -1,-1,-1,-1,			 -1},
-	{NULL,							NULL,			 "scratchpad", 1,				1,		 .05,.05,.9,.9,			 -1},
-	{"Qalculate-gtk",				NULL,			 NULL,		   0,				1,		 .25,.25,.4,.2,			 -1},
-	{"Bitwarden",					NULL,			 NULL,		   0,				1,		 .5,.05,.4,.9,			 -1},
-	{"Brave-browser",				NULL,			 NULL,		   0,				1,		 .05,.05,.9,.9,			 -1},
-	{"Peek",						NULL,			 NULL,		   0,				1,		 .05,.05,.9,.9,			 -1},
-	{"googlecalendar-nativefier",	NULL,			 NULL,		   1 << 4,			0,		 -1,-1,-1,-1,			 -1},
-	{"todoist-nativefier",			NULL,			 NULL,		   1 << 4,			0,		 -1,-1,-1,-1,			 -1},
-	{"Chat-gpt",					NULL,			 NULL,		   1 << 8,			0,		 -1,-1,-1,-1,			 -1},
+	{"confirm",						NULL,						NULL,		   0,				1,		 -1,-1,-1,-1,			 -1},
+	{"file_progress",				NULL,						NULL,		   0,				1,		 -1,-1,-1,-1,			 -1},
+	{"dialog",						NULL,						NULL,		   0,				1,		 -1,-1,-1,-1,			 -1},
+	{"download",					NULL,						NULL,		   0,				1,		 -1,-1,-1,-1,			 -1},
+	{"error",						NULL,						NULL,		   0,				1,		 -1,-1,-1,-1,			 -1},
+	{"notification",				NULL,						NULL,		   0,				1,		 -1,-1,-1,-1,			 -1},
+	{"pinentry-gtk-2",				NULL,						NULL,		   0,				1,		 -1,-1,-1,-1,			 -1},
+	{"splash",						NULL,						NULL,		   0,				1,		 -1,-1,-1,-1,			 -1},
+	{"toolbar",						NULL,						NULL,		   0,				1,		 -1,-1,-1,-1,			 -1},
+	{"Gcr-prompter",				NULL,						NULL,		   0,				1,		 -1,-1,-1,-1,			 -1},
+	{"Firefox",						NULL,						NULL,		   1 << 3,			0,		 -1,-1,-1,-1,			 -1},
+	{"qutebrowser",					NULL,						NULL,		   1 << 3,			0,		 -1,-1,-1,-1,			 -1},
+	{NULL,							"brave-browser",			NULL,		   1 << 3,			0,		 -1,-1,-1,-1,			 -1},
+	{"Google-chrome",				NULL,						NULL,		   0,				1,		 .05,.05,.9,.9,			 -1},
+	{"firefox",						NULL,						NULL,		   1 << 3,			0,		 -1,-1,-1,-1,			 -1},
+	{"Gimp",						NULL,						NULL,		   0,				1,		 -1,-1,-1,-1,			 -1},
+	{"Zoom",						NULL,						NULL,		   1 << 3,			0,		 -1,-1,-1,-1,			 -1},
+	{"thunderbird",					NULL,						NULL,		   0,				0,		 -1,-1,-1,-1,			 -1},
+	{"Mailspring",					NULL,						NULL,		   1 << 5,			0,		 -1,-1,-1,-1,			 -1},
+	{"discord",						NULL,						NULL,		   1 << 6,			0,		 -1,-1,-1,-1,			 -1},
+	{"Beeper",						NULL,						NULL,		   1 << 6,			0,		 -1,-1,-1,-1,			 -1},
+	{NULL,							"www.messenger.com",		NULL,		   1 << 6,			0,		 -1,-1,-1,-1,			 -1},
+	{"Slack",						NULL,						NULL,		   0,				0,		 -1,-1,-1,-1,			 -1},
+	{"mpv",							NULL,						NULL,		   1 << 7,			0,		 -1,-1,-1,-1,			 -1},
+	{"Gimp",						NULL,						NULL,		   1 << 2,			0,		 -1,-1,-1,-1,			 -1},
+	{"Write",						NULL,						NULL,		   1 << 2,			0,		 -1,-1,-1,-1,			 -1},
+	{"Xournalpp",					NULL,						NULL,		   1 << 2,			0,		 -1,-1,-1,-1,			 -1},
+	{NULL,							NULL,						"scratchpad", 1,				1,		 .05,.05,.9,.9,			 -1},
+	{"Qalculate-gtk",				NULL,						NULL,		   0,				1,		 .25,.25,.4,.2,			 -1},
+	{"Bitwarden",					NULL,						NULL,		   0,				1,		 .5,.05,.4,.9,			 -1},
+	{"Peek",						NULL,						NULL,		   0,				1,		 .05,.05,.9,.9,			 -1},
+	{NULL,							"www.todoist.com",			NULL,		   1 << 4,			0,		 -1,-1,-1,-1,			 -1},
+	{NULL,							"calendar.google.com",		NULL,		   1 << 4,			0,		 -1,-1,-1,-1,			 -1},
+	{NULL,							"chat.openai.com",			NULL,		   1 << 8,			0,		 -1,-1,-1,-1,			 -1},
+	{"obsidian",					NULL,						NULL,		   1 << 2,			0,		 -1,-1,-1,-1,			 -1},
 };
 
 /* layout(s) */
@@ -156,7 +157,7 @@ static const char *startingscript =	 "/home/hain/.scripts/system/autostart.sh";
 static const char *termcmd[]  = {"alacritty", NULL};
 static const char *emacs[] = {"emacsclient", "-c", "-a", "\"emacs\"", NULL};
 static const char *rofi[] = { "rofi", "-show", "run", NULL};
-static const char *browser[] = { "google-chrome-stable", NULL};
+static const char *browser[] = { "brave", NULL};
 static const char *note[] = { "xournalpp", NULL};
 static const char *peek[] = {"peek", NULL};
 
@@ -193,95 +194,97 @@ static const char *printscreenall[] = {"/home/hain/.scripts/system/print-screen"
 static const scratchpad scratchterm = {.title = "scratchpad", .v = (char *[]){"alacritty", "-t", "scratchpad",NULL}};
 static const scratchpad qalculate = {.class = "Qalculate-gtk", .v = (char *[]){"qalculate-gtk", NULL}};
 static const scratchpad bitwarden = {.class = "Bitwarden", .v = (char *[]){"bitwarden-desktop", NULL}};
-static const scratchpad brave = {.class = "Brave-browser", .v = (char *[]){"brave", NULL}};
+static const scratchpad google = {.class = "Google-chrome", .v = (char *[]){"google-chrome-stable", NULL}};
 
 /* single-window application */
-static const scratchpad email = {.class = "Mailspring", .v = (char *[]){"mailspring", NULL}};
+static const scratchpad email = {.class = "Mailspring", .v = (char *[]){"mailspring", "--password-store=gnome-libsecret", NULL}};
 static const scratchpad slack = {.class = "Slack", .v = (char *[]){"slack", NULL}};
 static const scratchpad discord = {.class = "discord", .v = (char *[]){"discord", NULL}};
 static const scratchpad beeper = {.class = "Beeper", .v = (char *[]){"beeper", NULL}};
-static const scratchpad messenger = {.class = "Caprine", .v = (char *[]){"caprine", NULL}};
-static const scratchpad task = {.class = "todoist-nativefier", .v = (char *[]){"todoist-nativefier", NULL}};
-static const scratchpad calendar = {.class = "googlecalendar-nativefier", .v = (char *[]){"google-calendar-nativefier", NULL}};
-static const scratchpad chatgpt = {.class = "Chat-gpt", .v = (char *[]){"chat-gpt", NULL}};
+static const scratchpad messenger = {.instance = "www.messenger.com", .v = (char *[]){"brave", "--app=https://www.messenger.com", NULL}};
+static const scratchpad task = {.instance = "www.todoist.com", .v = (char *[]){"brave", "--app=https://www.todoist.com", NULL}};
+static const scratchpad calendar = {.instance = "calendar.google.com", .v = (char *[]){"brave", "--app=https://calendar.google.com", NULL}};
+static const scratchpad messages = {.instance = "messages.google.com", .v = (char *[]){"brave", "--app=https://messages.google.com", NULL}};
+static const scratchpad chatgpt = {.instance = "chat.openai.com", .v = (char *[]){"brave", "--app=https://chat.openai.com", NULL}};
+static const scratchpad obsidian = {.instance = "obsidian", .v = (char *[]){"obsidian", NULL}};
 
 #include "focusurgent.c"
 #include "movestack.c"
 static Keychord *keychords[] = {
 	/* modifier		 keychord															 function							  argument */
 	/*Application*/
-	&((Keychord){1, {{WindowMask|ShiftMask, XK_Return}},								 spawn,							 {.v = rofi}}),
-	&((Keychord){1, {{WindowMask, XK_Return}},											 spawn,							 {.v = termcmd}}),
-	&((Keychord){1, {{ControlMask|AltMask,XK_e}},										 spawn,							 {.v = emacs } }),
-	&((Keychord){1, {{ControlMask|AltMask,XK_w}},										 spawn,							 {.v = browser } }),
-	&((Keychord){1, {{ControlMask|AltMask,XK_n}},										 spawn,							 {.v = note } }),
+	&((Keychord){1, {{WindowMask|ShiftMask, XK_Return}},								 spawn,							{.v = rofi}}),
+	&((Keychord){1, {{WindowMask, XK_Return}},											 spawn,							{.v = termcmd}}),
+	&((Keychord){1, {{ControlMask|AltMask,XK_e}},										 spawn,							{.v = emacs } }),
+	&((Keychord){1, {{ControlMask|AltMask,XK_w}},										 spawn,							{.v = browser } }),
 
 	/* single-window application */
 
-	&((Keychord){1, {{ControlMask|AltMask,XK_m}},										 showspawned,					 {.v = &email } }),
-	&((Keychord){1, {{ControlMask|AltMask,XK_s}},										 showspawned,					 {.v = &slack } }),
-	&((Keychord){1, {{ControlMask|AltMask,XK_d}},										 showspawned,					 {.v = &discord } }),
-	&((Keychord){1, {{ControlMask|AltMask,XK_b}},										 showspawned,					 {.v = &beeper } }),
-	&((Keychord){1, {{ControlMask|AltMask,XK_c}},										 showspawned,					 {.v = &calendar } }),
-	&((Keychord){1, {{ControlMask|AltMask,XK_c}},										 showspawned,					 {.v = &task } }),
-	&((Keychord){1, {{ControlMask|AltMask,XK_o}},										 showspawned,					 {.v = &chatgpt } }),
+	&((Keychord){1, {{ControlMask|AltMask,XK_m}},										 showspawned,					{.v = &email } }),
+	&((Keychord){1, {{ControlMask|AltMask,XK_s}},										 showspawned,					{.v = &slack } }),
+	&((Keychord){1, {{ControlMask|AltMask,XK_d}},										 showspawned,					{.v = &discord } }),
+	&((Keychord){1, {{ControlMask|AltMask,XK_b}},										 showspawned,					{.v = &beeper } }),
+	&((Keychord){1, {{ControlMask|AltMask,XK_c}},										 showspawned,					{.v = &calendar } }),
+	&((Keychord){1, {{ControlMask|AltMask,XK_c}},										 showspawned,					{.v = &task } }),
+	&((Keychord){1, {{ControlMask|AltMask,XK_a}},										 showspawned,					{.v = &chatgpt } }),
+	&((Keychord){1, {{ControlMask|AltMask,XK_o}},										 showspawned,					{.v = &obsidian } }),
 
 	/* Scripts */
 
-	&((Keychord){1, {{WindowMask, XK_Delete}},											 spawn,							 {.v = togglekeyboard}}),
-	&((Keychord){2, {{WindowMask, XK_p}, {WindowMask, XK_p}},							 spawn,							 {.v = autorandr}}),
-	&((Keychord){2, {{WindowMask, XK_p}, {0, XK_p}},									 spawn,							 {.v = autorandr}}),
-	&((Keychord){2, {{WindowMask, XK_p}, {WindowMask, XK_a}},							 spawn,							 {.v = soundcard}}),
-	&((Keychord){2, {{WindowMask, XK_p}, {0, XK_a}},									 spawn,							 {.v = soundcard}}),
-	&((Keychord){2, {{WindowMask, XK_o}, {WindowMask, XK_o}},							 spawn,							 {.v = search}}),
-	&((Keychord){2, {{WindowMask, XK_o}, {0, XK_o}},									 spawn,							 {.v = search}}),
-	&((Keychord){2, {{WindowMask, XK_o}, {WindowMask, XK_m}},							 spawn,							 {.v = quickmark}}),
-	&((Keychord){2, {{WindowMask, XK_o}, {0, XK_m}},									 spawn,							 {.v = quickmark}}),
-	&((Keychord){2, {{WindowMask, XK_o}, {WindowMask, XK_y}},							 spawn,							 {.v = youtube}}),
-	&((Keychord){2, {{WindowMask, XK_o}, {0, XK_y}},									 spawn,							 {.v = youtube}}),
-	&((Keychord){2, {{WindowMask, XK_p}, {WindowMask, XK_w}},							 spawn,							 {.v = network}}),
-	&((Keychord){2, {{WindowMask, XK_p}, {0, XK_w}},									 spawn,							 {.v = network}}),
-	&((Keychord){2, {{WindowMask, XK_p}, {WindowMask, XK_b}},							 spawn,							 {.v = bluetooth}}),
-	&((Keychord){2, {{WindowMask, XK_p}, {0, XK_b}},									 spawn,							 {.v = bluetooth}}),
-	&((Keychord){2, {{WindowMask, XK_p}, {WindowMask, XK_m}},							 spawn,							 {.v = music}}),
-	&((Keychord){2, {{WindowMask, XK_p}, {0, XK_m}},									 spawn,							 {.v = music}}),
-	&((Keychord){2, {{WindowMask, XK_p}, {WindowMask, XK_t}},							 spawn,							 {.v = wacom}}),
-	&((Keychord){2, {{WindowMask, XK_p}, {0, XK_t}},									 spawn,							 {.v = wacom}}),
-	&((Keychord){2, {{WindowMask, XK_p}, {WindowMask, XK_q}},							 spawn,							 {.v = logout}}),
-	&((Keychord){2, {{WindowMask, XK_p}, {0, XK_q}},									 spawn,							 {.v = logout}}),
-	&((Keychord){2, {{WindowMask, XK_p}, {WindowMask, XK_k}},							 spawn,							 {.v = killscript}}),
-	&((Keychord){2, {{WindowMask, XK_p}, {0, XK_k}},									 spawn,							 {.v = killscript}}),
+	&((Keychord){1, {{WindowMask, XK_Delete}},											 spawn,							{.v = togglekeyboard}}),
+	&((Keychord){2, {{WindowMask, XK_p}, {WindowMask, XK_p}},							 spawn,							{.v = autorandr}}),
+	&((Keychord){2, {{WindowMask, XK_p}, {0, XK_p}},									 spawn,							{.v = autorandr}}),
+	&((Keychord){2, {{WindowMask, XK_p}, {WindowMask, XK_a}},							 spawn,							{.v = soundcard}}),
+	&((Keychord){2, {{WindowMask, XK_p}, {0, XK_a}},									 spawn,							{.v = soundcard}}),
+	&((Keychord){2, {{WindowMask, XK_o}, {WindowMask, XK_o}},							 spawn,							{.v = search}}),
+	&((Keychord){2, {{WindowMask, XK_o}, {0, XK_o}},									 spawn,							{.v = search}}),
+	&((Keychord){2, {{WindowMask, XK_o}, {WindowMask, XK_m}},							 spawn,							{.v = quickmark}}),
+	&((Keychord){2, {{WindowMask, XK_o}, {0, XK_m}},									 spawn,							{.v = quickmark}}),
+	&((Keychord){2, {{WindowMask, XK_o}, {WindowMask, XK_y}},							 spawn,							{.v = youtube}}),
+	&((Keychord){2, {{WindowMask, XK_o}, {0, XK_y}},									 spawn,							{.v = youtube}}),
+	&((Keychord){2, {{WindowMask, XK_p}, {WindowMask, XK_w}},							 spawn,							{.v = network}}),
+	&((Keychord){2, {{WindowMask, XK_p}, {0, XK_w}},									 spawn,							{.v = network}}),
+	&((Keychord){2, {{WindowMask, XK_p}, {WindowMask, XK_b}},							 spawn,							{.v = bluetooth}}),
+	&((Keychord){2, {{WindowMask, XK_p}, {0, XK_b}},									 spawn,							{.v = bluetooth}}),
+	&((Keychord){2, {{WindowMask, XK_p}, {WindowMask, XK_m}},							 spawn,							{.v = music}}),
+	&((Keychord){2, {{WindowMask, XK_p}, {0, XK_m}},									 spawn,							{.v = music}}),
+	&((Keychord){2, {{WindowMask, XK_p}, {WindowMask, XK_t}},							 spawn,							{.v = wacom}}),
+	&((Keychord){2, {{WindowMask, XK_p}, {0, XK_t}},									 spawn,							{.v = wacom}}),
+	&((Keychord){2, {{WindowMask, XK_p}, {WindowMask, XK_q}},							 spawn,							{.v = logout}}),
+	&((Keychord){2, {{WindowMask, XK_p}, {0, XK_q}},									 spawn,							{.v = logout}}),
+	&((Keychord){2, {{WindowMask, XK_p}, {WindowMask, XK_k}},							 spawn,							{.v = killscript}}),
+	&((Keychord){2, {{WindowMask, XK_p}, {0, XK_k}},									 spawn,							{.v = killscript}}),
 
 	/*Multimedia*/
 
-	&((Keychord){1, {{0,XF86XK_AudioPlay}},												 spawn,							 {.v = mediaplaypause}}),
-	&((Keychord){1, {{WindowMask|ShiftMask, XK_slash}},									 spawn,							 {.v = mediaplaypause}}),
-	&((Keychord){1, {{0,XF86XK_AudioPrev}},												 spawn,							 {.v = mediaprev}}),
-	&((Keychord){1, {{WindowMask|ShiftMask, XK_comma}},									 spawn,							 {.v = mediaprev}}),
-	&((Keychord){1, {{0,XF86XK_AudioNext}},												 spawn,							 {.v = medianext}}),
-	&((Keychord){1, {{WindowMask|ShiftMask, XK_period}},								 spawn,							 {.v = medianext}}),
-	&((Keychord){1, {{0,XF86XK_AudioMute}},												 spawn,							 {.v = volumetoggle}}),
-	&((Keychord){1, {{0,XF86XK_AudioRaiseVolume}},										 spawn,							 {.v = volumeup}}),
-	&((Keychord){1, {{0,XF86XK_AudioLowerVolume}},										 spawn,							 {.v = volumedown}}),
-	&((Keychord){1, {{0,XF86XK_MonBrightnessUp}},										 spawn,							 {.v = brightnessup}}),
-	&((Keychord){1, {{0,XF86XK_MonBrightnessDown}},										 spawn,							 {.v = brightnessdown}}),
-	&((Keychord){1, {{0,XF86XK_HomePage}},										         spawn,							 {.v = brightnessup}}),
-	&((Keychord){1, {{0,XF86XK_Explorer}},												 spawn,							 {.v = brightnessdown}}),
-	&((Keychord){1, {{0,XF86XK_TouchpadToggle}},										 spawn,							 {.v = touchpadtoggle}}),
-	&((Keychord){1, {{0,XK_Print}},														 spawn,							 {.v = printscreencrop}}),
-	&((Keychord){1, {{WindowMask,XK_Print}},											 spawn,							 {.v = printscreenwindow}}),
-	&((Keychord){1, {{ControlMask,XK_Print}},											 spawn,							 {.v = printscreenmonitor}}),
-	&((Keychord){1, {{WindowMask|ShiftMask,XK_Print}},									 spawn,							 {.v = peek}}),
+	&((Keychord){1, {{0,XF86XK_AudioPlay}},												 spawn,							{.v = mediaplaypause}}),
+	&((Keychord){1, {{WindowMask|ShiftMask, XK_slash}},									 spawn,							{.v = mediaplaypause}}),
+	&((Keychord){1, {{0,XF86XK_AudioPrev}},												 spawn,							{.v = mediaprev}}),
+	&((Keychord){1, {{WindowMask|ShiftMask, XK_comma}},									 spawn,							{.v = mediaprev}}),
+	&((Keychord){1, {{0,XF86XK_AudioNext}},												 spawn,							{.v = medianext}}),
+	&((Keychord){1, {{WindowMask|ShiftMask, XK_period}},								 spawn,							{.v = medianext}}),
+	&((Keychord){1, {{0,XF86XK_AudioMute}},												 spawn,							{.v = volumetoggle}}),
+	&((Keychord){1, {{0,XF86XK_AudioRaiseVolume}},										 spawn,							{.v = volumeup}}),
+	&((Keychord){1, {{0,XF86XK_AudioLowerVolume}},										 spawn,							{.v = volumedown}}),
+	&((Keychord){1, {{0,XF86XK_MonBrightnessUp}},										 spawn,							{.v = brightnessup}}),
+	&((Keychord){1, {{0,XF86XK_MonBrightnessDown}},										 spawn,							{.v = brightnessdown}}),
+	&((Keychord){1, {{0,XF86XK_HomePage}},										         spawn,							{.v = brightnessup}}),
+	&((Keychord){1, {{0,XF86XK_Explorer}},												 spawn,							{.v = brightnessdown}}),
+	&((Keychord){1, {{0,XF86XK_TouchpadToggle}},										 spawn,							{.v = touchpadtoggle}}),
+	&((Keychord){1, {{0,XK_Print}},														 spawn,							{.v = printscreencrop}}),
+	&((Keychord){1, {{WindowMask,XK_Print}},											 spawn,							{.v = printscreenwindow}}),
+	&((Keychord){1, {{ControlMask,XK_Print}},											 spawn,							{.v = printscreenmonitor}}),
+	&((Keychord){1, {{WindowMask|ShiftMask,XK_Print}},									 spawn,							{.v = peek}}),
 
 	/*Scratchpad*/
-	&((Keychord){2, {{ControlMask,XK_s},{ControlMask, XK_c}},							 togglescratch,			 {.v = &qalculate } }),
-	&((Keychord){2, {{ControlMask,XK_s},{0, XK_c}},										 togglescratch,			 {.v = &qalculate } }),
-	&((Keychord){2, {{ControlMask,XK_s},{ControlMask, XK_p}},							 togglescratch,			 {.v = &bitwarden } }),
-	&((Keychord){2, {{ControlMask,XK_s},{0, XK_p}},										 togglescratch,			 {.v = &bitwarden } }),
-	&((Keychord){2, {{ControlMask,XK_s},{ControlMask, XK_t}},							 togglescratch,			 {.v = &scratchterm } }),
-	&((Keychord){2, {{ControlMask,XK_s},{0, XK_t}},										 togglescratch,			 {.v = &scratchterm } }),
-	&((Keychord){2, {{ControlMask,XK_s},{ControlMask, XK_b}},							 togglescratch,			 {.v = &brave } }),
-	&((Keychord){2, {{ControlMask,XK_s},{0, XK_b}},										 togglescratch,			 {.v = &brave } }),
+	&((Keychord){2, {{ControlMask,XK_s},{ControlMask, XK_c}},							 togglescratch,					{.v = &qalculate } }),
+	&((Keychord){2, {{ControlMask,XK_s},{0, XK_c}},										 togglescratch,					{.v = &qalculate } }),
+	&((Keychord){2, {{ControlMask,XK_s},{ControlMask, XK_p}},							 togglescratch,					{.v = &bitwarden } }),
+	&((Keychord){2, {{ControlMask,XK_s},{0, XK_p}},										 togglescratch,					{.v = &bitwarden } }),
+	&((Keychord){2, {{ControlMask,XK_s},{ControlMask, XK_t}},							 togglescratch,					{.v = &scratchterm } }),
+	&((Keychord){2, {{ControlMask,XK_s},{0, XK_t}},										 togglescratch,					{.v = &scratchterm } }),
+	&((Keychord){2, {{ControlMask,XK_s},{ControlMask, XK_b}},							 togglescratch,					{.v = &google } }),
+	&((Keychord){2, {{ControlMask,XK_s},{0, XK_b}},										 togglescratch,					{.v = &google } }),
 
 	/*Layout*/
 	&((Keychord){1, {{WindowMask,XK_b}},												 togglebar,						 {0} }),

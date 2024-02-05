@@ -99,6 +99,7 @@ typedef struct {
 
 typedef struct {
 	const char* class;
+	const char* instance;
 	const char* title;
 	const void* v;
 } scratchpad;
@@ -2306,10 +2307,13 @@ showspawned(const Arg *arg)
 	for(m = mons; m && !found; m = m->next){
 		for (c = m->clients; c ; c = c->next){
 			const char *class;
+			const char *instance;
 			XClassHint ch = { NULL, NULL };
 			XGetClassHint(dpy, c->win, &ch);
 			class = ch.res_class ? ch.res_class : broken;
+			instance = ch.res_name	? ch.res_name  : broken;
 			found = ((char *)((scratchpad *)arg->v)->class && strstr(class, (char *)((scratchpad *)arg->v)->class));
+			found = found || ((char *)((scratchpad *)arg->v)->instance && strstr(instance, (char *)((scratchpad *)arg->v)->instance));
 			found = found || ((char *)((scratchpad *)arg->v)->title && strstr(c->name, (char *)((scratchpad *)arg->v)->title));
 			if (found) break;
 		}
@@ -2504,8 +2508,7 @@ unmanage(Client *c, int destroyed)
 		XUngrabServer(dpy);
 	}
 	focus(NULL);
-	if(fullscreen)
-		togglefullscreen();
+	if(fullscreen) togglefullscreen();
 	updateclientlist();
 	arrange(m);
 }
