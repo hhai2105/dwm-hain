@@ -226,8 +226,8 @@ static Keychord *keychords[] = {
 	&((Keychord){1, {{ControlMask|AltMask,XK_b}},										 showspawned,					{.v = &beeper } }),
 	&((Keychord){1, {{ControlMask|AltMask,XK_c}},										 showspawned,					{.v = &calendar } }),
 	&((Keychord){1, {{ControlMask|AltMask,XK_c}},										 showspawned,					{.v = &task } }),
-	&((Keychord){1, {{ControlMask|AltMask,XK_a}},										 showspawned,					{.v = &chatgpt } }),
-	&((Keychord){1, {{ControlMask|AltMask,XK_o}},										 showspawned,					{.v = &obsidian } }),
+	&((Keychord){1, {{ControlMask|AltMask,XK_o}},										 showspawned,					{.v = &chatgpt } }),
+	&((Keychord){1, {{ControlMask|AltMask,XK_n}},										 showspawned,					{.v = &obsidian } }),
 
 	/* Scripts */
 
