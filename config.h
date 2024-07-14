@@ -155,7 +155,7 @@ static const char *startingscript =	 "/home/hain/.scripts/system/autostart.sh";
 
 /* Application */
 static const char *termcmd[]  = {"alacritty", NULL};
-static const char *emacs[] = {"emacsclient", "-c", "-a", "\"emacs\"", NULL};
+static const char *editor[] = {"alacritty", "-e", "nvim"};
 static const char *rofi[] = { "rofi", "-show", "run", NULL};
 static const char *browser[] = { "brave", NULL};
 static const char *note[] = { "xournalpp", NULL};
@@ -215,7 +215,7 @@ static Keychord *keychords[] = {
 	/*Application*/
 	&((Keychord){1, {{WindowMask|ShiftMask, XK_Return}},								 spawn,							{.v = rofi}}),
 	&((Keychord){1, {{WindowMask, XK_Return}},											 spawn,							{.v = termcmd}}),
-	&((Keychord){1, {{ControlMask|AltMask,XK_e}},										 spawn,							{.v = emacs } }),
+	&((Keychord){1, {{ControlMask|AltMask,XK_e}},										 spawn,							{.v = editor } }),
 	&((Keychord){1, {{ControlMask|AltMask,XK_w}},										 spawn,							{.v = browser } }),
 
 	/* single-window application */
