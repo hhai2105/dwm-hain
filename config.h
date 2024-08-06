@@ -155,7 +155,7 @@ static const char *startingscript =	 "/home/hain/.scripts/system/autostart.sh";
 
 /* Application */
 static const char *termcmd[]  = {"alacritty", NULL};
-static const char *editor[] = {"alacritty", "-e", "nvim"};
+static const char *editor[] = {"emacsclient", "-c", "-a" "'emacs'"};
 static const char *rofi[] = { "rofi", "-show", "run", NULL};
 static const char *browser[] = { "brave", NULL};
 static const char *note[] = { "xournalpp", NULL};
