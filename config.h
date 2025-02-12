@@ -213,7 +213,7 @@ static const scratchpad obsidian = {.instance = "obsidian", .v = (char *[]){"obs
 static Keychord *keychords[] = {
 	/* modifier		 keychord															 function							  argument */
 	/*Application*/
-	&((Keychord){1, {{WindowMask|ShiftMask, XK_Return}},								 spawn,							{.v = rofi}}),
+	&((Keychord){1, {{AltMask, XK_space}},								 spawn,							{.v = rofi}}),
 	&((Keychord){1, {{WindowMask, XK_Return}},											 spawn,							{.v = termcmd}}),
 	&((Keychord){1, {{ControlMask|AltMask,XK_e}},										 spawn,							{.v = editor } }),
 	&((Keychord){1, {{ControlMask|AltMask,XK_w}},										 spawn,							{.v = browser } }),
