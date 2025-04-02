@@ -106,6 +106,8 @@ static const Rule rules[] = {
 	{NULL,							"calendar.google.com",		NULL,		   1 << 4,			0,		 -1,-1,-1,-1,			 -1},
 	{NULL,							"chat.openai.com",			NULL,		   1 << 8,			0,		 -1,-1,-1,-1,			 -1},
 	{"obsidian",					NULL,						NULL,		   1 << 2,			0,		 -1,-1,-1,-1,			 -1},
+	{"Stremio",						NULL,						NULL,		   1 << 7,			0,		 -1,-1,-1,-1,			 -1},
+	{"steam",						NULL,						NULL,		   1 << 8,			0,		 -1,-1,-1,-1,			 -1},
 };
 
 /* layout(s) */
@@ -200,6 +202,8 @@ static const scratchpad google = {.class = "Google-chrome", .v = (char *[]){"goo
 static const scratchpad email = {.class = "Mailspring", .v = (char *[]){"mailspring", "--password-store=gnome-libsecret", NULL}};
 static const scratchpad slack = {.class = "Slack", .v = (char *[]){"slack", NULL}};
 static const scratchpad discord = {.class = "discord", .v = (char *[]){"discord", NULL}};
+static const scratchpad stremio = {.class = "Stremio", .v = (char *[]){"stremio", NULL}};
+static const scratchpad steam = {.class = "steam", .v = (char *[]){"steam", NULL}};
 static const scratchpad beeper = {.class = "Beeper", .v = (char *[]){"beeper", NULL}};
 static const scratchpad messenger = {.instance = "www.messenger.com", .v = (char *[]){"brave", "--app=https://www.messenger.com", NULL}};
 static const scratchpad task = {.instance = "www.todoist.com", .v = (char *[]){"brave", "--app=https://www.todoist.com", NULL}};
@@ -213,7 +217,7 @@ static const scratchpad obsidian = {.instance = "obsidian", .v = (char *[]){"obs
 static Keychord *keychords[] = {
 	/* modifier		 keychord															 function							  argument */
 	/*Application*/
-	&((Keychord){1, {{AltMask, XK_space}},								 spawn,							{.v = rofi}}),
+	&((Keychord){1, {{ControlMask, XK_space}},								 spawn,							{.v = rofi}}),
 	&((Keychord){1, {{WindowMask, XK_Return}},											 spawn,							{.v = termcmd}}),
 	&((Keychord){1, {{ControlMask|AltMask,XK_e}},										 spawn,							{.v = editor } }),
 	&((Keychord){1, {{ControlMask|AltMask,XK_w}},										 spawn,							{.v = browser } }),
@@ -221,8 +225,9 @@ static Keychord *keychords[] = {
 	/* single-window application */
 
 	&((Keychord){1, {{ControlMask|AltMask,XK_m}},										 showspawned,					{.v = &email } }),
-	&((Keychord){1, {{ControlMask|AltMask,XK_s}},										 showspawned,					{.v = &slack } }),
 	&((Keychord){1, {{ControlMask|AltMask,XK_d}},										 showspawned,					{.v = &discord } }),
+	&((Keychord){1, {{ControlMask|AltMask,XK_s}},										 showspawned,					{.v = &stremio } }),
+	&((Keychord){1, {{ControlMask|AltMask,XK_g}},										 showspawned,					{.v = &steam } }),
 	&((Keychord){1, {{ControlMask|AltMask,XK_b}},										 showspawned,					{.v = &beeper } }),
 	&((Keychord){1, {{ControlMask|AltMask,XK_c}},										 showspawned,					{.v = &calendar } }),
 	&((Keychord){1, {{ControlMask|AltMask,XK_c}},										 showspawned,					{.v = &task } }),
@@ -335,8 +340,8 @@ static Keychord *keychords[] = {
 	TAGKEYS(XK_9,														8)
 
 	/*Monitor*/
-	MONKEYS(XK_w,														0)
-	MONKEYS(XK_e,														1)
+	MONKEYS(XK_w,														1)
+	MONKEYS(XK_e,														0)
 }		;
 
 /* button definitions */
