@@ -16,7 +16,6 @@ static const char *alttrayname		= "tray";	 /* Polybar tray instance name */
 static const char *altbarcmd		= "/home/hain/.config/polybar/launch.sh"; /* Alternate bar launch command */
 static const int focusonwheel		= 0;
 static const char *fonts[]			= {
-	"",
 	"Material Design Icons:size=12",
 	"FontAwesome5Brnds:size=12",
 	"FontAwesome:size=12",
@@ -60,7 +59,8 @@ static const char *colors[][3]		= {
 
 /* tagging */
 /* static const char *tags[] = { "dev", "sys",	"note", "www", "doc", "mail", "chat", "media", "misc"}; */
-static const char *tags[] = { "", "", "", "", "", "", "", "", ""};
+// static const char *tags[] = { "", "", "", "", "", "", "", "", ""};
+static const char *tags[] = { "", "", "", "", "", "", "", "", ""};
 
 
 static const Rule rules[] = {
@@ -152,12 +152,14 @@ static const Layout layouts[] = {
 		&((Keychord){1, {{WindowMask|ShiftMask, KEY}},											tagspecificmon,		{.i = MON} }),
 /* helper for spawning shell commands in the pre dwm-5.0 fashion */
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
+#define terminal "alacritty"
 
 static const char *startingscript =	 "/home/hain/.scripts/system/autostart.sh";
 
 /* Application */
-static const char *termcmd[]  = {"alacritty", NULL};
-static const char *editor[] = {"emacsclient", "-c", "-a" "'emacs'"};
+static const char *termcmd[]  = {terminal, NULL};
+// static const char *editor[] = {"emacsclient", "-c", "-a" "'emacs'"};
+static const char *editor[] = {terminal, "-e" "nvim", NULL};
 static const char *rofi[] = { "rofi", "-show", "run", NULL};
 static const char *browser[] = { "brave", NULL};
 static const char *note[] = { "xournalpp", NULL};
@@ -193,14 +195,12 @@ static const char *printscreenmonitor[] = {"/home/hain/.scripts/system/print-scr
 static const char *printscreenall[] = {"/home/hain/.scripts/system/print-screen", "-w", NULL};
 
 /* scratchpad */
-static const scratchpad scratchterm = {.title = "scratchpad", .v = (char *[]){"alacritty", "-t", "scratchpad",NULL}};
+static const scratchpad scratchterm = {.title = "scratchpad", .v = (char *[]){terminal, "-t", "scratchpad",NULL}};
 static const scratchpad qalculate = {.class = "Qalculate-gtk", .v = (char *[]){"qalculate-gtk", NULL}};
 static const scratchpad bitwarden = {.class = "Bitwarden", .v = (char *[]){"bitwarden-desktop", NULL}};
 static const scratchpad google = {.class = "Google-chrome", .v = (char *[]){"google-chrome-stable", NULL}};
 
 /* single-window application */
-static const scratchpad email = {.class = "Mailspring", .v = (char *[]){"mailspring", "--password-store=gnome-libsecret", NULL}};
-static const scratchpad slack = {.class = "Slack", .v = (char *[]){"slack", NULL}};
 static const scratchpad discord = {.class = "discord", .v = (char *[]){"discord", NULL}};
 static const scratchpad stremio = {.class = "Stremio", .v = (char *[]){"stremio", NULL}};
 static const scratchpad steam = {.class = "steam", .v = (char *[]){"steam", NULL}};
@@ -224,15 +224,14 @@ static Keychord *keychords[] = {
 
 	/* single-window application */
 
-	&((Keychord){1, {{ControlMask|AltMask,XK_m}},										 showspawned,					{.v = &email } }),
 	&((Keychord){1, {{ControlMask|AltMask,XK_d}},										 showspawned,					{.v = &discord } }),
 	&((Keychord){1, {{ControlMask|AltMask,XK_s}},										 showspawned,					{.v = &stremio } }),
 	&((Keychord){1, {{ControlMask|AltMask,XK_g}},										 showspawned,					{.v = &steam } }),
-	&((Keychord){1, {{ControlMask|AltMask,XK_b}},										 showspawned,					{.v = &beeper } }),
 	&((Keychord){1, {{ControlMask|AltMask,XK_c}},										 showspawned,					{.v = &calendar } }),
 	&((Keychord){1, {{ControlMask|AltMask,XK_c}},										 showspawned,					{.v = &task } }),
 	&((Keychord){1, {{ControlMask|AltMask,XK_o}},										 showspawned,					{.v = &chatgpt } }),
 	&((Keychord){1, {{ControlMask|AltMask,XK_n}},										 showspawned,					{.v = &obsidian } }),
+	&((Keychord){1, {{WindowMask,XK_d}},										         showspawned,					{.v = &obsidian } }),
 
 	/* Scripts */
 
@@ -282,14 +281,7 @@ static Keychord *keychords[] = {
 	&((Keychord){1, {{WindowMask|ShiftMask,XK_Print}},									 spawn,							{.v = peek}}),
 
 	/*Scratchpad*/
-	&((Keychord){2, {{ControlMask,XK_s},{ControlMask, XK_c}},							 togglescratch,					{.v = &qalculate } }),
-	&((Keychord){2, {{ControlMask,XK_s},{0, XK_c}},										 togglescratch,					{.v = &qalculate } }),
-	&((Keychord){2, {{ControlMask,XK_s},{ControlMask, XK_p}},							 togglescratch,					{.v = &bitwarden } }),
-	&((Keychord){2, {{ControlMask,XK_s},{0, XK_p}},										 togglescratch,					{.v = &bitwarden } }),
-	&((Keychord){2, {{ControlMask,XK_s},{ControlMask, XK_t}},							 togglescratch,					{.v = &scratchterm } }),
-	&((Keychord){2, {{ControlMask,XK_s},{0, XK_t}},										 togglescratch,					{.v = &scratchterm } }),
-	&((Keychord){2, {{ControlMask,XK_s},{ControlMask, XK_b}},							 togglescratch,					{.v = &google } }),
-	&((Keychord){2, {{ControlMask,XK_s},{0, XK_b}},										 togglescratch,					{.v = &google } }),
+	&((Keychord){1, {{ControlMask|AltMask, XK_p}},							             togglescratch,					{.v = &bitwarden } }),
 
 	/*Layout*/
 	&((Keychord){1, {{WindowMask,XK_b}},												 togglebar,						 {0} }),
