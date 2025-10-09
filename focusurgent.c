@@ -4,7 +4,7 @@ focusurgent(const Arg *arg) {
 	Client *c;
 	int i;
 	for(m=mons; m; m=m->next){
-		for(c=m->clients; c && !c->isurgent; c=c->next);
+		for(c=m->cl->clients; c && !c->isurgent; c=c->next);
 		if(c) {
 			unfocus(selmon->sel, 0);
 			selmon = m;
